@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import FollowCamera from "./FollowCamera.jsx";
 import { heroSlides, processSteps, stories, studio } from "./content.js";
 
 const homeNavigation = [
@@ -19,50 +20,48 @@ function BrandLogo() {
 
 function Header({ theme, onThemeChange }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  function closeMenu() {
-    setMenuOpen(false);
-  }
-
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
+  useEffect(() => {
+    function dismiss(event) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuRef.current?.focus();
+      }
+    }
+    function outside(event) {
+      if (!headerRef.current?.contains(event.target)) setMenuOpen(false);
+    }
+    if (menuOpen) {
+      document.addEventListener("keydown", dismiss);
+      document.addEventListener("pointerdown", outside);
+    }
+    return () => {
+      document.removeEventListener("keydown", dismiss);
+      document.removeEventListener("pointerdown", outside);
+    };
+  }, [menuOpen]);
   return (
-    <header className="site-header">
-      <a className="wordmark" href="/" aria-label={`${studio.name} home`}>
-        <BrandLogo />
-      </a>
-      <nav
-        className={`main-nav${menuOpen ? " open" : ""}`}
-        id="main-nav"
-        aria-label="Main navigation"
-      >
-        {homeNavigation.map((item) => (
-          <a href={item.href} key={item.href} onClick={closeMenu}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
-      <div className="header-actions">
-        <a className="availability" href="#contact">
-          {studio.bookingLabel}
-        </a>
-        <button
-          className="theme-toggle"
-          type="button"
-          onClick={onThemeChange}
-          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-          title="Change appearance"
-        >
-          {theme === "dark" ? "☼" : "◐"}
-        </button>
+    <header className={`site-header eye-navbar${menuOpen ? " menu-is-open" : ""}`} ref={headerRef}>
+      <div className="eye-navbar-row">
+        <a className="wordmark" href="/" aria-label={`${studio.name} home`}><BrandLogo /></a>
+        <div className="navbar-camera"><FollowCamera /></div>
+        <div className="navbar-right">
+          <nav className={`main-nav${menuOpen ? " open" : ""}`} id="main-nav" aria-label="Main navigation">
+            {homeNavigation.slice(0, 3).map((item) => (
+              <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
+            ))}
+            <a className="navbar-contact" href="/#contact" onClick={() => setMenuOpen(false)}>Let’s talk <span aria-hidden="true">↗</span></a>
+          </nav>
+          <button className="theme-toggle" type="button" onClick={onThemeChange}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
+            {theme === "dark" ? "\u263c" : "\u25d0"}
+          </button>
+          <button className="menu-toggle" type="button" ref={menuRef} aria-expanded={menuOpen}
+            aria-controls="main-nav" aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen(!menuOpen)}><span /><span /></button>
+        </div>
       </div>
-      <button
-        className="menu-toggle"
-        type="button"
-        aria-expanded={menuOpen}
-        aria-controls="main-nav"
-        onClick={() => setMenuOpen((open) => !open)}
-      >
-        {menuOpen ? "Close" : "Menu"}
-      </button>
     </header>
   );
 }
@@ -503,6 +502,7 @@ export default function App() {
 
   return (
     <>
+      <Header theme={theme} onThemeChange={() => setTheme((current) => current === "dark" ? "light" : "dark")} />
       {isGallery ? (
         <>
           <GalleryPage />
@@ -510,10 +510,6 @@ export default function App() {
         </>
       ) : (
         <>
-          <Header
-            theme={theme}
-            onThemeChange={() => setTheme((current) => current === "dark" ? "light" : "dark")}
-          />
           <main id="home">
             <Hero />
             <Intro />
@@ -561,7 +557,7 @@ function GalleryPage() {
       <section className="gallery-end">
         <p className="eyebrow">A little more about your day</p>
         <h2>Your story,<br />beautifully remembered.</h2>
-        <a className="text-link" href="/#contact">Tell us what you’re dreaming of <span aria-hidden="true">?</span></a>
+        <a className="text-link" href="/#contact">Tell us what you’re dreaming of <span aria-hidden="true">↗</span></a>
       </section>
     </main>
   );
