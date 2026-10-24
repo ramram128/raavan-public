@@ -73,7 +73,7 @@ function Header({ theme, onThemeChange, currentPage, onNavigate }) {
   }
 
   return (
-    <header className={`site-header eye-navbar${menuOpen ? " menu-is-open" : ""}`} ref={headerRef}>
+    <header className={`site-header eye-navbar${currentPage === "home" ? " home-navbar" : ""}${menuOpen ? " menu-is-open" : ""}`} ref={headerRef}>
       <div className="eye-navbar-row">
         <a
           className="wordmark"
