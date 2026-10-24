@@ -43,7 +43,6 @@ export default function GalleryPage({ onNavigate }) {
     <main className="page-container gallery-page-view" id="gallery-page">
       {/* Hero Header */}
       <section className="page-hero">
-        <div className="page-badge">Visual Portfolio</div>
         <h1>The Stories Collection</h1>
         <p className="page-subtitle">
           Intimate elopements, golden sunsets, and celebratory nights captured across the UK,

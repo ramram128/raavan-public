@@ -200,7 +200,6 @@ export default function GallerySection({ onNavigate }) {
     <section className="home-section section-gallery" id="gallery" aria-label="Wedding Gallery">
       {/* Section Header */}
       <div className="section-head-wrap">
-        <div className="page-badge">Visual Portfolio</div>
         <h2>
           Love, remembered
           <br />

@@ -199,7 +199,6 @@ export default function HomePage({ onNavigate }) {
       <section className="home-teaser-section">
         <div className="content-wrapper">
           <div className="section-head-wrap" style={{ textAlign: "center" }}>
-            <div className="page-badge">Visual Portfolio</div>
             <h2>Selected Stories & Works</h2>
             <p className="section-head-subtitle">
               Moments from countryside estates, sun-drenched European terraces, and intimate city registries.
