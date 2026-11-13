@@ -85,19 +85,7 @@ function TopAnnouncementBar() {
   );
 }
 
-function BrandLogo() {
-  return (
-    <div className="brand-emblem-pure" aria-label="Raavan Studio'z">
-      <img
-        src="/raavan-logo-only.png"
-        alt="Raavan Studio'z Emblem"
-        className="brand-emblem-clean-img"
-      />
-    </div>
-  );
-}
-
-function Header({ theme, onThemeChange, currentPage, onNavigate }) {
+function Header({ theme, currentPage, onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef(null);
   const menuRef = useRef(null);
@@ -131,26 +119,30 @@ function Header({ theme, onThemeChange, currentPage, onNavigate }) {
   }
 
   return (
-    <header className={`site-header studio-header${currentPage === "home" ? " home-header" : ""}${menuOpen ? " menu-is-open" : ""}`} ref={headerRef}>
-      <div className="studio-header-container">
+    <header className={`clean-studio-navbar${menuOpen ? " menu-is-open" : ""}`} ref={headerRef}>
+      <div className="navbar-inner-wrapper">
         <a
-          className="studio-brand-link"
+          className="navbar-brand-emblem-link"
           href="/"
           onClick={(e) => handleLink(e, "/")}
           aria-label={`${studio.name} home`}
         >
-          <BrandLogo />
+          <img
+            src="/raavan-logo-only.png"
+            alt={studio.name}
+            className="navbar-emblem-image"
+          />
         </a>
 
-        <div className="studio-header-right">
-          <nav className={`studio-nav${menuOpen ? " open" : ""}`} id="main-nav" aria-label="Main navigation">
+        <div className="navbar-right-group">
+          <nav className={`navbar-links-menu${menuOpen ? " open" : ""}`} id="main-nav" aria-label="Main navigation">
             {navLinks.map((item) => {
               const isActive = currentPage === item.page;
               return (
                 <a
                   href={item.path}
                   key={item.page}
-                  className={`studio-nav-link${isActive ? " active" : ""}`}
+                  className={`nav-link-item${isActive ? " active" : ""}`}
                   onClick={(e) => handleLink(e, item.path)}
                 >
                   {item.label}
@@ -160,7 +152,7 @@ function Header({ theme, onThemeChange, currentPage, onNavigate }) {
           </nav>
 
           <button
-            className="luxury-nav-cta-btn"
+            className="navbar-cta-pill-button"
             type="button"
             onClick={() => onNavigate("/contact")}
           >
@@ -168,7 +160,7 @@ function Header({ theme, onThemeChange, currentPage, onNavigate }) {
           </button>
 
           <button
-            className="menu-toggle studio-menu-toggle"
+            className="navbar-hamburger-btn"
             type="button"
             ref={menuRef}
             aria-expanded={menuOpen}
@@ -360,10 +352,7 @@ export default function App() {
   return (
     <>
       <CustomCursor />
-      <TopAnnouncementBar />
       <Header
-        theme={theme}
-        onThemeChange={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
         currentPage={currentPage}
         onNavigate={handleNavigate}
       />
