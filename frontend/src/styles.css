@@ -1,19 +1,12 @@
-:root {
-  font-family: "Plus Jakarta Sans", "Outfit", "DM Sans", Arial, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root,
+:root[data-theme="dark"],
+:root[data-theme="light"] {
   color-scheme: light;
-
-  /* Clean Crisp White + 2 Brand Blues Palette (Raavan Signature) */
   --paper: #ffffff;
   --paper-deep: #f8fafc;
   --paper-card: #ffffff;
-  --paper-glass: rgba(255, 255, 255, 0.94);
+  --paper-glass: rgba(255, 255, 255, 0.95);
   --paper-ice: #f0f7ff;
-  
-  /* Primary & Heading Colors (Dark Navy Brand Blue) */
   --ink: #0a192f;
   --ink-pure: #050d1a;
   --muted: #475569;
@@ -47,50 +40,6 @@
   --display: "Outfit", "Cinzel", sans-serif;
 
   /* Viewfinder Cursor */
-  --cursor-bracket: #0284c7;
-  --cursor-bracket-hover: #0ea5e9;
-  --cursor-dot: #0284c7;
-  --cursor-glow: rgba(2, 132, 199, 0.4);
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #070c14;
-  --paper-deep: #0b1320;
-  --paper-card: rgba(14, 25, 42, 0.85);
-  --paper-glass: rgba(9, 16, 27, 0.92);
-  --ink: #f0f6fc;
-  --ink-pure: #ffffff;
-  --muted: #8ba2b8;
-  --line: rgba(56, 189, 248, 0.18);
-  --line-strong: rgba(56, 189, 248, 0.38);
-  --footer: #040810;
-  --accent: #0284c7;
-  --accent-bright: #38bdf8;
-  --accent-neon: #00e5ff;
-  --accent-deep: #0c4a6e;
-  --cursor-bracket: rgba(56, 189, 248, 0.95);
-  --cursor-bracket-hover: #00e5ff;
-  --cursor-dot: #00e5ff;
-  --cursor-glow: rgba(0, 229, 255, 0.65);
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-  --paper: #ffffff;
-  --paper-deep: #f8fafc;
-  --paper-card: #ffffff;
-  --paper-glass: rgba(255, 255, 255, 0.94);
-  --paper-ice: #f0f7ff;
-  --ink: #0a192f;
-  --ink-pure: #050d1a;
-  --muted: #475569;
-  --line: rgba(2, 132, 199, 0.14);
-  --line-strong: rgba(2, 132, 199, 0.28);
-  --footer: #0a192f;
-  --accent: #0284c7;
-  --accent-bright: #0ea5e9;
-  --accent-neon: #0284c7;
   --cursor-bracket: #0284c7;
   --cursor-bracket-hover: #0ea5e9;
   --cursor-dot: #0284c7;

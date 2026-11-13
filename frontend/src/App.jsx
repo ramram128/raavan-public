@@ -168,15 +168,6 @@ function Header({ theme, onThemeChange, currentPage, onNavigate }) {
           </button>
 
           <button
-            className="nav-theme-toggle-btn"
-            type="button"
-            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-            onClick={onThemeChange}
-          >
-            {theme === "dark" ? "☀" : "☾"}
-          </button>
-
-          <button
             className="menu-toggle studio-menu-toggle"
             type="button"
             ref={menuRef}
@@ -304,15 +295,14 @@ export default function App() {
     return parsePage(window.location.pathname || window.location.hash);
   });
 
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = window.localStorage.getItem("raavan-studioz-theme");
-    return savedTheme === "dark" ? "dark" : "light";
-  });
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("raavan-studioz-theme", theme);
-  }, [theme]);
+    document.documentElement.dataset.theme = "light";
+    try {
+      window.localStorage.setItem("raavan-studioz-theme", "light");
+    } catch (e) {}
+  }, []);
 
   // Handle browser back and forward button navigation
   useEffect(() => {

@@ -2764,32 +2764,32 @@
 }
 
 .section-disciplines {
-  background: #08101d;
-  border-top: 1px solid rgba(56, 189, 248, 0.14);
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
 }
 
 .section-gallery-highlight {
-  background: #050a12;
-  border-top: 1px solid rgba(56, 189, 248, 0.12);
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
 }
 
 .section-packages-highlight {
-  background: #08101d;
-  border-top: 1px solid rgba(56, 189, 248, 0.14);
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
 }
 
 .section-founder-studios {
-  background: #050a12;
-  border-top: 1px solid rgba(56, 189, 248, 0.12);
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
 }
 
 .section-testimonials-luxury {
-  background: #08101d;
-  border-top: 1px solid rgba(56, 189, 248, 0.14);
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
 }
 
 .section-vip-cta {
-  background: #050a12;
+  background: #f8fafc;
   padding: 80px 0 100px;
 }
 
@@ -2797,9 +2797,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(2, 132, 199, 0.14);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  color: #38bdf8;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  color: #0284c7;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -2807,7 +2807,6 @@
   padding: 6px 18px;
   border-radius: 999px;
   margin-bottom: 20px;
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.15);
 }
 
 .section-title-cinematic {
@@ -2816,7 +2815,7 @@
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.035em;
-  color: #ffffff;
+  color: #0a192f;
   margin: 0 auto 16px;
   max-width: 900px;
 }
