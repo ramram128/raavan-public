@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { expandedGallery, stories } from "../content.js";
 
-const categories = ["All Works", "Couples", "Celebrations", "Details", "Black & White"];
+const categories = ["All Works", "Weddings", "Newborns", "Toddlers", "Couple Portraits"];
 
 function HomeStoryCarousel({ items, onSelect, suspended }) {
   const viewportRef = useRef(null);

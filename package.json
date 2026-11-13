@@ -1,9 +1,10 @@
 {
-  "name": "morrow-and-pine",
+  "name": "raavan-studioz",
   "private": true,
   "version": "1.0.0",
   "scripts": {
     "dev": "npm --prefix frontend run dev",
+    "backend": "cd backend && php artisan serve --port=8000",
     "build": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview"
   }

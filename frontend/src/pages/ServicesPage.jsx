@@ -1,27 +1,47 @@
-import { useState } from "react";
-import { faqs, processSteps, serviceAddons, studioServices, studioStandards } from "../content.js";
+import { useEffect, useState } from "react";
+import { fetchFromApi } from "../api.js";
+import { faqs, processSteps, studio, studioServices as fallbackServices } from "../content.js";
 
 export default function ServicesPage({ onNavigate }) {
+  const [services, setServices] = useState(fallbackServices);
   const [openFaq, setOpenFaq] = useState(0);
+
+  useEffect(() => {
+    fetchFromApi("/services", null).then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        const formatted = data.map((s) => ({
+          id: s.slug,
+          title: s.title,
+          subtitle: s.tagline || s.category,
+          tagline: s.tagline,
+          badge: s.starting_price || s.category,
+          image: s.image_url || "/kalyanam/page_4_img_1.png",
+          alt: s.title,
+          overview: s.description,
+          deliverables: Array.isArray(s.deliverables) ? s.deliverables : (s.deliverables ? [s.deliverables] : []),
+          highlight: s.starting_price ? `Starts at ${s.starting_price}` : "Bespoke Direction",
+          idealFor: "Clients seeking high-quality unscripted visual art",
+        }));
+        setServices(formatted);
+      }
+    });
+  }, []);
 
   return (
     <main className="page-container services-page" id="services-page">
       {/* Hero Header */}
       <section className="page-hero">
-        <div className="page-badge">Studio Services & Creative Craft</div>
+        <div className="page-badge">Our Expertise &amp; Services</div>
         <h1>
-          Artisan Wedding Photography
-          <br />
-          & Cinematic Motion.
+          Our Complete Visual Disciplines
         </h1>
         <p className="page-subtitle">
-          Documentary honesty, analogue soul, and refined editorial elegance.
-          Explore our complete range of visual storytelling services crafted for heartfelt celebrations.
+          {studio.tagline} · Specialized wings for weddings, newborn portraiture with @toddlers_by_raavan, and heirloom photobooks with @photobooks_by_raavan.
         </p>
 
         {/* Quick Service Anchor Navigation */}
         <div className="services-quick-nav" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", marginTop: "32px" }}>
-          {studioServices.map((service) => (
+          {services.map((service) => (
             <a
               key={service.id}
               href={`#${service.id}`}
@@ -33,7 +53,7 @@ export default function ServicesPage({ onNavigate }) {
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             >
-              {service.title.split("&")[0].trim()}
+              {service.title}
             </a>
           ))}
         </div>
@@ -42,236 +62,131 @@ export default function ServicesPage({ onNavigate }) {
       {/* Featured Services Showcase Breakdown */}
       <section className="content-wrapper">
         <div className="section-intro-block" style={{ textAlign: "center", marginBottom: "48px" }}>
-          <p className="section-eyebrow">Visual Disciplines</p>
-          <h2>How we document your celebration</h2>
+          <p className="section-eyebrow" style={{ color: "#00d4ff" }}>Visual Disciplines</p>
+          <h2>How we capture your milestone</h2>
           <p style={{ color: "var(--muted)", fontSize: "16px", maxWidth: "680px", margin: "12px auto 0" }}>
-            Every commission combines quiet, unobtrusive documentary observation with bespoke creative direction.
-            Explore each specialized service below.
+            Every commission combines quiet, unscripted documentary storytelling with bespoke artistic direction.
           </p>
         </div>
 
-        <div className="services-showcase-list">
-          {studioServices.map((service, index) => (
-            <article className="service-showcase-card" id={service.id} key={service.id}>
-              <div className="service-card-grid">
-                {/* Visual Column */}
-                <div className="service-image-col">
-                  <div className="service-image-frame">
-                    <img src={service.image} alt={service.alt} loading="lazy" />
-                    <div className="service-card-badge">{service.badge}</div>
-                  </div>
-                  <div className="service-highlight-pill">
-                    <span aria-hidden="true">✦</span>
-                    <span>{service.highlight}</span>
-                  </div>
+        <div className="services-showcase-list" style={{ display: "grid", gap: "3.5rem" }}>
+          {services.map((service, index) => {
+            const isReversed = index % 2 === 1;
+            return (
+              <article
+                key={service.id}
+                id={service.id}
+                className={`service-showcase-card ${isReversed ? "reversed" : ""}`}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                  gap: "2.5rem",
+                  alignItems: "center",
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "16px",
+                  padding: "2rem",
+                }}
+              >
+                <div className="service-image-holder" style={{ borderRadius: "12px", overflow: "hidden" }}>
+                  <img
+                    src={service.image}
+                    alt={service.alt}
+                    loading="lazy"
+                    style={{ width: "100%", height: "350px", objectFit: "cover", display: "block" }}
+                  />
                 </div>
 
-                {/* Information Column */}
-                <div className="service-info-col">
-                  <div className="service-num-tag">DISCIPLINE 0{index + 1}</div>
-                  <h3>{service.title}</h3>
-                  <div className="service-subtitle">{service.subtitle}</div>
-                  <p className="service-tagline">“{service.tagline}”</p>
-                  <p className="service-overview">{service.overview}</p>
+                <div className="service-copy-holder">
+                  <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.5rem" }}>
+                    <span
+                      style={{
+                        background: "rgba(0, 212, 255, 0.1)",
+                        color: "#00d4ff",
+                        padding: "0.2rem 0.6rem",
+                        borderRadius: "20px",
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {service.badge}
+                    </span>
+                  </div>
 
-                  <div className="service-deliverables-block">
-                    <div className="deliverables-heading">Deliverables & Features:</div>
-                    <ul className="service-deliverables-list">
-                      {service.deliverables.map((item) => (
-                        <li key={item}>
-                          <span className="check-bullet" aria-hidden="true">✓</span>
+                  <h3 style={{ fontSize: "1.75rem", marginBottom: "0.25rem", color: "#fff" }}>{service.title}</h3>
+                  <p style={{ color: "#e2b876", fontSize: "0.95rem", fontWeight: 500, marginBottom: "1rem" }}>
+                    {service.subtitle}
+                  </p>
+                  <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem", marginBottom: "1.5rem" }}>
+                    {service.overview}
+                  </p>
+
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <h4 style={{ fontSize: "0.9rem", textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.7, marginBottom: "0.5rem" }}>
+                      Key Deliverables &amp; Craft:
+                    </h4>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "0.4rem", fontSize: "0.88rem" }}>
+                      {service.deliverables.map((item, idx) => (
+                        <li key={idx} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <span style={{ color: "#00d4ff" }}>✓</span>
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  {service.idealFor && (
-                    <div className="service-ideal-for">
-                      <strong>Best suited for:</strong> {service.idealFor}
-                    </div>
-                  )}
-
-                  <div className="service-action-row">
-                    <a
-                      href="/contact"
-                      className="package-button"
-                      style={{ display: "inline-block", width: "auto", padding: "12px 28px", textDecoration: "none" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onNavigate("/contact");
-                      }}
+                  <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => onNavigate("/contact")}
                     >
-                      Inquire for this Service ↗
-                    </a>
-                    <a
-                      href="/pricing"
-                      className="text-link-button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onNavigate("/pricing");
-                      }}
+                      Book This Service
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => onNavigate("/pricing")}
                     >
-                      View Pricing Guide →
-                    </a>
+                      View Packages
+                    </button>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      {/* The 4-Step Creative Workflow */}
-      <section className="content-wrapper" style={{ marginTop: "110px" }}>
-        <div className="section-intro-block" style={{ textAlign: "center", marginBottom: "56px" }}>
-          <p className="section-eyebrow">Our Philosophy in Action</p>
-          <h2>The Four-Stage Creative Experience</h2>
-          <p style={{ color: "var(--muted)", fontSize: "16px", maxWidth: "640px", margin: "12px auto 0" }}>
-            From our very first conversation to holding your handcrafted leather album,
-            here is how we ensure an effortless, stress-free journey.
-          </p>
-        </div>
-
-        <div className="process-cards-grid">
-          {processSteps.map((step) => (
-            <div className="process-card" key={step.number}>
-              <div className="process-card-num">{step.number}</div>
-              <h4>{step.moment}</h4>
-              <p>{step.detail}</p>
-              <div className="process-card-hint">
-                {step.number === "01" && "Initial coffee chat or video call to align on your vision and aesthetics."}
-                {step.number === "02" && "Collaborative timeline drafting, natural lighting schedule & venue scouting."}
-                {step.number === "03" && "Gentle, non-intrusive documentation letting you stay 100% present."}
-                {step.number === "04" && "Hand-graded master photos, 48h sneak peek & bespoke Italian albums."}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Studio Standards & Guarantees Strip */}
-      <section className="content-wrapper" style={{ marginTop: "100px" }}>
-        <div className="standards-banner">
-          <div className="section-intro-block" style={{ marginBottom: "36px" }}>
-            <p className="section-eyebrow" style={{ color: "var(--accent)" }}>The Raavan Standard</p>
-            <h2>Uncompromising Quality & Client Peace of Mind</h2>
-            <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "10px auto 0" }}>
-              Every commission we undertake is backed by our strict archival and service benchmarks:
-            </p>
+      {/* 4-Step Process Section */}
+      <section className="section" style={{ background: "rgba(0,0,0,0.2)", marginTop: "4rem" }}>
+        <div className="content-wrapper">
+          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div className="page-badge">How It Works</div>
+            <h2>From First Hello to Cherished Heirloom</h2>
           </div>
 
-          <div className="standards-grid">
-            {studioStandards.map((std) => (
-              <div className="standard-item" key={std.title}>
-                <div className="standard-icon" aria-hidden="true">{std.icon}</div>
-                <h4>{std.title}</h4>
-                <p>{std.desc}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.5rem" }}>
+            {processSteps.map((step) => (
+              <div
+                key={step.number}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "12px",
+                  padding: "1.75rem",
+                  textAlign: "center",
+                }}
+              >
+                <span style={{ fontSize: "2rem", fontWeight: 800, color: "#00d4ff", display: "block", marginBottom: "0.5rem" }}>
+                  {step.number}
+                </span>
+                <h3 style={{ fontSize: "1.15rem", marginBottom: "0.5rem", color: "#fff" }}>{step.moment}</h3>
+                <p style={{ fontSize: "0.88rem", opacity: 0.8, lineHeight: 1.5 }}>{step.detail}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Bespoke A La Carte Add-ons */}
-      <section className="content-wrapper" style={{ marginTop: "110px" }}>
-        <div className="section-intro-block" style={{ textAlign: "center", marginBottom: "48px" }}>
-          <p className="section-eyebrow">Bespoke Enhancements</p>
-          <h2>A La Carte Custom Add-ons</h2>
-          <p style={{ color: "var(--muted)", fontSize: "16px", maxWidth: "640px", margin: "12px auto 0" }}>
-            Tailor any of our services with curated archival pieces and special commissions.
-          </p>
-        </div>
-
-        <div className="addons-grid">
-          {serviceAddons.map((addon) => (
-            <div className="addon-card" key={addon.title}>
-              <div>
-                <div className="addon-header">
-                  <h4>{addon.title}</h4>
-                  <span className="addon-price">{addon.price}</span>
-                </div>
-                <p className="addon-detail">{addon.detail}</p>
-              </div>
-              <div style={{ marginTop: "20px", paddingTop: "14px", borderTop: "1px solid var(--line)" }}>
-                <span style={{ fontSize: "12px", color: "var(--accent)", fontWeight: 600 }}>
-                  Available across all commissions
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Direct Transition to Pricing Notice Banner */}
-      <section className="content-wrapper" style={{ marginTop: "60px" }}>
-        <div className="page-cta-banner pricing-redirect-banner">
-          <div className="badge-pill" style={{ display: "inline-block", marginBottom: "16px", background: "rgba(36, 125, 150, 0.2)", color: "var(--accent)", padding: "4px 14px", borderRadius: "99px", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            Investment Guide
-          </div>
-          <h2>Looking for complete packages & transparent rates?</h2>
-          <p style={{ maxWidth: "620px", margin: "0 auto 28px" }}>
-            We believe in honest, straightforward pricing with zero hidden surcharges.
-            Explore our curated collections, package comparison matrix, and currency converter.
-          </p>
-          <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a
-              href="/pricing"
-              className="cta-button"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate("/pricing");
-              }}
-            >
-              Explore Pricing & Packages <span aria-hidden="true">→</span>
-            </a>
-            <a
-              href="/contact"
-              className="cta-button secondary"
-              style={{ background: "transparent", border: "1px solid var(--line)", color: "var(--ink)" }}
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate("/contact");
-              }}
-            >
-              Check Date Availability ↗
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Frequently Asked Questions */}
-      <section className="content-wrapper" style={{ marginTop: "100px" }}>
-        <div className="section-intro-block" style={{ textAlign: "center", marginBottom: "48px" }}>
-          <p className="section-eyebrow">Common Inquiries</p>
-          <h2>Frequently Asked Questions</h2>
-          <p style={{ color: "var(--muted)", fontSize: "15px", marginTop: "8px" }}>
-            Everything you need to know about commissioning Raavan Studio’z.
-          </p>
-        </div>
-
-        <div className="faq-list">
-          {faqs.map((faq, index) => {
-            const isOpen = openFaq === index;
-            return (
-              <div className={`faq-item${isOpen ? " open" : ""}`} key={faq.q}>
-                <button
-                  type="button"
-                  className="faq-question"
-                  onClick={() => setOpenFaq(isOpen ? null : index)}
-                  aria-expanded={isOpen}
-                >
-                  <span>{faq.q}</span>
-                  <span className="faq-icon" aria-hidden="true">{isOpen ? "−" : "+"}</span>
-                </button>
-                {isOpen && (
-                  <div className="faq-answer">
-                    <p>{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
         </div>
       </section>
     </main>

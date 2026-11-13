@@ -1,235 +1,71 @@
-import { useState } from "react";
-import { processSteps, serviceAddons, servicePackages } from "../content.js";
+import { studio, studioServices } from "../content.js";
 
 export default function ServicesSection({ onNavigate }) {
-  // Estimator state
-  const [estimatorHours, setEstimatorHours] = useState(10);
-  const [estimatorSecondShooter, setEstimatorSecondShooter] = useState(true);
-  const [estimatorCinema, setEstimatorCinema] = useState(false);
-  const [estimatorDrone, setEstimatorDrone] = useState(false);
-  const [estimatorAlbum, setEstimatorAlbum] = useState(true);
-
-  // Live estimate calculation
-  const baseRate = estimatorHours === 5 ? 1850 : estimatorHours === 10 ? 2750 : 3900;
-  const secondShooterCost = estimatorSecondShooter ? 450 : 0;
-  const cinemaCost = estimatorCinema ? 1400 : 0;
-  const droneCost = estimatorDrone ? 350 : 0;
-  const albumCost = estimatorAlbum ? 650 : 0;
-  const totalEstimate = baseRate + secondShooterCost + cinemaCost + droneCost + albumCost;
-
   return (
-    <section className="home-section section-services" id="services" aria-label="Services and Offerings">
-      {/* Section Header */}
+    <section className="home-section section-services" id="services" aria-label="Our Services">
       <div className="section-head-wrap">
-        <div className="page-badge">Investment & Experiences</div>
-        <h2>
-          Curated wedding collections
-          <br />
-          for unforgettable celebrations.
-        </h2>
+        <div className="page-badge" style={{ color: "#00d4ff", borderColor: "rgba(0, 212, 255, 0.4)" }}>
+          Our Expertise &amp; Services
+        </div>
+        <h2>{studio.tagline}</h2>
         <p className="section-head-subtitle">
-          Transparent, all-inclusive photography and cinema commissions with zero hidden travel fees
-          or print markups.
+          Dedicated arms for Weddings, Newborn &amp; Toddler sessions with @toddlers_by_raavan, and custom luxury photobooks with @photobooks_by_raavan.
         </p>
       </div>
 
-      {/* Signature Collections Grid */}
       <div className="content-wrapper">
-        <div className="section-intro-block">
-          <p className="section-eyebrow">Signature Collections</p>
-          <h3>Three ways to document your legacy</h3>
-        </div>
-
-        <div className="pricing-grid">
-          {servicePackages.map((pkg) => (
-            <div className={`pricing-card${pkg.badge ? " featured" : ""}`} key={pkg.id}>
-              {pkg.badge && <div className="featured-pill">{pkg.badge}</div>}
-
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.75rem", marginBottom: "3rem" }}>
+          {studioServices.slice(0, 4).map((s) => (
+            <div
+              key={s.id}
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: "14px",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
               <div>
-                <div className="pricing-header">
-                  <h4>{pkg.name}</h4>
-                  <p className="package-tagline">{pkg.tagline}</p>
-                </div>
-
-                <div className="pricing-amount-block">
-                  <div className="price">{pkg.price}</div>
-                  <div className="duration">{pkg.duration}</div>
-                </div>
-
-                <ul className="feature-checklist">
-                  {pkg.features.map((feat) => (
-                    <li key={feat}>
-                      <span className="check-icon" aria-hidden="true">✓</span>
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <a
-                href="#contact"
-                className="package-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate("#contact");
-                }}
-              >
-                Inquire For This Collection ↗
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Interactive Package Estimator */}
-      <div className="content-wrapper">
-        <div className="estimator-panel">
-          <div className="estimator-grid">
-            <div className="estimator-options">
-              <p className="section-eyebrow">Interactive Estimator</p>
-              <h3>Customize your own coverage breakdown</h3>
-              <p style={{ color: "var(--muted)", fontSize: "14px", marginBottom: "24px" }}>
-                Select your preferred coverage duration and bespoke add-ons below for an immediate,
-                transparent estimate:
-              </p>
-
-              {/* Hours Selector */}
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ fontSize: "13px", fontWeight: 600, textTransform: "uppercase", color: "var(--muted)", letterSpacing: "0.05em", display: "block", marginBottom: "10px" }}>
-                  Hours of Coverage: <strong style={{ color: "var(--accent)" }}>{estimatorHours} Hours</strong>
-                </label>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  {[5, 10, 14].map((hours) => (
-                    <button
-                      type="button"
-                      key={hours}
-                      className={`filter-chip${estimatorHours === hours ? " active" : ""}`}
-                      onClick={() => setEstimatorHours(hours)}
-                      style={{ flex: 1, textAlign: "center" }}
-                    >
-                      {hours} Hours {hours === 10 ? "(Standard)" : hours === 14 ? "(Multi-Day)" : "(Elopement)"}
-                    </button>
-                  ))}
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  style={{ width: "100%", height: "200px", objectFit: "cover" }}
+                />
+                <div style={{ padding: "1.5rem" }}>
+                  <span style={{ fontSize: "0.75rem", color: "#00d4ff", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700 }}>
+                    {s.badge}
+                  </span>
+                  <h3 style={{ fontSize: "1.3rem", margin: "0.4rem 0 0.5rem", color: "#fff" }}>{s.title}</h3>
+                  <p style={{ fontSize: "0.88rem", opacity: 0.8, lineHeight: 1.5 }}>
+                    {s.overview.slice(0, 140)}...
+                  </p>
                 </div>
               </div>
-
-              {/* Toggles */}
-              <label className="estimator-toggle-item">
-                <span>
-                  <strong>Second Lead Photographer</strong>
-                  <small style={{ display: "block", color: "var(--muted)", fontSize: "12px" }}>
-                    Multi-angle ceremony and cocktail hour coverage (+£450)
-                  </small>
-                </span>
-                <input
-                  type="checkbox"
-                  checked={estimatorSecondShooter}
-                  onChange={(e) => setEstimatorSecondShooter(e.target.checked)}
-                />
-              </label>
-
-              <label className="estimator-toggle-item">
-                <span>
-                  <strong>4K Cinematic Highlight Film (Video)</strong>
-                  <small style={{ display: "block", color: "var(--muted)", fontSize: "12px" }}>
-                    Emotive 7-10 min film with licensed score (+£1,400)
-                  </small>
-                </span>
-                <input
-                  type="checkbox"
-                  checked={estimatorCinema}
-                  onChange={(e) => setEstimatorCinema(e.target.checked)}
-                />
-              </label>
-
-              <label className="estimator-toggle-item">
-                <span>
-                  <strong>ProRes Drone Aerial Cinematography</strong>
-                  <small style={{ display: "block", color: "var(--muted)", fontSize: "12px" }}>
-                    Cinematic venue vistas & landscape establishing shots (+£350)
-                  </small>
-                </span>
-                <input
-                  type="checkbox"
-                  checked={estimatorDrone}
-                  onChange={(e) => setEstimatorDrone(e.target.checked)}
-                />
-              </label>
-
-              <label className="estimator-toggle-item">
-                <span>
-                  <strong>Handcrafted Italian Fine-Art Album</strong>
-                  <small style={{ display: "block", color: "var(--muted)", fontSize: "12px" }}>
-                    30-page bespoke lay-flat leather/linen heirloom (+£650)
-                  </small>
-                </span>
-                <input
-                  type="checkbox"
-                  checked={estimatorAlbum}
-                  onChange={(e) => setEstimatorAlbum(e.target.checked)}
-                />
-              </label>
-            </div>
-
-            <div className="estimator-summary-card">
-              <div className="est-label">Estimated Investment</div>
-              <div className="est-price">£{totalEstimate.toLocaleString()}</div>
-              <p style={{ color: "var(--muted)", fontSize: "13px", lineHeight: "1.6", marginBottom: "24px" }}>
-                Includes full personal reproduction rights, private high-res cloud gallery, 48-hour sneak peek,
-                and UK travel.
-              </p>
-              <a
-                href="#contact"
-                className="cta-button"
-                style={{ width: "100%", justifyContent: "center" }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate("#contact");
-                }}
-              >
-                Inquire With This Setup ↗
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* A La Carte Add-ons */}
-      <div className="content-wrapper">
-        <div className="section-intro-block">
-          <p className="section-eyebrow">A La Carte Inclusions</p>
-          <h3>Bespoke additions for your day</h3>
-        </div>
-
-        <div className="addons-grid">
-          {serviceAddons.map((addon) => (
-            <div className="addon-card" key={addon.title}>
-              <div>
-                <div className="addon-header">
-                  <h4>{addon.title}</h4>
-                  <span className="addon-price">{addon.price}</span>
-                </div>
-                <p>{addon.detail}</p>
+              <div style={{ padding: "0 1.5rem 1.5rem" }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  style={{ width: "100%", padding: "0.75rem" }}
+                  onClick={() => onNavigate("/services")}
+                >
+                  Explore Discipline →
+                </button>
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Workflow Experience */}
-      <div className="content-wrapper">
-        <div className="section-intro-block">
-          <p className="section-eyebrow">The Experience</p>
-          <h3>How we work together, step by step</h3>
-        </div>
-
-        <div className="steps" style={{ marginTop: "32px" }}>
-          {processSteps.map((step) => (
-            <div className="step" key={step.number}>
-              <small>{step.number} — {step.moment}</small>
-              <p>{step.detail}</p>
-            </div>
-          ))}
+        <div style={{ textAlign: "center" }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => onNavigate("/services")}
+          >
+            View All Services &amp; Disciplines →
+          </button>
         </div>
       </div>
     </section>

@@ -1,19 +1,46 @@
-import { gearCraft, philosophyPillars, studio, testimonials } from "../content.js";
+import { useEffect, useState } from "react";
+import { fetchFromApi } from "../api.js";
+import { gearCraft, philosophyPillars, studio as fallbackStudio, testimonials } from "../content.js";
 
 export default function AboutPage({ onNavigate }) {
+  const [studioData, setStudioData] = useState(fallbackStudio);
+
+  useEffect(() => {
+    fetchFromApi("/studio", null).then((data) => {
+      if (data && data.name) {
+        setStudioData((prev) => ({
+          ...prev,
+          name: data.name,
+          tagline: data.tagline,
+          phone: data.phone,
+          email: data.email,
+          foundedDate: data.founded_date,
+          founder: {
+            name: data.founder_name,
+            title: "Founder & Creative Director",
+            experience: data.founder_experience,
+            bio: data.founder_bio,
+          },
+          branches: data.branches || prev.branches,
+          stats: data.stats || prev.stats,
+          serviceRadius: data.service_radius_note || prev.serviceRadius,
+        }));
+      }
+    });
+  }, []);
+
   return (
     <main className="page-container about-page" id="about-page">
       {/* Hero Header */}
       <section className="page-hero">
-        <div className="page-badge">Our Story & Philosophy</div>
+        <div className="page-badge">Our Story &amp; Founder</div>
         <h1>
-          We document weddings as they felt —
+          {studioData.tagline}
           <br />
-          raw, cinematic, and profoundly honest.
+          Cinematic, unscripted, and profoundly honest.
         </h1>
         <p className="page-subtitle">
-          An intimate photography and motion studio based in the UK, preserving
-          the unspoken gestures, joyful tears, and wild celebration of your day.
+          Founded on 21st January 2021 by Mr. Gowtham Raj with over 8 years of specialized visual mastery. Operating two dedicated creative facilities in Krishnagiri and serving clients nationwide.
         </p>
       </section>
 
@@ -21,35 +48,28 @@ export default function AboutPage({ onNavigate }) {
       <section className="about-narrative">
         <div className="narrative-image-frame">
           <img
-            src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=1200&q=85"
-            alt="Raavan Studio photographer in natural light capturing a wedding celebration"
+            src="/kalyanam/page_4_img_1.png"
+            alt="Raavan Studio'z wedding and family storytelling"
             loading="lazy"
           />
           <div className="photo-caption-tag">
-            <span>Sussex Countryside · Late Summer</span>
+            <span>Raavan Studio’z · Krishnagiri &amp; Worldwide</span>
           </div>
         </div>
 
         <div className="narrative-copy">
-          <p className="section-eyebrow" style={{ color: "var(--accent)", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, marginBottom: "12px" }}>
+          <p className="section-eyebrow" style={{ color: "var(--accent, #00d4ff)", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, marginBottom: "12px" }}>
             The Studio Story
           </p>
-          <h2>Born from an obsession with analogue light and unspoken feelings.</h2>
+          <h2>Crafted by Mr. Gowtham Raj (8+ Years of Visual Artistry)</h2>
           <p>
-            Raavan Studio’z began over a decade ago with a vintage 35mm film camera
-            and a simple conviction: weddings are not choreographed productions or
-            editorial stage-sets. They are messy, holy, hilarious, and fleeting family
-            gatherings.
+            Raavan Studio’z opened on <strong>21st January 2021</strong> as a premier cinematic photography and creative atelier in Krishnagiri. Under the vision of our founder, <strong>Mr. Gowtham Raj</strong>, who brings over 8 years of professional craftsmanship, we have preserved hundreds of family legacies, grand weddings, and tender newborn milestones.
           </p>
-          <div className="narrative-quote">
-            “True romance doesn’t ask you to pose or freeze in place. It breathes in
-            the quiet glances when you think no one is watching.”
+          <div className="narrative-quote" style={{ borderLeft: "3px solid #00d4ff", paddingLeft: "1rem", fontStyle: "italic", color: "#e2b876" }}>
+            “Our major strength is to work creatively according to each client’s special vision. We deliver our outputs in the highest quality — photos, handcrafted albums, and raw cinematic video.”
           </div>
           <p>
-            We don’t carry bulky flashes that blind your guests, and we won’t turn your
-            day into an endless series of staged smiles. Instead, we weave quietly
-            through your celebration, capturing everything from quiet morning anticipation
-            to shoes being kicked off on the midnight dance floor.
+            We don’t believe in stiff, artificial choreography. Instead, whether documenting a sacred wedding ceremony or the peaceful slumber of a 10-day-old newborn with our dedicated team at <strong>@toddlers_by_raavan</strong>, we craft visual art that feels as real as the heartbeat of the moment.
           </p>
         </div>
       </section>
@@ -57,99 +77,170 @@ export default function AboutPage({ onNavigate }) {
       {/* Stats Counter Strip */}
       <section className="stats-strip" aria-label="Studio Milestones">
         <div className="stats-grid">
-          {studio.stats.map((stat) => (
-            <div className="stat-item" key={stat.label}>
-              <div className="stat-value">{stat.value}</div>
-              <div className="stat-label">{stat.label}</div>
+          {(studioData.stats || []).map((stat, idx) => (
+            <div key={idx} className="stat-card">
+              <span className="stat-value" style={{ color: "#00d4ff" }}>{stat.value}</span>
+              <span className="stat-label">{stat.label}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Philosophy Pillars */}
-      <section className="content-wrapper">
-        <div className="section-intro-block">
-          <p className="section-eyebrow">How We See The World</p>
-          <h2>Three pillars that guide every shutter click</h2>
-        </div>
+      {/* Founder & Creative Space */}
+      <section className="section" style={{ background: "rgba(0,0,0,0.15)" }}>
+        <div className="content-wrapper">
+          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div className="page-badge">Studio Leadership</div>
+            <h2>Meet the Founder</h2>
+            <p className="section-head-subtitle">The creative force behind Raavan Studio’z</p>
+          </div>
 
-        <div className="philosophy-grid">
-          {philosophyPillars.map((pillar) => (
-            <article className="philosophy-card" key={pillar.number}>
-              <div className="num-badge">{pillar.number} // PRINCIPLE</div>
-              <h3>{pillar.title}</h3>
-              <div className="card-tagline">{pillar.tagline}</div>
-              <p>{pillar.description}</p>
-            </article>
-          ))}
+          <div
+            style={{
+              maxWidth: "850px",
+              margin: "0 auto",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "16px",
+              padding: "2.5rem",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "2rem",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <img
+                src="/raavan-emblem-clean.png"
+                alt="Mr. Gowtham Raj - Founder"
+                style={{
+                  width: "180px",
+                  height: "180px",
+                  objectFit: "contain",
+                  borderRadius: "50%",
+                  background: "radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(8, 16, 28, 0.7) 70%)",
+                  padding: "1.2rem",
+                  border: "2px solid rgba(56, 189, 248, 0.4)",
+                  boxShadow: "0 0 25px rgba(56, 189, 248, 0.25)",
+                }}
+              />
+              <h3 style={{ marginTop: "1rem", fontSize: "1.35rem", color: "#fff" }}>Mr. Gowtham Raj</h3>
+              <p style={{ color: "#00d4ff", fontSize: "0.9rem", fontWeight: 600 }}>Founder &amp; Creative Director</p>
+              <p style={{ opacity: 0.65, fontSize: "0.82rem" }}>8+ Years Industry Mastery</p>
+            </div>
+
+            <div>
+              <h4 style={{ fontSize: "1.15rem", marginBottom: "0.75rem", color: "#e2b876" }}>
+                “Make a count Click the moment”
+              </h4>
+              <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem", marginBottom: "1rem" }}>
+                Under Mr. Gowtham Raj’s leadership, Raavan Studio’z has grown into a multi-branch creative institution with dedicated arms for weddings, newborn portraiture (@toddlers_by_raavan), and bespoke luxury photobooks (@photobooks_by_raavan).
+              </p>
+              <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem" }}>
+                Each assignment is handled with artistic integrity, high dynamic range cameras, and archival color grading tailored to the warmth and grandeur of our traditions.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-
-      {/* Tools & Archival Craft */}
-      <section className="content-wrapper">
-        <div className="gear-section">
-          <div className="section-intro-block" style={{ marginBottom: "20px" }}>
-            <p className="section-eyebrow">Craft & Equipment</p>
-            <h2>Precision optics. Archival preservation.</h2>
-            <p style={{ color: "var(--muted)", fontSize: "15px", maxWidth: "600px", margin: "12px auto 0" }}>
-              We invest in museum-grade tools and triple-redundant archival workflows so you never
-              have to worry about a single lost second.
-            </p>
+      {/* 2 Studio Branches Section */}
+      <section className="section">
+        <div className="content-wrapper">
+          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div className="page-badge">Our Facilities</div>
+            <h2>Visit Our Creative Spaces in Krishnagiri</h2>
+            <p className="section-head-subtitle">Equipped with specialized light stages, props, and digital finishing suites</p>
           </div>
 
-          <div className="gear-grid">
-            {gearCraft.map((gear) => (
-              <div className="gear-card" key={gear.name}>
-                <h4>{gear.name}</h4>
-                <p>{gear.detail}</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
+            {(studioData.branches || []).map((b) => (
+              <div
+                key={b.id || b.name}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(0, 212, 255, 0.2)",
+                  borderRadius: "14px",
+                  padding: "2rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      fontSize: "0.75rem",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: "#00d4ff",
+                      background: "rgba(0, 212, 255, 0.1)",
+                      padding: "0.25rem 0.6rem",
+                      borderRadius: "4px",
+                      marginBottom: "0.75rem",
+                    }}
+                  >
+                    {b.type || b.tag}
+                  </span>
+                  <h3 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "0.5rem" }}>{b.name}</h3>
+                  <p style={{ fontSize: "0.92rem", opacity: 0.85, lineHeight: 1.5, marginBottom: "0.75rem" }}>
+                    {b.address}
+                  </p>
+                  <p style={{ fontSize: "0.85rem", color: "#e2b876", marginBottom: "1rem" }}>
+                    📍 Landmark: {b.landmark}
+                  </p>
+                </div>
+
+                <a
+                  href={b.mapUrl || b.map_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-secondary"
+                  style={{ textAlign: "center", display: "inline-block" }}
+                >
+                  View on Google Maps ↗
+                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Couple Praise & Testimonials */}
-      <section className="content-wrapper">
-        <div className="section-intro-block">
-          <p className="section-eyebrow">Real Words From Real Couples</p>
-          <h2>Kind words from the hearts we’ve documented</h2>
+      {/* Philosophy Pillars */}
+      <section className="philosophy-section" aria-label="Our Three Pillars">
+        <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div className="page-badge">What Sets Us Apart</div>
+          <h2>Our Core Creative Philosophy</h2>
         </div>
-
-        <div className="testimonials-grid">
-          {testimonials.map((t) => (
-            <blockquote className="testimonial-card" key={t.couple}>
-              <p className="testimonial-quote">“{t.quote}”</p>
-              <footer className="testimonial-author">
-                <img src={t.image} alt={t.couple} />
-                <div className="author-meta">
-                  <strong>{t.couple}</strong>
-                  <span>{t.location}</span>
-                </div>
-              </footer>
-            </blockquote>
+        <div className="pillars-grid">
+          {philosophyPillars.map((pillar) => (
+            <article key={pillar.number} className="pillar-card">
+              <span className="pillar-num" style={{ color: "#00d4ff" }}>{pillar.number}</span>
+              <h3>{pillar.title}</h3>
+              <p className="pillar-tagline" style={{ color: "#e2b876" }}>{pillar.tagline}</p>
+              <p className="pillar-desc">{pillar.description}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* Bottom CTA Banner */}
-      <section className="content-wrapper">
-        <div className="page-cta-banner">
-          <h2>Ready to preserve your wedding story?</h2>
-          <p>
-            We take on an exclusive number of celebrations each year to ensure
-            uncompromising artistry. Check availability for your date.
+      {/* Ready to Book CTA */}
+      <section className="section" style={{ textAlign: "center", paddingBottom: "4rem" }}>
+        <div className="content-wrapper">
+          <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Let’s Document Your Moment</h2>
+          <p style={{ opacity: 0.8, maxWidth: "600px", margin: "0 auto 2rem" }}>
+            Speak directly with Mr. Gowtham Raj or schedule a studio visit at The Creative Space in Krishnagiri.
           </p>
-          <a
-            href="/contact"
-            className="cta-button"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate("/contact");
-            }}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => onNavigate("/contact")}
+            style={{ padding: "0.9rem 2rem", fontSize: "1.05rem" }}
           >
-            Check Your Date Availability <span aria-hidden="true">→</span>
-          </a>
+            Connect With Our Team →
+          </button>
         </div>
       </section>
     </main>

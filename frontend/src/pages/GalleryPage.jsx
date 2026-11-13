@@ -1,17 +1,44 @@
 import { useEffect, useState } from "react";
-import { expandedGallery, stories } from "../content.js";
+import { fetchFromApi } from "../api.js";
+import { expandedGallery as fallbackGallery, studio } from "../content.js";
 
-const categories = ["All Works", "Couples", "Celebrations", "Details", "Black & White"];
+const categories = [
+  "All Works",
+  "Weddings",
+  "Couple portraits",
+  "Maternity",
+  "Newborns",
+  "Toddlers",
+  "Model portraits",
+  "Photobooks",
+];
 
 export default function GalleryPage({ onNavigate }) {
+  const [photos, setPhotos] = useState(fallbackGallery);
   const [activeCategory, setActiveCategory] = useState("All Works");
-  const [viewMode, setViewMode] = useState("grid"); // "grid" | "journey"
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  useEffect(() => {
+    fetchFromApi("/gallery", null).then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        const formatted = data.map((item) => ({
+          id: `gal-${item.id}`,
+          title: item.title,
+          category: item.category,
+          location: item.location || item.couple_or_client,
+          description: item.description,
+          image: item.image_url,
+          aspect: item.aspect || "portrait",
+        }));
+        setPhotos(formatted);
+      }
+    });
+  }, []);
 
   const filteredPhotos =
     activeCategory === "All Works"
-      ? expandedGallery
-      : expandedGallery.filter((item) => item.category === activeCategory);
+      ? photos
+      : photos.filter((item) => item.category === activeCategory);
 
   // Keyboard navigation for lightbox
   useEffect(() => {
@@ -43,222 +70,161 @@ export default function GalleryPage({ onNavigate }) {
     <main className="page-container gallery-page-view" id="gallery-page">
       {/* Hero Header */}
       <section className="page-hero">
-        <h1>The Stories Collection</h1>
+        <div className="page-badge">Our Curated Works</div>
+        <h1>Stories &amp; Moments Preserved</h1>
         <p className="page-subtitle">
-          Intimate elopements, golden sunsets, and celebratory nights captured across the UK,
-          the Mediterranean, and beyond.
+          {studio.tagline} · Unscripted weddings, precious newborns with @toddlers_by_raavan, and handcrafted photobooks with @photobooks_by_raavan.
         </p>
+
+        {/* Category Filters */}
+        <div
+          className="gallery-filters"
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginTop: "24px" }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              className={`filter-chip ${activeCategory === cat ? "active" : ""}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </section>
 
-      <div className="content-wrapper">
-        {/* Controls Bar: Filters & View Switcher */}
-        <div className="gallery-controls-bar">
-          <div className="gallery-filter-chips" role="group" aria-label="Filter portfolio categories">
-            {categories.map((cat) => (
-              <button
-                type="button"
-                key={cat}
-                className={`filter-chip${activeCategory === cat ? " active" : ""}`}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          <div className="gallery-view-mode" role="group" aria-label="Portfolio view mode">
-            <button
-              type="button"
-              className={`view-mode-button${viewMode === "grid" ? " active" : ""}`}
-              onClick={() => setViewMode("grid")}
+      {/* Grid Display */}
+      <section className="content-wrapper" style={{ marginTop: "2rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gap: "1.5rem",
+          }}
+        >
+          {filteredPhotos.map((photo) => (
+            <div
+              key={photo.id}
+              className="gallery-grid-card"
+              style={{
+                position: "relative",
+                borderRadius: "12px",
+                overflow: "hidden",
+                cursor: "pointer",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+              onClick={() => setSelectedPhoto(photo)}
             >
-              Editorial Grid
-            </button>
-            <button
-              type="button"
-              className={`view-mode-button${viewMode === "journey" ? " active" : ""}`}
-              onClick={() => setViewMode("journey")}
-            >
-              Cinematic Journey
-            </button>
-          </div>
-        </div>
-
-        {/* View Mode 1: Editorial Portfolio Grid */}
-        {viewMode === "grid" ? (
-          <section className="editorial-gallery-grid" aria-label="Wedding photographs grid">
-            {filteredPhotos.map((photo) => (
-              <article
-                key={photo.id}
-                className={`gallery-card ${photo.aspect}`}
-                onClick={() => setSelectedPhoto(photo)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelectedPhoto(photo);
-                  }
+              <img
+                src={photo.image}
+                alt={photo.title}
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: photo.aspect === "wide" ? "260px" : "380px",
+                  objectFit: "cover",
+                  display: "block",
+                  transition: "transform 0.4s ease",
                 }}
-                tabIndex={0}
-                role="button"
-                aria-label={`Open photograph: ${photo.title}`}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: "1.25rem",
+                  background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                }}
               >
-                <img src={photo.image} alt={photo.alt} loading="lazy" />
-                <div className="gallery-card-overlay">
-                  <div className="gallery-card-tags">
-                    <span className="gallery-tag">{photo.category}</span>
-                    <span className="gallery-tag">{photo.tag}</span>
-                  </div>
-                  <h3>{photo.title}</h3>
-                  <p>{photo.story}</p>
-                  <div className="gallery-card-location">
-                    <span aria-hidden="true">📍</span>
-                    <span>{photo.location} · {photo.year}</span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </section>
-        ) : (
-          /* View Mode 2: Original Cinematic Journey Full-bleed Panels */
-          <section className="gallery-journey" aria-label="Wedding story gallery journey">
-            {stories.map((story, index) => (
-              <section
-                className={`gallery-panel ${index === 0 ? "start" : index === stories.length - 1 ? "end" : "centre"}`}
-                key={story.id}
-                aria-label={`${index + 1} of ${stories.length}: ${story.title}`}
-              >
-                <img className="gallery-backdrop" src={story.image} alt="" aria-hidden="true" />
-                <div className="gallery-vignette" aria-hidden="true" />
-                <div className="gallery-track">
-                  <div className="gallery-content">
-                    <div className="gallery-meta">
-                      <span>LOVE STORIES</span>
-                      <span>/ {String(index + 1).padStart(2, "0")}</span>
-                    </div>
-                    <figure className="gallery-image-wrap">
-                      <img src={story.image} alt={story.alt} decoding="async" />
-                    </figure>
-                    <div className="gallery-story-caption">
-                      <span aria-hidden="true">{"/".repeat(index + 1)}</span>
-                      <h1>{story.title}</h1>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            ))}
-          </section>
-        )}
-      </div>
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#00d4ff",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {photo.category}
+                </span>
+                <h3 style={{ fontSize: "1.15rem", margin: "0.2rem 0", color: "#fff" }}>{photo.title}</h3>
+                {photo.location && (
+                  <p style={{ fontSize: "0.82rem", opacity: 0.75 }}>📍 {photo.location}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Lightbox Modal */}
       {selectedPhoto && (
         <div
-          className="modal-backdrop"
+          className="lightbox-overlay active"
           onClick={() => setSelectedPhoto(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${selectedPhoto.title} preview`}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            zIndex: 99999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2rem",
+          }}
         >
-          <div className="modal-content-wrap" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="lightbox-inner"
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: "1000px", width: "100%", textAlign: "center" }}
+          >
+            <img
+              src={selectedPhoto.image}
+              alt={selectedPhoto.title}
+              style={{ maxHeight: "75vh", maxWidth: "100%", objectFit: "contain", borderRadius: "8px" }}
+            />
+            <div style={{ marginTop: "1rem", color: "#fff" }}>
+              <span style={{ color: "#00d4ff", fontSize: "0.85rem", textTransform: "uppercase" }}>
+                {selectedPhoto.category}
+              </span>
+              <h2 style={{ fontSize: "1.4rem", margin: "0.3rem 0" }}>{selectedPhoto.title}</h2>
+              {selectedPhoto.description && (
+                <p style={{ opacity: 0.8, fontSize: "0.95rem", maxWidth: "600px", margin: "0 auto" }}>
+                  {selectedPhoto.description}
+                </p>
+              )}
+            </div>
             <button
-              className="modal-close-btn"
+              type="button"
+              className="btn btn-primary"
+              style={{ marginTop: "1.5rem" }}
+              onClick={() => onNavigate("/contact")}
+            >
+              Enquire About Similar Coverage
+            </button>
+            <button
               type="button"
               onClick={() => setSelectedPhoto(null)}
-              aria-label="Close photo preview"
+              style={{
+                position: "fixed",
+                top: "20px",
+                right: "30px",
+                background: "transparent",
+                border: "none",
+                color: "#fff",
+                fontSize: "2rem",
+                cursor: "pointer",
+              }}
+              aria-label="Close modal"
             >
               ✕
             </button>
-
-            <button
-              className="modal-nav-btn prev"
-              type="button"
-              onClick={() => {
-                const currentIndex = filteredPhotos.findIndex((p) => p.id === selectedPhoto.id);
-                const prevIndex = (currentIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
-                setSelectedPhoto(filteredPhotos[prevIndex]);
-              }}
-              aria-label="Previous photograph"
-            >
-              ‹
-            </button>
-
-            <button
-              className="modal-nav-btn next"
-              type="button"
-              onClick={() => {
-                const currentIndex = filteredPhotos.findIndex((p) => p.id === selectedPhoto.id);
-                const nextIndex = (currentIndex + 1) % filteredPhotos.length;
-                setSelectedPhoto(filteredPhotos[nextIndex]);
-              }}
-              aria-label="Next photograph"
-            >
-              ›
-            </button>
-
-            <div className="modal-image-col">
-              <img src={selectedPhoto.image} alt={selectedPhoto.alt} />
-            </div>
-
-            <div className="modal-info-col">
-              <div>
-                <div className="gallery-card-tags" style={{ marginBottom: "16px" }}>
-                  <span className="gallery-tag" style={{ background: "var(--paper-deep)", color: "var(--accent)" }}>
-                    {selectedPhoto.category}
-                  </span>
-                  <span className="gallery-tag" style={{ background: "var(--paper-deep)", color: "var(--muted)" }}>
-                    {selectedPhoto.tag}
-                  </span>
-                </div>
-                <h2 style={{ fontFamily: "var(--serif)", fontSize: "28px", fontWeight: 400, marginBottom: "8px" }}>
-                  {selectedPhoto.title}
-                </h2>
-                <div style={{ fontSize: "13px", color: "var(--accent)", marginBottom: "20px" }}>
-                  📍 {selectedPhoto.location} · {selectedPhoto.year}
-                </div>
-                <p style={{ color: "var(--muted)", fontSize: "15px", lineHeight: "1.7", marginBottom: "24px" }}>
-                  {selectedPhoto.story}
-                </p>
-              </div>
-
-              <div style={{ paddingTop: "20px", borderTop: "1px solid var(--line)" }}>
-                <a
-                  href="/contact"
-                  className="package-button"
-                  style={{ textAlign: "center", textDecoration: "none" }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedPhoto(null);
-                    onNavigate("/contact");
-                  }}
-                >
-                  Enquire For Your Wedding Date ↗
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       )}
-
-      {/* Bottom CTA Banner */}
-      <section className="content-wrapper" style={{ marginTop: "64px" }}>
-        <div className="page-cta-banner">
-          <h2>Like what you see?</h2>
-          <p>
-            Every gallery we deliver contains between 400 to 1,000+ timeless frames,
-            hand-graded with love and care.
-          </p>
-          <a
-            href="/contact"
-            className="cta-button"
-            onClick={(e) => {
-              e.preventDefault();
-              onNavigate("/contact");
-            }}
-          >
-            Tell Us What You’re Dreaming Of <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </section>
     </main>
   );
 }

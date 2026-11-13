@@ -1,44 +1,100 @@
 :root {
-  font-family: "DM Sans", Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", "Outfit", "DM Sans", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color-scheme: light;
-  /* Calibrated directly from Raavan Studio'z metallic blue, silver & cyan logo */
-  --paper: #f4f8fb;
-  --paper-deep: #e2ecf4;
-  --ink: #0d253c;
-  --muted: #537088;
-  --line: rgba(16, 52, 84, 0.16);
-  --footer: #07192c;
-  --accent: #1e87a5;
-  --accent-bright: #42c4dd;
-  --accent-deep: #104468;
-  --logo-cyan: #38b6d8;
-  --serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --sans: "Plus Jakarta Sans", "DM Sans", Arial, sans-serif;
-  --cursor-bracket: #0d253c;
-  --cursor-bracket-hover: #1e87a5;
-  --cursor-dot: #e27d60;
-  --cursor-glow: rgba(226, 125, 96, 0.45);
+
+  /* Clean Crisp White + 2 Brand Blues Palette (Raavan Signature) */
+  --paper: #ffffff;
+  --paper-deep: #f8fafc;
+  --paper-card: #ffffff;
+  --paper-glass: rgba(255, 255, 255, 0.94);
+  --paper-ice: #f0f7ff;
+  
+  /* Primary & Heading Colors (Dark Navy Brand Blue) */
+  --ink: #0a192f;
+  --ink-pure: #050d1a;
+  --muted: #475569;
+  --muted-light: #64748b;
+  --line: rgba(2, 132, 199, 0.14);
+  --line-strong: rgba(2, 132, 199, 0.28);
+  --footer: #0a192f;
+
+  /* The 2 Logo Blues (Light Blue & Dark Blue) */
+  --brand-dark-blue: #0a192f;
+  --brand-navy: #0d253c;
+  --brand-light-blue: #0284c7;
+  --brand-cyan: #0ea5e9;
+  --brand-sky: #38bdf8;
+  --brand-ice: #e0f2fe;
+
+  --accent: #0284c7;
+  --accent-bright: #0ea5e9;
+  --accent-neon: #0284c7;
+  --accent-deep: #0a192f;
+  --logo-cyan: #0ea5e9;
+
+  --gold: #d97706;
+  --gold-glow: rgba(217, 119, 6, 0.2);
+  --emerald: #059669;
+  --emerald-glow: rgba(16, 185, 129, 0.25);
+
+  /* High Fashion Editorial Typography */
+  --serif: "Cinzel", "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --sans: "Plus Jakarta Sans", "Outfit", "DM Sans", Arial, sans-serif;
+  --display: "Outfit", "Cinzel", sans-serif;
+
+  /* Viewfinder Cursor */
+  --cursor-bracket: #0284c7;
+  --cursor-bracket-hover: #0ea5e9;
+  --cursor-dot: #0284c7;
+  --cursor-glow: rgba(2, 132, 199, 0.4);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #081829;
-  --paper-deep: #0e2338;
-  --ink: #f0f6fa;
-  --muted: #8eaec4;
-  --line: rgba(66, 196, 221, 0.18);
-  --footer: #040e1a;
-  --accent: #46c7dc;
-  --accent-bright: #7ee8f8;
-  --accent-deep: #164f78;
-  --cursor-bracket: rgba(255, 255, 255, 0.95);
-  --cursor-bracket-hover: #42c4dd;
-  --cursor-dot: #fedbc0;
-  --cursor-glow: rgba(254, 219, 192, 0.65);
+  --paper: #070c14;
+  --paper-deep: #0b1320;
+  --paper-card: rgba(14, 25, 42, 0.85);
+  --paper-glass: rgba(9, 16, 27, 0.92);
+  --ink: #f0f6fc;
+  --ink-pure: #ffffff;
+  --muted: #8ba2b8;
+  --line: rgba(56, 189, 248, 0.18);
+  --line-strong: rgba(56, 189, 248, 0.38);
+  --footer: #040810;
+  --accent: #0284c7;
+  --accent-bright: #38bdf8;
+  --accent-neon: #00e5ff;
+  --accent-deep: #0c4a6e;
+  --cursor-bracket: rgba(56, 189, 248, 0.95);
+  --cursor-bracket-hover: #00e5ff;
+  --cursor-dot: #00e5ff;
+  --cursor-glow: rgba(0, 229, 255, 0.65);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --paper: #ffffff;
+  --paper-deep: #f8fafc;
+  --paper-card: #ffffff;
+  --paper-glass: rgba(255, 255, 255, 0.94);
+  --paper-ice: #f0f7ff;
+  --ink: #0a192f;
+  --ink-pure: #050d1a;
+  --muted: #475569;
+  --line: rgba(2, 132, 199, 0.14);
+  --line-strong: rgba(2, 132, 199, 0.28);
+  --footer: #0a192f;
+  --accent: #0284c7;
+  --accent-bright: #0ea5e9;
+  --accent-neon: #0284c7;
+  --cursor-bracket: #0284c7;
+  --cursor-bracket-hover: #0ea5e9;
+  --cursor-dot: #0284c7;
+  --cursor-glow: rgba(2, 132, 199, 0.35);
 }
 
 * { box-sizing: border-box; }
