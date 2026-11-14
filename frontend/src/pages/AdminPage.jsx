@@ -24,7 +24,6 @@ export default function AdminPage({ onNavigate }) {
   const [services, setServices] = useState([]);
   const [packages, setPackages] = useState([]);
   const [gallery, setGallery] = useState([]);
-  const [terms, setTerms] = useState([]);
 
   // UI state
   const [loadingData, setLoadingData] = useState(false);
@@ -38,7 +37,6 @@ export default function AdminPage({ onNavigate }) {
   const [newService, setNewService] = useState({ title: "", category: "Weddings", starting_price: "₹", description: "", deliverables: "", image_url: "" });
   const [newPackage, setNewPackage] = useState({ name: "", category: "newborn_toddler", price_display: "₹", duration: "", badge: "", description: "", features: "" });
   const [newGallery, setNewGallery] = useState({ title: "", category: "Weddings", location: "Krishnagiri", description: "", image_url: "", aspect: "portrait" });
-  const [newTerm, setNewTerm] = useState({ section_type: "general", section_number: "", title_en: "", title_ta: "", content_en: "", content_ta: "" });
 
   // Handle Login
   async function handleLogin(e) {
@@ -89,7 +87,6 @@ export default function AdminPage({ onNavigate }) {
         fetch("/api/services").then((r) => (r.ok ? r.json() : [])),
         fetch("/api/packages").then((r) => (r.ok ? r.json() : { all: [] })),
         fetch("/api/gallery").then((r) => (r.ok ? r.json() : [])),
-        fetch("/api/terms").then((r) => (r.ok ? r.json() : { all: [] })),
       ]);
 
       setEnquiries(Array.isArray(resEnq) ? resEnq : []);
@@ -97,7 +94,6 @@ export default function AdminPage({ onNavigate }) {
       setServices(Array.isArray(resServ) ? resServ : []);
       setPackages(resPkg.all || (Array.isArray(resPkg) ? resPkg : []));
       setGallery(Array.isArray(resGal) ? resGal : []);
-      setTerms(resTrm.all || (Array.isArray(resTrm) ? resTrm : []));
     } catch (err) {
       console.error("Error loading admin data:", err);
     } finally {
@@ -296,39 +292,6 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
-  // 6. Terms Actions
-  async function handleAddTerm(e) {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/admin/terms", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newTerm),
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setTerms([...terms, data.term]);
-        setNewTerm({ section_type: "general", section_number: "", title_en: "", title_ta: "", content_en: "", content_ta: "" });
-        flashMessage("Term added!");
-      }
-    } catch (err) {
-      alert("Error adding term");
-    }
-  }
-
-  async function handleDeleteTerm(id) {
-    if (!window.confirm("Delete this term policy?")) return;
-    try {
-      const res = await fetch(`/api/admin/terms/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        setTerms(terms.filter((t) => t.id !== id));
-        flashMessage("Term policy deleted!");
-      }
-    } catch (err) {
-      alert("Error deleting term");
-    }
-  }
-
   // ==========================================
   // RENDER LOGIN SCREEN (IF NOT AUTHENTICATED)
   // ==========================================
@@ -481,7 +444,6 @@ export default function AdminPage({ onNavigate }) {
           { id: "services", label: `📸 Services (${services.length})` },
           { id: "packages", label: `💰 Pricing Packages (${packages.length})` },
           { id: "gallery", label: `🖼️ Curated Works Gallery (${gallery.length})` },
-          { id: "terms", label: `📜 Terms & Conditions (${terms.length})` },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -854,73 +816,6 @@ export default function AdminPage({ onNavigate }) {
                       style={{ position: "absolute", top: "5px", right: "5px", background: "rgba(0,0,0,0.7)", border: "none", color: "#ef4444", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", fontSize: "0.8rem", display: "flex", alignItems: "center", justifyContent: "center" }}
                     >
                       ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* =========================================================
-          TAB 6: TERMS & CONDITIONS MANAGEMENT
-          ========================================================= */}
-      {activeTab === "terms" && (
-        <section>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
-            {/* Add Term Policy Form */}
-            <div style={{ background: "rgba(255,255,255,0.03)", padding: "1.75rem", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <h3 style={{ fontSize: "1.2rem", color: "#00d4ff", marginBottom: "1rem" }}>+ Add Policy Clause</h3>
-              <form onSubmit={handleAddTerm} style={{ display: "grid", gap: "1rem" }}>
-                <div className="form-row two-col">
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Section Type</label>
-                    <select value={newTerm.section_type} onChange={(e) => setNewTerm({ ...newTerm, section_type: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
-                      <option value="general">General Photography</option>
-                      <option value="toddlers">Toddlers by Raavan</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Clause Number</label>
-                    <input type="text" placeholder="e.g. 06 or T-04" value={newTerm.section_number} onChange={(e) => setNewTerm({ ...newTerm, section_number: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                  </div>
-                </div>
-
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Title (English) *</label>
-                  <input type="text" required placeholder="e.g. Rescheduling Policy" value={newTerm.title_en} onChange={(e) => setNewTerm({ ...newTerm, title_en: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>தலைப்பு (தமிழ்)</label>
-                  <input type="text" placeholder="எ.கா. தேதி மாற்றும் விதி" value={newTerm.title_ta} onChange={(e) => setNewTerm({ ...newTerm, title_ta: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Content (English) *</label>
-                  <textarea rows="3" required placeholder="English clause content..." value={newTerm.content_en} onChange={(e) => setNewTerm({ ...newTerm, content_en: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>விளக்கம் (தமிழ்)</label>
-                  <textarea rows="3" placeholder="தமிழில் உள்ள விதிமுறை விவரம்..." value={newTerm.content_ta} onChange={(e) => setNewTerm({ ...newTerm, content_ta: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: "0.75rem", fontWeight: 700 }}>Save Policy</button>
-              </form>
-            </div>
-
-            {/* List Existing Terms */}
-            <div>
-              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "1rem" }}>Current Policies ({terms.length})</h3>
-              <div style={{ display: "grid", gap: "1rem" }}>
-                {terms.map((t) => (
-                  <div key={t.id} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div>
-                      <span style={{ fontSize: "0.75rem", color: "#00d4ff", fontWeight: 700 }}>{t.section_number || `Clause`} · {t.section_type}</span>
-                      <h4 style={{ margin: "0.2rem 0", color: "#fff" }}>{t.title_en}</h4>
-                      {t.title_ta && <p style={{ margin: "0 0 0.4rem", color: "#7de3ff", fontSize: "0.85rem" }}>{t.title_ta}</p>}
-                      <p style={{ margin: 0, fontSize: "0.82rem", opacity: 0.75, lineHeight: 1.4 }}>{t.content_en?.slice(0, 100)}...</p>
-                    </div>
-                    <button type="button" onClick={() => handleDeleteTerm(t.id)} style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.4)", color: "#ef4444", borderRadius: "6px", padding: "0.4rem 0.75rem" }}>
-                      🗑
                     </button>
                   </div>
                 ))}

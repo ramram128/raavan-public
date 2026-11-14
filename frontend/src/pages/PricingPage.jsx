@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchFromApi } from "../api.js";
 import {
-  faqs,
   paymentSchedule,
   serviceAddons as fallbackAddons,
   servicePackages as fallbackPackages,
@@ -11,7 +10,6 @@ import {
 export default function PricingPage({ onNavigate }) {
   const [packages, setPackages] = useState(fallbackPackages);
   const [addons, setAddons] = useState(fallbackAddons);
-  const [openFaq, setOpenFaq] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("toddlers");
 
   useEffect(() => {
@@ -233,7 +231,7 @@ export default function PricingPage({ onNavigate }) {
       <section className="inc-section-wrap payment-schedule-section">
         <div className="inc-container">
           <div className="clean-centered-header reveal-on-scroll">
-            <span className="clean-section-tag">TRANSPARENT TERMS</span>
+            <span className="clean-section-tag">PAYMENT SCHEDULE</span>
             <h2 className="clean-section-heading">Simple, Honest Payment Schedule</h2>
             <p className="clean-section-sub">No hidden surcharges. Clear milestones from booking to delivery.</p>
           </div>
@@ -252,48 +250,9 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 5. FAQ ACCORDION                                               */}
+      {/* 5. DIRECT CTA                                                  */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-alt-bg">
-        <div className="inc-container">
-          <div className="clean-centered-header reveal-on-scroll">
-            <span className="clean-section-tag">QUESTIONS &amp; ANSWERS</span>
-            <h2 className="clean-section-heading">Pricing &amp; Booking FAQs</h2>
-          </div>
-
-          <div className="clean-faq-accordion-wrap">
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div
-                  key={faq.q}
-                  className={`clean-faq-item reveal-on-scroll stagger-${(index % 4) + 1}${isOpen ? " is-open" : ""}`}
-                >
-                  <button
-                    type="button"
-                    className="faq-question-btn"
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                    aria-expanded={isOpen}
-                  >
-                    <span className="faq-q-text">{faq.q}</span>
-                    <span className="faq-toggle-icon">{isOpen ? "−" : "+"}</span>
-                  </button>
-                  {isOpen && (
-                    <div className="faq-answer-pane">
-                      <p>{faq.a}</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 6. DIRECT CTA                                                  */}
-      {/* ============================================================== */}
-      <section className="inc-section-wrap">
         <div className="inc-container">
           <div className="clean-cta-box reveal-scale">
             <h2 className="clean-cta-title">Ready to Lock Your Date on the Studio Calendar?</h2>

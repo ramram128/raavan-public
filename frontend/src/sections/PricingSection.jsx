@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchFromApi } from "../api.js";
-import { faqs, paymentSchedule, servicePackages as fallbackPackages, studio } from "../content.js";
+import { paymentSchedule, servicePackages as fallbackPackages, studio } from "../content.js";
 
 export default function PricingSection({ onNavigate }) {
   const [packages, setPackages] = useState(fallbackPackages);
-  const [openFaq, setOpenFaq] = useState(null);
 
   useEffect(() => {
     fetchFromApi("/packages", null).then((data) => {

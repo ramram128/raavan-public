@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchFromApi } from "../api.js";
-import { faqs, processSteps, studio } from "../content.js";
+import { processSteps, studio } from "../content.js";
 
 const specializedServices = [
   {
@@ -91,8 +91,6 @@ const specializedServices = [
 ];
 
 export default function ServicesPage({ onNavigate }) {
-  const [openFaq, setOpenFaq] = useState(0);
-
   return (
     <div className="clean-subpage-root services-page-root" id="services-page">
       {/* ============================================================== */}
@@ -223,47 +221,7 @@ export default function ServicesPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. FREQUENTLY ASKED QUESTIONS (FAQ Accordion)                  */}
-      {/* ============================================================== */}
-      <section className="inc-section-wrap faq-section">
-        <div className="inc-container">
-          <div className="clean-centered-header reveal-on-scroll">
-            <span className="clean-section-tag">COMMON QUESTIONS</span>
-            <h2 className="clean-section-heading">Frequently Asked Questions</h2>
-            <p className="clean-section-sub">Everything you need to know about booking, deliverables, and shoots.</p>
-          </div>
-
-          <div className="clean-faq-accordion-wrap">
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div
-                  key={faq.q}
-                  className={`clean-faq-item reveal-on-scroll stagger-${(index % 4) + 1}${isOpen ? " is-open" : ""}`}
-                >
-                  <button
-                    type="button"
-                    className="faq-question-btn"
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                    aria-expanded={isOpen}
-                  >
-                    <span className="faq-q-text">{faq.q}</span>
-                    <span className="faq-toggle-icon">{isOpen ? "−" : "+"}</span>
-                  </button>
-                  {isOpen && (
-                    <div className="faq-answer-pane">
-                      <p>{faq.a}</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================== */}
-      {/* 5. DIRECT CTA                                                  */}
+      {/* 4. DIRECT CTA                                                  */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-alt-bg">
         <div className="inc-container">

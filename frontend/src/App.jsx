@@ -8,7 +8,6 @@ import ServicesPage from "./pages/ServicesPage.jsx";
 import GalleryPage from "./pages/GalleryPage.jsx";
 import PricingPage from "./pages/PricingPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
-import TermsPage from "./pages/TermsPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 
 const navLinks = [
@@ -17,7 +16,6 @@ const navLinks = [
   { label: "Services", path: "/services", page: "services" },
   { label: "Gallery", path: "/gallery", page: "gallery" },
   { label: "Pricing", path: "/pricing", page: "pricing" },
-  { label: "Terms", path: "/terms", page: "terms" },
   { label: "Admin", path: "/admin", page: "admin" },
 ];
 
@@ -238,7 +236,6 @@ function Footer({ onNavigate }) {
           <a href="/services" onClick={(e) => handleLink(e, "/services")}>Services &amp; Expertise</a>
           <a href="/gallery" onClick={(e) => handleLink(e, "/gallery")}>Curated Works</a>
           <a href="/pricing" onClick={(e) => handleLink(e, "/pricing")}>Packages &amp; Pricing</a>
-          <a href="/terms" onClick={(e) => handleLink(e, "/terms")}>Terms &amp; Conditions</a>
           <a href="/admin" onClick={(e) => handleLink(e, "/admin")} style={{ color: "#00d4ff", fontWeight: 600 }}>Admin Dashboard ↗</a>
           <a href="/contact" onClick={(e) => handleLink(e, "/contact")}>Contact &amp; Enquiry</a>
         </div>
@@ -294,8 +291,6 @@ function parsePage(pathOrHash = "") {
       return "gallery";
     case "pricing":
       return "pricing";
-    case "terms":
-      return "terms";
     case "admin":
       return "admin";
     case "contact":
@@ -444,9 +439,6 @@ export default function App() {
       case "pricing":
         document.title = "Pricing Packages & Investments — Raavan Studio’z";
         break;
-      case "terms":
-        document.title = "Terms & Conditions — Raavan Studio’z";
-        break;
       case "admin":
         document.title = "Admin Dashboard & Leads — Raavan Studio’z";
         break;
@@ -472,7 +464,6 @@ export default function App() {
           {currentPage === "services" && <ServicesPage onNavigate={handleNavigate} />}
           {currentPage === "gallery" && <GalleryPage onNavigate={handleNavigate} />}
           {currentPage === "pricing" && <PricingPage onNavigate={handleNavigate} />}
-          {currentPage === "terms" && <TermsPage onNavigate={handleNavigate} />}
           {currentPage === "admin" && <AdminPage onNavigate={handleNavigate} />}
           {currentPage === "contact" && <ContactPage onNavigate={handleNavigate} />}
         </div>
