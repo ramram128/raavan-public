@@ -5175,7 +5175,7 @@ footer a:hover {
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  height: 400px !important;
+  height: 600px !important;
   overflow: hidden;
   background: #050d1a;
 }
@@ -5183,14 +5183,14 @@ footer a:hover {
 .full-banner-slider-track {
   position: relative;
   width: 100%;
-  height: 400px !important;
+  height: 600px !important;
 }
 
 .full-banner-slide {
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 400px !important;
+  height: 600px !important;
   opacity: 0;
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
@@ -5202,10 +5202,10 @@ footer a:hover {
   z-index: 1;
 }
 
-/* Banner Image at Exact Height: 400px & Width: 100% */
+/* Banner Image at Exact Height: 600px & Width: 100% */
 .full-banner-slide-image {
   width: 100% !important;
-  height: 400px !important;
+  height: 600px !important;
   display: block;
   object-fit: cover;
   object-position: center 30%;
