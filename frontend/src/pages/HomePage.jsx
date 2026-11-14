@@ -12,7 +12,6 @@ const cleanHeroSlides = [
   {
     image: "/banners/banner_wedding.jpg",
     alt: "Wedding Photography by Raavan Studio'z Krishnagiri",
-    kicker: "WEDDING PHOTOGRAPHY · KRISHNAGIRI",
     title: "Preserving Every Precious Wedding Moment.",
     subtitle: "Traditional wedding rituals, candid family smiles, and cinematic wedding films. Led by Gowtham Raj with 8+ years of photography experience.",
     primaryCta: { label: "View Wedding Gallery ↗", path: "/gallery" },
@@ -21,7 +20,6 @@ const cleanHeroSlides = [
   {
     image: "/banners/banner_toddler.jpg",
     alt: "Toddlers by Raavan baby milestone photography",
-    kicker: "THE CREATIVE SPACE · TODDLERS BY RAAVAN",
     title: "Cute Baby Milestones & Newborn Portraits.",
     subtitle: "Krishnagiri's dedicated baby studio with 15+ colorful themes, safe props, cute costumes, and comfortable suites for your little one.",
     primaryCta: { label: "View Baby Packages ↗", path: "/pricing" },
@@ -30,7 +28,6 @@ const cleanHeroSlides = [
   {
     image: "/banners/banner_couple.jpg",
     alt: "Outdoor Pre-Wedding photography at Krishnagiri Hills",
-    kicker: "PRE-WEDDING & OUTDOOR SHOOTS",
     title: "Romantic Outdoor & Pre-Wedding Shoots.",
     subtitle: "Natural couple portraits amidst Krishnagiri Hills, sunset golden-hour views, and relaxed outdoor sessions you'll cherish forever.",
     primaryCta: { label: "Explore Outdoor Shoots ↗", path: "/services" },
@@ -137,7 +134,6 @@ export default function HomePage({ onNavigate }) {
               <div className="inc-hero-content-overlay">
                 <div className="inc-container">
                   <div className="inc-hero-text-card">
-                    <span className="inc-hero-kicker-pill">{item.kicker}</span>
                     <h1 className="inc-hero-headline-title">{item.title}</h1>
                     <p className="inc-hero-lead-desc">{item.subtitle}</p>
 
@@ -229,11 +225,6 @@ export default function HomePage({ onNavigate }) {
 
             {/* Right: Studio Editorial Narrative */}
             <div className="inc-about-content-col">
-              <div className="inc-section-label-row">
-                <span className="inc-label-text">ABOUT RAAVAN STUDIO’Z</span>
-                <div className="inc-line" />
-              </div>
-
               <h2 className="inc-heading-1">
                 Capturing Real Emotions &amp; Family Celebrations
               </h2>
@@ -299,11 +290,6 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col">
-              <div className="inc-section-label-row">
-                <span className="inc-label-text">WEDDING PHOTOGRAPHY</span>
-                <div className="inc-line" />
-              </div>
-
               <h2 className="inc-heading-2">Namma Veetu Kalyanam</h2>
 
               <p className="inc-paragraph">
@@ -357,11 +343,6 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             <div className="inc-service-text-col">
-              <div className="inc-section-label-row">
-                <span className="inc-label-text">COUPLE PORTRAITS</span>
-                <div className="inc-line" />
-              </div>
-
               <h2 className="inc-heading-2">Outdoor &amp; Pre-Wedding Shoots</h2>
 
               <p className="inc-paragraph">
@@ -395,11 +376,6 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col">
-              <div className="inc-section-label-row">
-                <span className="inc-label-text">BABY PHOTOGRAPHY</span>
-                <div className="inc-line" />
-              </div>
-
               <h2 className="inc-heading-2">Toddlers by Raavan</h2>
 
               <p className="inc-paragraph">
@@ -443,11 +419,6 @@ export default function HomePage({ onNavigate }) {
       <section className="inc-section-wrap inc-gallery-section" id="work-gallery">
         <div className="inc-container">
           <div className="inc-centered-header">
-            <div className="inc-centered-label-row">
-              <div className="inc-line" />
-              <span className="inc-label-text">OUR WORK</span>
-              <div className="inc-line" />
-            </div>
             <h2 className="inc-heading-1 text-center">Featured Photos</h2>
 
             {/* Filter Tabs */}
@@ -512,11 +483,6 @@ export default function HomePage({ onNavigate }) {
       <section className="inc-section-wrap inc-pricing-section" id="pricing">
         <div className="inc-container">
           <div className="inc-centered-header">
-            <div className="inc-centered-label-row">
-              <div className="inc-line" />
-              <span className="inc-label-text">BABY &amp; TODDLER PACKAGES</span>
-              <div className="inc-line" />
-            </div>
             <h2 className="inc-heading-1 text-center">Kutty Chutties Pricing Packages</h2>
             <p className="inc-subtitle text-center">
               Simple, transparent packages starting from ₹2,500 at The Creative Space, Krishnagiri. Free travel within 20km.
@@ -760,10 +726,6 @@ export default function HomePage({ onNavigate }) {
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-testimonials-section inc-alt-bg" id="testimonials">
         <div className="inc-container">
-          <div className="inc-section-label-row">
-            <span className="inc-label-text">TESTIMONIALS</span>
-            <div className="inc-line" />
-          </div>
           <h2 className="inc-heading-1">What Our Clients Say</h2>
 
           <div className="inc-testimonials-grid">
@@ -796,11 +758,6 @@ export default function HomePage({ onNavigate }) {
           <div className="inc-two-col-grid align-center">
             {/* Left: Studio Locations Hub */}
             <div className="inc-book-info-col">
-              <div className="inc-section-label-row">
-                <span className="inc-label-text">VISIT OUR STUDIOS</span>
-                <div className="inc-line" />
-              </div>
-
               <h2 className="inc-heading-1">Visit Our Studios in Krishnagiri</h2>
 
               <p className="inc-paragraph" style={{ marginBottom: "26px" }}>
@@ -876,7 +833,6 @@ export default function HomePage({ onNavigate }) {
             <div className="inc-book-form-col">
               <div className="pro-booking-card">
                 <div className="pro-form-head">
-                  <span className="pro-form-kicker">CHECK AVAILABILITY &amp; BOOKING</span>
                   <h3 className="pro-form-title">Check Date Availability</h3>
                   <p className="pro-form-subtitle">
                     Share your shoot details below and Mr. Gowtham Raj will connect with you directly with availability and pricing.
