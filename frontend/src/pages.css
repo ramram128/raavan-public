@@ -9895,3 +9895,257 @@ footer a:hover {
     border-radius: 10px;
   }
 }
+
+/* ==========================================================================
+   HIGH-END LUXURY KUTTY CHUTTIES PRICING TIERS
+   ========================================================================== */
+
+.luxury-tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  margin-top: 36px;
+  align-items: stretch;
+}
+
+.luxury-pricing-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 26px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(10, 25, 47, 0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(10, 25, 47, 0.09);
+  border-color: #cbd5e1;
+}
+
+.luxury-pricing-card.is-featured-tier {
+  border: 2px solid #0284c7;
+  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.16);
+  transform: scale(1.02);
+}
+
+.luxury-pricing-card.is-featured-tier:hover {
+  transform: scale(1.02) translateY(-6px);
+  box-shadow: 0 26px 55px rgba(2, 132, 199, 0.22);
+}
+
+.luxury-pricing-card.is-luxury-tier {
+  border: 2px solid #0a192f;
+  box-shadow: 0 18px 40px rgba(10, 25, 47, 0.1);
+}
+
+.tier-header-badge {
+  margin-bottom: 14px;
+}
+
+.tier-pill {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.pill-intro {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.pill-classic {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.pill-popular {
+  background: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.pill-luxury {
+  background: #0a192f;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(10, 25, 47, 0.3);
+}
+
+.tier-card-title {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0a192f;
+  margin: 0 0 10px;
+}
+
+.tier-price-box {
+  margin-bottom: 14px;
+}
+
+.tier-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.tier-price-amount {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0a192f;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.tier-price-sub {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.tier-duration-chip {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.tier-duration-chip.chip-popular {
+  background: rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+}
+
+.tier-duration-chip.chip-luxury {
+  background: rgba(10, 25, 47, 0.08);
+  color: #0a192f;
+}
+
+.tier-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin-bottom: 16px;
+}
+
+.tier-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.tier-features-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 0.85rem;
+  color: #334155;
+  line-height: 1.4;
+}
+
+.tier-check-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.tier-card-footer {
+  margin-top: auto;
+}
+
+.tier-cta-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.tier-cta-button.btn-outline {
+  background: #ffffff;
+  border: 1.5px solid #0284c7;
+  color: #0284c7;
+}
+
+.tier-cta-button.btn-outline:hover {
+  background: #0284c7;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);
+}
+
+.tier-cta-button.btn-primary-filled {
+  background: #0284c7;
+  border: 1.5px solid #0284c7;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+
+.tier-cta-button.btn-primary-filled:hover {
+  background: #0369a1;
+  border-color: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.45);
+}
+
+.tier-cta-button.btn-luxury-filled {
+  background: #0a192f;
+  border: 1.5px solid #0a192f;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(10, 25, 47, 0.3);
+}
+
+.tier-cta-button.btn-luxury-filled:hover {
+  background: #142b3b;
+  border-color: #142b3b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(10, 25, 47, 0.4);
+}
+
+@media (max-width: 1024px) {
+  .luxury-tiers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .luxury-pricing-card.is-featured-tier {
+    transform: none;
+  }
+  .luxury-pricing-card.is-featured-tier:hover {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 640px) {
+  .luxury-tiers-grid {
+    grid-template-columns: 1fr;
+  }
+}

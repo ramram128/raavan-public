@@ -466,7 +466,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 7. TRANSPARENT PRICING: KUTTY CHUTTIES PACKAGES (4 CLEAN CARDS) */}
+      {/* 7. TRANSPARENT PRICING: KUTTY CHUTTIES LUXURY TIERS             */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-pricing-section" id="pricing">
         <div className="inc-container">
@@ -478,7 +478,7 @@ export default function HomePage({ onNavigate }) {
             </div>
             <h2 className="inc-heading-1 text-center">Kutty Chutties Pricing Packages</h2>
             <p className="inc-subtitle text-center">
-              Milestone portrait sessions starting from ₹2,500/-. Complimentary travel within 20km from Krishnagiri.
+              Honest, transparent milestone portrait sessions starting from ₹2,500/-. Complimentary travel within 20km from Krishnagiri.
             </p>
 
             <div className="inc-pricing-perks-row">
@@ -489,65 +489,191 @@ export default function HomePage({ onNavigate }) {
             </div>
           </div>
 
-          {/* 4 Clean Baby Milestone Package Cards (Compact & Neat) */}
-          <div className="inc-pricing-grid compact-grid">
-            {servicePackages
-              .filter((pkg) => pkg.id !== "namma-veetu-kalyanam")
-              .map((pkg) => {
-                const isPopular = pkg.id === "little-stars" || pkg.badge === "Most Popular";
-                const isLuxury = pkg.id === "tiny-royalty" || pkg.badge === "Luxury Experience";
+          {/* 4 Luxury Kutty Chutties Tier Cards */}
+          <div className="inc-pricing-grid luxury-tiers-grid">
+            {/* 1. Mini Memories */}
+            <div className="luxury-pricing-card tier-intro">
+              <div className="tier-header-badge">
+                <span className="tier-pill pill-intro">🌱 Intro Session</span>
+              </div>
+              <h3 className="tier-card-title">Mini Memories</h3>
+              <div className="tier-price-box">
+                <div className="tier-price-wrap">
+                  <span className="tier-price-amount">₹2,500</span>
+                  <span className="tier-price-sub">/ session</span>
+                </div>
+                <span className="tier-duration-chip">⏱ 15–20 Mins Session</span>
+              </div>
+              <div className="tier-divider" />
+              <ul className="tier-features-list">
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>1 Themed backdrop setup included</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>1 Outfit / wrap provided</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>5 Professionally edited photos</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>High-resolution download gallery</span>
+                </li>
+              </ul>
+              <div className="tier-card-footer">
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    "Hi Gowtham Raj! I would like to book the \"Mini Memories\" (₹2,500) session with Raavan Studio’z."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tier-cta-button btn-outline"
+                >
+                  <span>Book on WhatsApp →</span>
+                </a>
+              </div>
+            </div>
 
-                // Shorten duration for compact display
-                const shortDur = pkg.duration
-                  ? pkg.duration.replace(" studio session", "").replace(" relaxed session", "").replace(" leisurely session", "").replace(" session", "")
-                  : "session";
+            {/* 2. Sweet Beginnings */}
+            <div className="luxury-pricing-card tier-classic">
+              <div className="tier-header-badge">
+                <span className="tier-pill pill-classic">✨ Classic Milestone</span>
+              </div>
+              <h3 className="tier-card-title">Sweet Beginnings</h3>
+              <div className="tier-price-box">
+                <div className="tier-price-wrap">
+                  <span className="tier-price-amount">₹5,000</span>
+                  <span className="tier-price-sub">/ session</span>
+                </div>
+                <span className="tier-duration-chip">⏱ 30 Mins Session</span>
+              </div>
+              <div className="tier-divider" />
+              <ul className="tier-features-list">
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>2 Creative setups (wraps &amp; props)</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>2 Outfits / swaddles provided</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>10 Professionally edited photos</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>Parent + baby portrait included</span>
+                </li>
+              </ul>
+              <div className="tier-card-footer">
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    "Hi Gowtham Raj! I would like to book the \"Sweet Beginnings\" (₹5,000) session with Raavan Studio’z."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tier-cta-button btn-outline"
+                >
+                  <span>Book on WhatsApp →</span>
+                </a>
+              </div>
+            </div>
 
-                return (
-                  <div
-                    className={`inc-pricing-card compact-card${isPopular ? " highlight-popular" : ""}${isLuxury ? " highlight-luxury" : ""}`}
-                    key={pkg.id}
-                  >
-                    {/* Badge */}
-                    <div className={`inc-pkg-badge compact-badge${isPopular ? " badge-popular" : ""}${isLuxury ? " badge-luxury" : ""}`}>
-                      <span>{isPopular ? "⭐ " : isLuxury ? "👑 " : ""}{pkg.badge}</span>
-                    </div>
+            {/* 3. Little Stars (Featured Popular) */}
+            <div className="luxury-pricing-card tier-popular is-featured-tier">
+              <div className="tier-header-badge">
+                <span className="tier-pill pill-popular">⭐ MOST POPULAR CHOICE</span>
+              </div>
+              <h3 className="tier-card-title">Little Stars</h3>
+              <div className="tier-price-box">
+                <div className="tier-price-wrap">
+                  <span className="tier-price-amount">₹8,000</span>
+                  <span className="tier-price-sub">/ session</span>
+                </div>
+                <span className="tier-duration-chip chip-popular">⏱ 60 Mins Leisurely Session</span>
+              </div>
+              <div className="tier-divider" />
+              <ul className="tier-features-list">
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>3 Themed setups of your choice</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>3 Designer outfits &amp; props provided</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>15 Edited digital photos + Family shot</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>1 Complimentary wooden keepsake frame</span>
+                </li>
+              </ul>
+              <div className="tier-card-footer">
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    "Hi Gowtham Raj! I would like to book the \"Little Stars\" (₹8,000) session with Raavan Studio’z."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tier-cta-button btn-primary-filled"
+                >
+                  <span>Book on WhatsApp →</span>
+                </a>
+              </div>
+            </div>
 
-                    <div className="inc-pkg-head">
-                      <h3 className="inc-pkg-title">{pkg.name}</h3>
-                    </div>
-
-                    <div className="inc-pkg-price-row">
-                      <span className="inc-price-val">{pkg.price}</span>
-                      <span className="inc-price-dur">/ {shortDur}</span>
-                    </div>
-
-                    <div className="inc-pkg-divider" />
-
-                    {/* Top 4 Core Deliverables */}
-                    <ul className="inc-pkg-features compact-features">
-                      {pkg.features.slice(0, 4).map((feat) => (
-                        <li key={feat}>
-                          <span className="inc-check">✓</span>
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="inc-pkg-footer">
-                      <a
-                        href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                          `Hi Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) session with Raavan Studio’z.`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`inc-pkg-btn compact-btn${isPopular ? " filled" : ""}${isLuxury ? " luxury-btn" : ""}`}
-                      >
-                        <span>Book on WhatsApp →</span>
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* 4. Tiny Royalty (VIP Luxury) */}
+            <div className="luxury-pricing-card tier-luxury is-luxury-tier">
+              <div className="tier-header-badge">
+                <span className="tier-pill pill-luxury">👑 VIP LUXURY HEIRLOOM</span>
+              </div>
+              <h3 className="tier-card-title">Tiny Royalty</h3>
+              <div className="tier-price-box">
+                <div className="tier-price-wrap">
+                  <span className="tier-price-amount">₹12,000</span>
+                  <span className="tier-price-sub">/ session</span>
+                </div>
+                <span className="tier-duration-chip chip-luxury">⏱ 90 Mins Unhurried Session</span>
+              </div>
+              <div className="tier-divider" />
+              <ul className="tier-features-list">
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>5 Premium creative themed setups</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>All designer props &amp; outfits provided</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>25 Edited photos + Parents &amp; Siblings</span>
+                </li>
+                <li>
+                  <span className="tier-check-icon">✓</span>
+                  <span>3 Complimentary wooden frames + Priority turnaround</span>
+                </li>
+              </ul>
+              <div className="tier-card-footer">
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    "Hi Gowtham Raj! I would like to book the \"Tiny Royalty\" (₹12,000) session with Raavan Studio’z."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tier-cta-button btn-luxury-filled"
+                >
+                  <span>Book on WhatsApp →</span>
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Wedding Custom Quote Card (Full Width Banner) */}
