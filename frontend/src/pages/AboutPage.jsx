@@ -16,10 +16,10 @@ export default function AboutPage({ onNavigate }) {
           email: data.email,
           foundedDate: data.founded_date,
           founder: {
-            name: data.founder_name,
+            name: data.founder_name || prev.founder.name,
             title: "Founder & Creative Director",
-            experience: data.founder_experience,
-            bio: data.founder_bio,
+            experience: data.founder_experience || prev.founder.experience,
+            bio: data.founder_bio || prev.founder.bio,
           },
           branches: data.branches || prev.branches,
           stats: data.stats || prev.stats,
@@ -30,219 +30,272 @@ export default function AboutPage({ onNavigate }) {
   }, []);
 
   return (
-    <main className="page-container about-page" id="about-page">
-      {/* Hero Header */}
-      <section className="page-hero">
-        <div className="page-badge">Our Story &amp; Founder</div>
-        <h1>
-          {studioData.tagline}
-          <br />
-          Cinematic, unscripted, and profoundly honest.
-        </h1>
-        <p className="page-subtitle">
-          Founded on 21st January 2021 by Mr. Gowtham Raj with over 8 years of specialized visual mastery. Operating two dedicated creative facilities in Krishnagiri and serving clients nationwide.
-        </p>
-      </section>
-
-      {/* Narrative Section */}
-      <section className="about-narrative">
-        <div className="narrative-image-frame">
-          <img
-            src="/kalyanam/page_4_img_1.png"
-            alt="Raavan Studio'z wedding and family storytelling"
-            loading="lazy"
-          />
-          <div className="photo-caption-tag">
-            <span>Raavan Studio’z · Krishnagiri &amp; Worldwide</span>
+    <div className="clean-subpage-root about-page-root" id="about-page">
+      {/* ============================================================== */}
+      {/* 1. HERO HEADER                                                 */}
+      {/* ============================================================== */}
+      <section className="clean-page-hero">
+        <div className="inc-container">
+          <div className="clean-hero-badge-wrap">
+            <span className="clean-eyebrow-tag">ABOUT RAAVAN STUDIO’Z</span>
           </div>
-        </div>
-
-        <div className="narrative-copy">
-          <p className="section-eyebrow" style={{ color: "var(--accent, #00d4ff)", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, marginBottom: "12px" }}>
-            The Studio Story
-          </p>
-          <h2>Crafted by Mr. Gowtham Raj (8+ Years of Visual Artistry)</h2>
-          <p>
-            Raavan Studio’z opened on <strong>21st January 2021</strong> as a premier cinematic photography and creative atelier in Krishnagiri. Under the vision of our founder, <strong>Mr. Gowtham Raj</strong>, who brings over 8 years of professional craftsmanship, we have preserved hundreds of family legacies, grand weddings, and tender newborn milestones.
-          </p>
-          <div className="narrative-quote" style={{ borderLeft: "3px solid #00d4ff", paddingLeft: "1rem", fontStyle: "italic", color: "#e2b876" }}>
-            “Our major strength is to work creatively according to each client’s special vision. We deliver our outputs in the highest quality — photos, handcrafted albums, and raw cinematic video.”
-          </div>
-          <p>
-            We don’t believe in stiff, artificial choreography. Instead, whether documenting a sacred wedding ceremony or the peaceful slumber of a 10-day-old newborn with our dedicated team at <strong>@toddlers_by_raavan</strong>, we craft visual art that feels as real as the heartbeat of the moment.
+          <h1 className="clean-page-title">
+            Capturing Authentic Emotions &amp; Precious Family Milestones
+          </h1>
+          <p className="clean-page-subtitle">
+            Founded on <strong>21st January 2021</strong> by <strong>Mr. Gowtham Raj</strong> with over 8 years of specialized craftsmanship. We operate two dedicated studios in Krishnagiri, preserving real family legacies across Tamil Nadu, Bangalore, and worldwide.
           </p>
         </div>
       </section>
 
-      {/* Stats Counter Strip */}
-      <section className="stats-strip" aria-label="Studio Milestones">
-        <div className="stats-grid">
-          {(studioData.stats || []).map((stat, idx) => (
-            <div key={idx} className="stat-card">
-              <span className="stat-value" style={{ color: "#00d4ff" }}>{stat.value}</span>
-              <span className="stat-label">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Founder & Creative Space */}
-      <section className="section" style={{ background: "rgba(0,0,0,0.15)" }}>
-        <div className="content-wrapper">
-          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div className="page-badge">Studio Leadership</div>
-            <h2>Meet the Founder</h2>
-            <p className="section-head-subtitle">The creative force behind Raavan Studio’z</p>
-          </div>
-
-          <div
-            style={{
-              maxWidth: "850px",
-              margin: "0 auto",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: "16px",
-              padding: "2.5rem",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "2rem",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ textAlign: "center" }}>
-              <img
-                src="/raavan-emblem-clean.png"
-                alt="Mr. Gowtham Raj - Founder"
-                style={{
-                  width: "180px",
-                  height: "180px",
-                  objectFit: "contain",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(8, 16, 28, 0.7) 70%)",
-                  padding: "1.2rem",
-                  border: "2px solid rgba(56, 189, 248, 0.4)",
-                  boxShadow: "0 0 25px rgba(56, 189, 248, 0.25)",
-                }}
-              />
-              <h3 style={{ marginTop: "1rem", fontSize: "1.35rem", color: "#fff" }}>Mr. Gowtham Raj</h3>
-              <p style={{ color: "#00d4ff", fontSize: "0.9rem", fontWeight: 600 }}>Founder &amp; Creative Director</p>
-              <p style={{ opacity: 0.65, fontSize: "0.82rem" }}>8+ Years Industry Mastery</p>
-            </div>
-
-            <div>
-              <h4 style={{ fontSize: "1.15rem", marginBottom: "0.75rem", color: "#e2b876" }}>
-                “Make a count Click the moment”
-              </h4>
-              <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem", marginBottom: "1rem" }}>
-                Under Mr. Gowtham Raj’s leadership, Raavan Studio’z has grown into a multi-branch creative institution with dedicated arms for weddings, newborn portraiture (@toddlers_by_raavan), and bespoke luxury photobooks (@photobooks_by_raavan).
-              </p>
-              <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem" }}>
-                Each assignment is handled with artistic integrity, high dynamic range cameras, and archival color grading tailored to the warmth and grandeur of our traditions.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2 Studio Branches Section */}
-      <section className="section">
-        <div className="content-wrapper">
-          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div className="page-badge">Our Facilities</div>
-            <h2>Visit Our Creative Spaces in Krishnagiri</h2>
-            <p className="section-head-subtitle">Equipped with specialized light stages, props, and digital finishing suites</p>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
-            {(studioData.branches || []).map((b) => (
-              <div
-                key={b.id || b.name}
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(0, 212, 255, 0.2)",
-                  borderRadius: "14px",
-                  padding: "2rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <span
-                    style={{
-                      display: "inline-block",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      color: "#00d4ff",
-                      background: "rgba(0, 212, 255, 0.1)",
-                      padding: "0.25rem 0.6rem",
-                      borderRadius: "4px",
-                      marginBottom: "0.75rem",
-                    }}
-                  >
-                    {b.type || b.tag}
-                  </span>
-                  <h3 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "0.5rem" }}>{b.name}</h3>
-                  <p style={{ fontSize: "0.92rem", opacity: 0.85, lineHeight: 1.5, marginBottom: "0.75rem" }}>
-                    {b.address}
-                  </p>
-                  <p style={{ fontSize: "0.85rem", color: "#e2b876", marginBottom: "1rem" }}>
-                    Landmark: {b.landmark}
-                  </p>
+      {/* ============================================================== */}
+      {/* 2. FOUNDER EDITORIAL NARRATIVE                                 */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap about-founder-section">
+        <div className="inc-container">
+          <div className="inc-two-col-grid align-center">
+            {/* Left: Founder Visual Card */}
+            <div className="about-founder-visual-col reveal-scale">
+              <div className="founder-portrait-card">
+                <div className="founder-avatar-wrap">
+                  <img
+                    src="/raavan-emblem-clean.png"
+                    alt="Mr. Gowtham Raj - Founder of Raavan Studio'z"
+                    className="founder-portrait-img"
+                  />
                 </div>
+                <div className="founder-info-block">
+                  <h3 className="founder-name">Mr. Gowtham Raj</h3>
+                  <p className="founder-designation">Founder &amp; Creative Director</p>
+                  <span className="founder-exp-pill">8+ Years Industry Mastery</span>
+                </div>
+                <div className="founder-tagline-quote">
+                  “Make a count Click the moment”
+                </div>
+              </div>
+            </div>
 
+            {/* Right: Editorial Narrative Story */}
+            <div className="about-founder-story-col reveal-on-scroll">
+              <span className="clean-section-tag">OUR ORIGIN &amp; CRAFT</span>
+              <h2 className="clean-section-heading">
+                Heartfelt Photography Without Forced Choreography
+              </h2>
+              <p className="clean-body-text">
+                Raavan Studio’z was established on <strong>21st January 2021</strong> in Krishnagiri with a simple, enduring conviction: the most meaningful photography comes from authentic, unforced emotions.
+              </p>
+              <p className="clean-body-text">
+                Under the creative direction of <strong>Mr. Gowtham Raj</strong>, our team has documented over 250 grand weddings and more than 1,500 happy families. Whether framing a sacred muhurtham ritual or capturing the gentle laughter of a newborn in our dedicated baby studio, we bring patience, natural lighting, and dedicated care to every commission.
+              </p>
+              <div className="clean-quote-box">
+                “Our major strength is listening closely to each client’s unique family vision. We deliver our work in the absolute highest quality — from masterfully graded photos to archival heirloom albums.”
+              </div>
+              <div className="founder-wings-row">
+                <span className="wing-pill">✓ Wedding Photography &amp; 4K Cinema</span>
+                <span className="wing-pill">✓ @toddlers_by_raavan Baby Studio</span>
+                <span className="wing-pill">✓ @photobooks_by_raavan Albums</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 3. THREE BALANCED METRIC STAT CARDS                            */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap inc-alt-bg about-stats-section">
+        <div className="inc-container">
+          <div className="about-stats-container">
+            <div className="about-stat-card stagger-1">
+              <div className="about-stat-value">8+</div>
+              <div className="about-stat-text">Years Experience</div>
+            </div>
+            <div className="about-stat-card stagger-2">
+              <div className="about-stat-value">1,500+</div>
+              <div className="about-stat-text">Happy Clients</div>
+            </div>
+            <div className="about-stat-card stagger-3">
+              <div className="about-stat-value">5.0 ★</div>
+              <div className="about-stat-text">Client Reviews</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 4. TWO DEDICATED STUDIOS IN KRISHNAGIRI                        */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap about-studios-section">
+        <div className="inc-container">
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">OUR FACILITIES</span>
+            <h2 className="clean-section-heading">Visit Our Studios in Krishnagiri</h2>
+            <p className="clean-section-sub">
+              Equipped with specialized light stages, 15+ themed baby sets, and digital editing suites.
+            </p>
+          </div>
+
+          <div className="studios-cards-grid">
+            {/* Studio 1 */}
+            <div className="clean-studio-card reveal-on-scroll stagger-1">
+              <div className="studio-card-top">
+                <span className="studio-branch-pill">STUDIO 01 · NEWBORN &amp; TODDLERS</span>
+                <h3 className="studio-name">The Creative Space</h3>
+                <p className="studio-address">
+                  Raavan Studio’z, 3/470B RCC Moulding Building, Ground Floor, Gandhi Nagar, Salem-Bangalore Highways, Krishnagiri - 635001
+                </p>
+                <div className="studio-landmark">
+                  <strong>Landmark:</strong> Opposite Gunam Hospital, Near Challenge Gym
+                </div>
+              </div>
+              <div className="studio-card-actions">
                 <a
-                  href={b.mapUrl || b.map_url}
+                  href="https://maps.app.goo.gl/13tnC9ZgRtQ5Ftje8"
                   target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-secondary"
-                  style={{ textAlign: "center", display: "inline-block" }}
+                  rel="noopener noreferrer"
+                  className="studio-map-btn"
                 >
-                  View on Google Maps ↗
+                  <span>Open in Google Maps ↗</span>
                 </a>
+              </div>
+            </div>
+
+            {/* Studio 2 */}
+            <div className="clean-studio-card reveal-on-scroll stagger-2">
+              <div className="studio-card-top">
+                <span className="studio-branch-pill">STUDIO 02 · WEDDING CONSULTATIONS</span>
+                <h3 className="studio-name">Work Space</h3>
+                <p className="studio-address">
+                  Raavan Studio’z, 3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri - 635001
+                </p>
+                <div className="studio-landmark">
+                  <strong>Landmark:</strong> BATA Showroom lane, backside Central Theatre
+                </div>
+              </div>
+              <div className="studio-card-actions">
+                <a
+                  href="https://maps.app.goo.gl/e11f4M4RwXUbF1gcA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="studio-map-btn"
+                >
+                  <span>Open in Google Maps ↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 5. CORE CREATIVE PHILOSOPHY                                    */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap inc-alt-bg about-philosophy-section">
+        <div className="inc-container">
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">WHAT SETS US APART</span>
+            <h2 className="clean-section-heading">Our Core Creative Philosophy</h2>
+            <p className="clean-section-sub">Three pillars that define every wedding and portrait commission we undertake.</p>
+          </div>
+
+          <div className="philosophy-cards-grid">
+            {philosophyPillars.map((pillar, idx) => (
+              <div className={`clean-pillar-card reveal-on-scroll stagger-${idx + 1}`} key={pillar.number}>
+                <div className="pillar-num-badge">{pillar.number}</div>
+                <h3 className="pillar-title">{pillar.title}</h3>
+                <div className="pillar-tagline-text">{pillar.tagline}</div>
+                <p className="pillar-body-text">{pillar.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Philosophy Pillars */}
-      <section className="philosophy-section" aria-label="Our Three Pillars">
-        <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div className="page-badge">What Sets Us Apart</div>
-          <h2>Our Core Creative Philosophy</h2>
-        </div>
-        <div className="pillars-grid">
-          {philosophyPillars.map((pillar) => (
-            <article key={pillar.number} className="pillar-card">
-              <span className="pillar-num" style={{ color: "#00d4ff" }}>{pillar.number}</span>
-              <h3>{pillar.title}</h3>
-              <p className="pillar-tagline" style={{ color: "#e2b876" }}>{pillar.tagline}</p>
-              <p className="pillar-desc">{pillar.description}</p>
-            </article>
-          ))}
+      {/* ============================================================== */}
+      {/* 6. CRAFTSMANSHIP & GEAR STANDARDS                              */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap about-gear-section">
+        <div className="inc-container">
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">PROFESSIONAL EXCELLENCE</span>
+            <h2 className="clean-section-heading">Camera Craft &amp; Client Standards</h2>
+            <p className="clean-section-sub">Premium cinema gear, dual backup redundancy, and sanitized baby environments.</p>
+          </div>
+
+          <div className="gear-standards-grid">
+            {gearCraft.map((item, idx) => (
+              <div className={`clean-gear-card reveal-on-scroll stagger-${(idx % 3) + 1}`} key={item.name}>
+                <div className="gear-check-icon">✓</div>
+                <div className="gear-card-content">
+                  <h4 className="gear-name">{item.name}</h4>
+                  <p className="gear-detail">{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Ready to Book CTA */}
-      <section className="section" style={{ textAlign: "center", paddingBottom: "4rem" }}>
-        <div className="content-wrapper">
-          <h2 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Let’s Document Your Moment</h2>
-          <p style={{ opacity: 0.8, maxWidth: "600px", margin: "0 auto 2rem" }}>
-            Speak directly with Mr. Gowtham Raj or schedule a studio visit at The Creative Space in Krishnagiri.
-          </p>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => onNavigate("/contact")}
-            style={{ padding: "0.9rem 2rem", fontSize: "1.05rem" }}
-          >
-            Connect With Our Team →
-          </button>
+      {/* ============================================================== */}
+      {/* 7. CLIENT TESTIMONIALS                                         */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap inc-alt-bg">
+        <div className="inc-container">
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">REAL CLIENT WORDS</span>
+            <h2 className="clean-section-heading">What Families Say About Us</h2>
+          </div>
+
+          <div className="inc-testimonials-grid">
+            {testimonials.map((t, idx) => (
+              <div className={`inc-testimonial-card reveal-on-scroll stagger-${(idx % 3) + 1}`} key={t.couple}>
+                <div className="inc-star-rating">★★★★★</div>
+                <p className="inc-testimonial-quote">“{t.quote}”</p>
+                <div className="inc-testimonial-author">
+                  <img src={t.image} alt={t.couple} className="inc-author-avatar" />
+                  <div className="inc-author-info">
+                    <strong className="inc-author-name">{t.couple}</strong>
+                    <span className="inc-author-loc">{t.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
-    </main>
+
+      {/* ============================================================== */}
+      {/* 8. DIRECT BOOKING CTA                                          */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap about-cta-section">
+        <div className="inc-container">
+          <div className="clean-cta-box reveal-scale">
+            <h2 className="clean-cta-title">Ready to Document Your Special Milestone?</h2>
+            <p className="clean-cta-desc">
+              Speak directly with Mr. Gowtham Raj or schedule an album consultation at our Krishnagiri studio.
+            </p>
+            <div className="clean-cta-buttons-row">
+              <a
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  "Hi Gowtham Raj! I visited your About page and would like to learn more about booking Raavan Studio’z."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="clean-cta-whatsapp-btn"
+              >
+                <span>Chat on WhatsApp →</span>
+              </a>
+              <button
+                type="button"
+                className="clean-cta-contact-btn"
+                onClick={() => onNavigate("/contact")}
+              >
+                <span>View Contact Details ↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

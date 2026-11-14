@@ -51,69 +51,63 @@ export default function PricingPage({ onNavigate }) {
   });
 
   return (
-    <div className="clean-pricing-page-root" id="pricing-page">
+    <div className="clean-subpage-root pricing-page-root" id="pricing-page">
       {/* ============================================================== */}
-      {/* 1. PAGE HERO HEADER                                            */}
+      {/* 1. HERO HEADER                                                 */}
       {/* ============================================================== */}
-      <section className="clean-pricing-hero-section">
+      <section className="clean-page-hero">
         <div className="inc-container">
-          <div className="clean-pricing-hero-content">
-            <div className="inc-section-label-row center-aligned">
-              <div className="inc-line" />
-              <span className="inc-label-text">THE CREATIVE SPACE · KRISHNAGIRI</span>
-              <div className="inc-line" />
-            </div>
+          <div className="clean-hero-badge-wrap">
+            <span className="clean-eyebrow-tag">THE CREATIVE SPACE · KRISHNAGIRI</span>
+          </div>
+          <h1 className="clean-page-title">
+            Kutty Chutties Pricing Packages
+          </h1>
+          <p className="clean-page-subtitle">
+            Honest, transparent investments for newborn, infant &amp; toddler photography with <strong>@toddlers_by_raavan</strong>. Every session is hosted in our sanitized, climate-controlled studio in Krishnagiri.
+          </p>
 
-            <h1 className="clean-pricing-hero-title">
-              Kutty Chutties Pricing Packages
-            </h1>
+          <div className="clean-pricing-perks-row">
+            <span className="clean-perk-badge">✓ Free Travel within 20km from Krishnagiri</span>
+            <span className="clean-perk-badge">✓ 15+ Themed Handcrafted Sets</span>
+            <span className="clean-perk-badge">✓ All Props &amp; Outfits Included</span>
+            <span className="clean-perk-badge">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
+          </div>
 
-            <p className="clean-pricing-hero-subtitle">
-              Honest, transparent investments for newborn, baby milestones &amp; toddler photography with <strong>@toddlers_by_raavan</strong>. Every session is hosted in our sanitized, climate-controlled studio suites in Krishnagiri.
-            </p>
-
-            <div className="clean-pricing-perks-row">
-              <span className="clean-perk-badge">✓ Free Travel within 20km from Krishnagiri</span>
-              <span className="clean-perk-badge">✓ 15+ Themed Handcrafted Sets</span>
-              <span className="clean-perk-badge">✓ All Props &amp; Outfits Included</span>
-              <span className="clean-perk-badge">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
-            </div>
-
-            {/* Category Filter Tabs */}
-            <div className="clean-pricing-filter-tabs">
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("toddlers")}
-              >
-                👶 Kutty Chutties (Newborn &amp; Toddlers)
-              </button>
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("all")}
-              >
-                All Collections
-              </button>
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("weddings")}
-              >
-                💍 Weddings &amp; Celebrations
-              </button>
-            </div>
+          {/* Category Filter Tabs */}
+          <div className="clean-pricing-filter-tabs">
+            <button
+              type="button"
+              className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
+              onClick={() => setSelectedCategory("toddlers")}
+            >
+              <span>Kutty Chutties (Newborn &amp; Toddlers)</span>
+            </button>
+            <button
+              type="button"
+              className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
+              onClick={() => setSelectedCategory("all")}
+            >
+              <span>All Collections</span>
+            </button>
+            <button
+              type="button"
+              className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
+              onClick={() => setSelectedCategory("weddings")}
+            >
+              <span>Weddings &amp; Celebrations</span>
+            </button>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 2. MAIN PACKAGES GRID                                          */}
+      {/* 2. PACKAGES GRID                                               */}
       {/* ============================================================== */}
-      <section className="clean-packages-section">
+      <section className="inc-section-wrap pricing-cards-section">
         <div className="inc-container">
-          <div className="clean-packages-grid">
-            {filteredPackages.map((pkg) => {
+          <div className="inc-pricing-grid luxury-tiers-grid">
+            {filteredPackages.map((pkg, idx) => {
               const isPopular =
                 pkg.badge === "Most Popular" ||
                 pkg.badge === "VIP Masterpiece" ||
@@ -125,52 +119,55 @@ export default function PricingPage({ onNavigate }) {
               return (
                 <div
                   key={pkg.id || pkg.name}
-                  className={`clean-pkg-card${isPopular ? " is-popular" : ""}${isLuxury ? " is-luxury" : ""}`}
+                  className={`luxury-pricing-card reveal-on-scroll stagger-${(idx % 4) + 1}${
+                    isPopular ? " is-featured-tier" : isLuxury ? " is-luxury-tier" : ""
+                  }`}
                 >
-                  {/* Top Floating Badge */}
+                  {/* Top Badge */}
                   {pkg.badge && (
-                    <div className="clean-pkg-floating-badge">
-                      <span>{isPopular ? "⭐ " : isLuxury ? "👑 " : ""}{pkg.badge}</span>
+                    <div className="tier-header-badge">
+                      <span className={`tier-pill ${isPopular ? "pill-popular" : isLuxury ? "pill-luxury" : "pill-intro"}`}>
+                        {pkg.badge.toUpperCase()}
+                      </span>
                     </div>
                   )}
 
-                  <div className="clean-pkg-header">
-                    <h2 className="clean-pkg-name">{pkg.name}</h2>
-                    <p className="clean-pkg-tagline">“{pkg.tagline}”</p>
-                  </div>
+                  <h3 className="tier-card-title">{pkg.name}</h3>
+                  {pkg.tagline && <p className="tier-card-tagline">“{pkg.tagline}”</p>}
 
-                  <div className="clean-pkg-pricing-box">
-                    <div className="clean-pkg-price-wrap">
-                      <span className="clean-pkg-price-text">{pkg.price}</span>
+                  <div className="tier-price-box">
+                    <div className="tier-price-wrap">
+                      <span className="tier-price-amount">{pkg.price}</span>
                       {pkg.price !== "Get a Quote" && (
-                        <span className="clean-pkg-period">/ session</span>
+                        <span className="tier-price-sub">/ session</span>
                       )}
                     </div>
-                    <span className="clean-pkg-duration-label">⏱ {pkg.duration}</span>
+                    {pkg.duration && (
+                      <span className="tier-duration-chip">{pkg.duration}</span>
+                    )}
                   </div>
+
+                  <div className="tier-divider" />
 
                   {/* Features List */}
-                  <div className="clean-pkg-features-wrap">
-                    <span className="clean-pkg-includes-heading">Included in this session:</span>
-                    <ul className="clean-pkg-features-list">
-                      {pkg.features.map((feat) => (
-                        <li key={feat}>
-                          <span className="clean-feat-check">✓</span>
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul className="tier-features-list">
+                    {pkg.features.map((feat) => (
+                      <li key={feat}>
+                        <span className="tier-check-icon">✓</span>
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                  {/* Booking CTA Button */}
-                  <div className="clean-pkg-footer">
+                  {/* Action CTA */}
+                  <div className="tier-card-footer">
                     <a
                       href={`https://wa.me/919500306696?text=${encodeURIComponent(
                         `Hi Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) session with Raavan Studio’z.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`clean-pkg-action-btn${isPopular ? " btn-popular" : isLuxury ? " btn-luxury" : ""}`}
+                      className={`tier-cta-button ${isPopular ? "btn-primary-filled" : "btn-outline"}`}
                     >
                       <span>Book on WhatsApp →</span>
                     </a>
@@ -180,10 +177,10 @@ export default function PricingPage({ onNavigate }) {
             })}
           </div>
 
-          {/* Wedding Custom Quote Card (When weddings or all selected) */}
-          <div className="clean-wedding-quote-box">
+          {/* Wedding Custom Quote Card */}
+          <div className="clean-wedding-quote-box reveal-scale">
             <div className="wedding-quote-info">
-              <span className="wedding-quote-tag">💍 NAMMA VEETU KALYANAM</span>
+              <span className="wedding-quote-tag">NAMMA VEETU KALYANAM</span>
               <h3 className="wedding-quote-title">Planning a Wedding, Reception or Sacred Muhurtham?</h3>
               <p className="wedding-quote-p">
                 We craft bespoke wedding packages tailored to your ceremony timeline, including multi-camera candid photography, 4K cinema highlight reels, drone aerial cinematography, and luxury handcrafted Italian-bound photobooks.
@@ -198,7 +195,7 @@ export default function PricingPage({ onNavigate }) {
                 rel="noopener noreferrer"
                 className="clean-quote-btn"
               >
-                <span>Request Custom Wedding Quote ↗</span>
+                <span>Request Wedding Quote on WhatsApp →</span>
               </a>
             </div>
           </div>
@@ -206,30 +203,24 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 3. A LA CARTE ADD-ONS SECTION                                  */}
+      {/* 3. POPULAR ADD-ONS & UPGRADES                                   */}
       {/* ============================================================== */}
-      <section className="clean-addons-section">
+      <section className="inc-section-wrap inc-alt-bg addons-section">
         <div className="inc-container">
-          <div className="clean-section-center-head">
-            <div className="inc-section-label-row center-aligned">
-              <div className="inc-line" />
-              <span className="inc-label-text">A LA CARTE ENHANCEMENTS</span>
-              <div className="inc-line" />
-            </div>
-            <h2 className="clean-section-h2">Enhance Your Photoshoot Experience</h2>
-            <p className="clean-section-p">
-              Add extra magic to any Kutty Chutties or family session with our bespoke studio add-ons.
-            </p>
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">A LA CARTE EXTRAS</span>
+            <h2 className="clean-section-heading">Session Upgrades &amp; Keepsakes</h2>
+            <p className="clean-section-sub">Add extra touches to make your photoshoot even more memorable.</p>
           </div>
 
-          <div className="clean-addons-grid">
-            {addons.map((add) => (
-              <div className="clean-addon-card" key={add.name}>
-                <div className="clean-addon-top">
-                  <h3 className="clean-addon-title">{add.name}</h3>
-                  <span className="clean-addon-price">{add.price}</span>
+          <div className="addons-cards-grid">
+            {addons.map((addon, idx) => (
+              <div className={`clean-addon-card reveal-on-scroll stagger-${(idx % 3) + 1}`} key={addon.name}>
+                <div className="addon-header-row">
+                  <h4 className="addon-title">{addon.name}</h4>
+                  <span className="addon-price-badge">{addon.price}</span>
                 </div>
-                <p className="clean-addon-detail">{add.detail}</p>
+                <p className="addon-desc">{addon.detail}</p>
               </div>
             ))}
           </div>
@@ -237,83 +228,59 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. PAYMENT MILESTONES & STUDIO POLICY                          */}
+      {/* 4. PAYMENT TRANSPARENCY                                         */}
       {/* ============================================================== */}
-      <section className="clean-policy-section">
+      <section className="inc-section-wrap payment-schedule-section">
         <div className="inc-container">
-          <div className="clean-section-center-head">
-            <div className="inc-section-label-row center-aligned">
-              <div className="inc-line" />
-              <span className="inc-label-text">STUDIO POLICY</span>
-              <div className="inc-line" />
-            </div>
-            <h2 className="clean-section-h2">Payment Milestones &amp; Structure</h2>
-            <p className="clean-section-p">
-              Transparent, straightforward milestone payments as outlined in our client agreement.
-            </p>
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">TRANSPARENT TERMS</span>
+            <h2 className="clean-section-heading">Simple, Honest Payment Schedule</h2>
+            <p className="clean-section-sub">No hidden surcharges. Clear milestones from booking to delivery.</p>
           </div>
 
-          <div className="clean-milestones-grid">
+          <div className="payment-schedule-grid">
             {paymentSchedule.map((item, idx) => (
-              <div className="clean-milestone-card" key={idx}>
-                <span className="clean-milestone-pct">{item.pct}</span>
-                <span className="clean-milestone-step">Step {item.step || `0${idx + 1}`}</span>
-                <h3 className="clean-milestone-label">{item.label}</h3>
-                <p className="clean-milestone-detail">{item.detail}</p>
+              <div className={`clean-payment-card reveal-on-scroll stagger-${idx + 1}`} key={item.stage}>
+                <div className="payment-percent-pill">{item.percent}</div>
+                <h4 className="payment-stage-name">{item.stage}</h4>
+                <p className="payment-timing">{item.timing}</p>
+                <p className="payment-detail">{item.detail}</p>
               </div>
             ))}
-          </div>
-
-          <div className="clean-policy-banner">
-            <span>📄 Looking for album re-order terms, extra sheets (₹550/sheet), or cancellation rights?</span>
-            <button
-              type="button"
-              className="clean-policy-link-btn"
-              onClick={() => onNavigate("/terms")}
-            >
-              <span>Read Full Terms &amp; Conditions ↗</span>
-            </button>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 5. FREQUENTLY ASKED QUESTIONS (FAQ)                            */}
+      {/* 5. FAQ ACCORDION                                               */}
       {/* ============================================================== */}
-      <section className="clean-faq-section">
+      <section className="inc-section-wrap inc-alt-bg">
         <div className="inc-container">
-          <div className="clean-section-center-head">
-            <div className="inc-section-label-row center-aligned">
-              <div className="inc-line" />
-              <span className="inc-label-text">COMMON QUESTIONS</span>
-              <div className="inc-line" />
-            </div>
-            <h2 className="clean-section-h2">Frequently Asked Questions</h2>
-            <p className="clean-section-p">
-              Everything you need to know before stepping into our Krishnagiri studio.
-            </p>
+          <div className="clean-centered-header reveal-on-scroll">
+            <span className="clean-section-tag">QUESTIONS &amp; ANSWERS</span>
+            <h2 className="clean-section-heading">Pricing &amp; Booking FAQs</h2>
           </div>
 
-          <div className="clean-faq-accordion">
+          <div className="clean-faq-accordion-wrap">
             {faqs.map((faq, index) => {
               const isOpen = openFaq === index;
               return (
                 <div
-                  key={index}
-                  className={`clean-faq-item${isOpen ? " is-open" : ""}`}
+                  key={faq.q}
+                  className={`clean-faq-item reveal-on-scroll stagger-${(index % 4) + 1}${isOpen ? " is-open" : ""}`}
                 >
                   <button
                     type="button"
-                    className="clean-faq-trigger"
+                    className="faq-question-btn"
                     onClick={() => setOpenFaq(isOpen ? null : index)}
                     aria-expanded={isOpen}
                   >
-                    <span className="clean-faq-q">{faq.question}</span>
-                    <span className="clean-faq-icon">{isOpen ? "−" : "+"}</span>
+                    <span className="faq-q-text">{faq.q}</span>
+                    <span className="faq-toggle-icon">{isOpen ? "−" : "+"}</span>
                   </button>
                   {isOpen && (
-                    <div className="clean-faq-answer">
-                      <p>{faq.answer}</p>
+                    <div className="faq-answer-pane">
+                      <p>{faq.a}</p>
                     </div>
                   )}
                 </div>
@@ -324,33 +291,32 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 6. BOTTOM VIP BOOKING CALLOUT                                  */}
+      {/* 6. DIRECT CTA                                                  */}
       {/* ============================================================== */}
-      <section className="clean-pricing-bottom-cta">
+      <section className="inc-section-wrap">
         <div className="inc-container">
-          <div className="clean-pricing-cta-card">
-            <span className="cta-sparkle-tag">✦ READY TO CAPTURE YOUR BABY'S MILESTONE?</span>
-            <h2 className="cta-headline">Reserve your date at The Creative Space.</h2>
-            <p className="cta-sub">
-              Slots fill quickly on weekends and auspicious dates. Connect directly with Mr. Gowtham Raj to confirm date availability.
+          <div className="clean-cta-box reveal-scale">
+            <h2 className="clean-cta-title">Ready to Lock Your Date on the Studio Calendar?</h2>
+            <p className="clean-cta-desc">
+              Connect with Mr. Gowtham Raj on WhatsApp for quick date availability and custom wedding package consultations.
             </p>
-            <div className="cta-buttons-row">
+            <div className="clean-cta-buttons-row">
               <a
                 href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                  "Hi Gowtham Raj! I would like to check availability for a Kutty Chutties baby photography session."
+                  "Hi Gowtham Raj! I would like to book a photography session with Raavan Studio’z."
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cta-wa-btn"
+                className="clean-cta-whatsapp-btn"
               >
-                <span>Chat with Gowtham Raj on WhatsApp</span>
+                <span>Chat on WhatsApp →</span>
               </a>
               <button
                 type="button"
-                className="cta-contact-btn"
+                className="clean-cta-contact-btn"
                 onClick={() => onNavigate("/contact")}
               >
-                <span>Send Online Enquiry →</span>
+                <span>Check Date Availability ↗</span>
               </button>
             </div>
           </div>

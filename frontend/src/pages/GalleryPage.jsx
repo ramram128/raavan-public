@@ -6,10 +6,8 @@ const categories = [
   "All Works",
   "Weddings",
   "Couple portraits",
-  "Maternity",
-  "Newborns",
   "Toddlers",
-  "Model portraits",
+  "Maternity",
   "Photobooks",
 ];
 
@@ -38,7 +36,14 @@ export default function GalleryPage({ onNavigate }) {
   const filteredPhotos =
     activeCategory === "All Works"
       ? photos
-      : photos.filter((item) => item.category === activeCategory);
+      : photos.filter((item) => {
+          if (activeCategory === "Weddings") return item.category.toLowerCase().includes("wedding");
+          if (activeCategory === "Couple portraits") return item.category.toLowerCase().includes("couple");
+          if (activeCategory === "Toddlers") return item.category.toLowerCase().includes("toddler") || item.category.toLowerCase().includes("newborn");
+          if (activeCategory === "Maternity") return item.category.toLowerCase().includes("maternity");
+          if (activeCategory === "Photobooks") return item.category.toLowerCase().includes("photobook");
+          return item.category === activeCategory;
+        });
 
   // Keyboard navigation for lightbox
   useEffect(() => {
@@ -67,164 +72,209 @@ export default function GalleryPage({ onNavigate }) {
   }, [selectedPhoto, filteredPhotos]);
 
   return (
-    <main className="page-container gallery-page-view" id="gallery-page">
-      {/* Hero Header */}
-      <section className="page-hero">
-        <div className="page-badge">Our Curated Works</div>
-        <h1>Stories &amp; Moments Preserved</h1>
-        <p className="page-subtitle">
-          {studio.tagline} · Unscripted weddings, precious newborns with @toddlers_by_raavan, and handcrafted photobooks with @photobooks_by_raavan.
-        </p>
+    <div className="clean-subpage-root gallery-page-root" id="gallery-page">
+      {/* ============================================================== */}
+      {/* 1. HERO HEADER & CATEGORY FILTERS                              */}
+      {/* ============================================================== */}
+      <section className="clean-page-hero">
+        <div className="inc-container">
+          <div className="clean-hero-badge-wrap">
+            <span className="clean-eyebrow-tag">OUR CURATED WORKS</span>
+          </div>
+          <h1 className="clean-page-title">
+            Stories &amp; Moments Preserved
+          </h1>
+          <p className="clean-page-subtitle">
+            Unscripted wedding cinema, precious newborn &amp; toddler milestones with <strong>@toddlers_by_raavan</strong>, and handcrafted heirloom photobooks.
+          </p>
 
-        {/* Category Filters */}
-        <div
-          className="gallery-filters"
-          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginTop: "24px" }}
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              className={`filter-chip ${activeCategory === cat ? "active" : ""}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+          {/* Category Filter Tabs */}
+          <div className="clean-gallery-filter-tabs">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`gallery-filter-pill${activeCategory === cat ? " active" : ""}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                <span>{cat}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Grid Display */}
-      <section className="content-wrapper" style={{ marginTop: "2rem" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "1.5rem",
-          }}
-        >
-          {filteredPhotos.map((photo) => (
-            <div
-              key={photo.id}
-              className="gallery-grid-card"
-              style={{
-                position: "relative",
-                borderRadius: "12px",
-                overflow: "hidden",
-                cursor: "pointer",
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-              onClick={() => setSelectedPhoto(photo)}
-            >
-              <img
-                src={photo.image}
-                alt={photo.title}
-                loading="lazy"
-                style={{
-                  width: "100%",
-                  height: photo.aspect === "wide" ? "260px" : "380px",
-                  objectFit: "cover",
-                  display: "block",
-                  transition: "transform 0.4s ease",
-                }}
-              />
+      {/* ============================================================== */}
+      {/* 2. PHOTO GRID DISPLAY                                          */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap gallery-grid-section">
+        <div className="inc-container">
+          <div className="clean-gallery-grid">
+            {filteredPhotos.map((photo, index) => (
               <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: "1.25rem",
-                  background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+                key={photo.id}
+                className={`clean-gallery-card reveal-on-scroll stagger-${(index % 4) + 1}`}
+                data-photo="true"
+                onClick={() => setSelectedPhoto(photo)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") setSelectedPhoto(photo);
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#00d4ff",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {photo.category}
-                </span>
-                <h3 style={{ fontSize: "1.15rem", margin: "0.2rem 0", color: "#fff" }}>{photo.title}</h3>
-                {photo.location && (
-                  <p style={{ fontSize: "0.82rem", opacity: 0.75 }}>{photo.location}</p>
-                )}
+                <div className="gallery-photo-holder">
+                  <img src={photo.image} alt={photo.title} loading="lazy" />
+                  <div className="gallery-photo-overlay">
+                    <span className="gallery-photo-badge">{photo.category}</span>
+                    <h3 className="gallery-photo-title">{photo.title}</h3>
+                    {photo.description && (
+                      <p className="gallery-photo-story">{photo.description}</p>
+                    )}
+                    {photo.location && (
+                      <span className="gallery-photo-location">{photo.location}</span>
+                    )}
+                  </div>
+                </div>
               </div>
+            ))}
+          </div>
+
+          {filteredPhotos.length === 0 && (
+            <div className="gallery-empty-state">
+              <p>No photos found in this category.</p>
+              <button
+                type="button"
+                className="clean-primary-btn"
+                onClick={() => setActiveCategory("All Works")}
+              >
+                Show All Works
+              </button>
             </div>
-          ))}
+          )}
         </div>
       </section>
 
-      {/* Lightbox Modal */}
+      {/* ============================================================== */}
+      {/* 3. LIGHTBOX FULLSCREEN MODAL                                   */}
+      {/* ============================================================== */}
       {selectedPhoto && (
         <div
-          className="lightbox-overlay active"
+          className="clean-lightbox-backdrop"
           onClick={() => setSelectedPhoto(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.92)",
-            zIndex: 99999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2rem",
-          }}
+          role="dialog"
+          aria-modal="true"
         >
           <div
-            className="lightbox-inner"
+            className="clean-lightbox-content"
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: "1000px", width: "100%", textAlign: "center" }}
           >
-            <img
-              src={selectedPhoto.image}
-              alt={selectedPhoto.title}
-              style={{ maxHeight: "75vh", maxWidth: "100%", objectFit: "contain", borderRadius: "8px" }}
-            />
-            <div style={{ marginTop: "1rem", color: "#fff" }}>
-              <span style={{ color: "#00d4ff", fontSize: "0.85rem", textTransform: "uppercase" }}>
-                {selectedPhoto.category}
-              </span>
-              <h2 style={{ fontSize: "1.4rem", margin: "0.3rem 0" }}>{selectedPhoto.title}</h2>
-              {selectedPhoto.description && (
-                <p style={{ opacity: 0.8, fontSize: "0.95rem", maxWidth: "600px", margin: "0 auto" }}>
-                  {selectedPhoto.description}
-                </p>
-              )}
-            </div>
+            {/* Close Button */}
             <button
               type="button"
-              className="btn btn-primary"
-              style={{ marginTop: "1.5rem" }}
-              onClick={() => onNavigate("/contact")}
-            >
-              Enquire About Similar Coverage
-            </button>
-            <button
-              type="button"
+              className="clean-lightbox-close-btn"
               onClick={() => setSelectedPhoto(null)}
-              style={{
-                position: "fixed",
-                top: "20px",
-                right: "30px",
-                background: "transparent",
-                border: "none",
-                color: "#fff",
-                fontSize: "2rem",
-                cursor: "pointer",
-              }}
               aria-label="Close modal"
             >
               ✕
             </button>
+
+            {/* Prev Arrow */}
+            <button
+              type="button"
+              className="lightbox-nav-arrow arrow-prev"
+              onClick={() => {
+                const cur = filteredPhotos.findIndex((p) => p.id === selectedPhoto.id);
+                const prev = (cur - 1 + filteredPhotos.length) % filteredPhotos.length;
+                setSelectedPhoto(filteredPhotos[prev]);
+              }}
+              aria-label="Previous photo"
+            >
+              ‹
+            </button>
+
+            {/* Next Arrow */}
+            <button
+              type="button"
+              className="lightbox-nav-arrow arrow-next"
+              onClick={() => {
+                const cur = filteredPhotos.findIndex((p) => p.id === selectedPhoto.id);
+                const next = (cur + 1) % filteredPhotos.length;
+                setSelectedPhoto(filteredPhotos[next]);
+              }}
+              aria-label="Next photo"
+            >
+              ›
+            </button>
+
+            {/* Lightbox Image */}
+            <div className="clean-lightbox-img-wrap">
+              <img
+                src={selectedPhoto.image}
+                alt={selectedPhoto.title}
+                className="clean-lightbox-img"
+              />
+            </div>
+
+            {/* Lightbox Footer Details */}
+            <div className="clean-lightbox-meta-bar">
+              <div className="lightbox-meta-text">
+                <span className="lightbox-cat-tag">{selectedPhoto.category}</span>
+                <h3 className="lightbox-title">{selectedPhoto.title}</h3>
+                {selectedPhoto.description && (
+                  <p className="lightbox-desc">{selectedPhoto.description}</p>
+                )}
+                {selectedPhoto.location && (
+                  <span className="lightbox-loc">{selectedPhoto.location}</span>
+                )}
+              </div>
+
+              <a
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  `Hi Gowtham Raj! I saw your photo "${selectedPhoto.title}" in the gallery and would like to enquire about similar shoots.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lightbox-whatsapp-action"
+              >
+                <span>Enquire This Style on WhatsApp →</span>
+              </a>
+            </div>
           </div>
         </div>
       )}
-    </main>
+
+      {/* ============================================================== */}
+      {/* 4. DIRECT CTA                                                  */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap inc-alt-bg">
+        <div className="inc-container">
+          <div className="clean-cta-box reveal-scale">
+            <h2 className="clean-cta-title">Like What You See? Let’s Create Together</h2>
+            <p className="clean-cta-desc">
+              Connect directly with Mr. Gowtham Raj to discuss your wedding timeline or reserve a baby photoshoot at The Creative Space, Krishnagiri.
+            </p>
+            <div className="clean-cta-buttons-row">
+              <a
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  "Hi Gowtham Raj! I browsed your gallery and would like to plan a photo session with Raavan Studio’z."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="clean-cta-whatsapp-btn"
+              >
+                <span>Chat on WhatsApp →</span>
+              </a>
+              <button
+                type="button"
+                className="clean-cta-contact-btn"
+                onClick={() => onNavigate("/pricing")}
+              >
+                <span>View Pricing Packages ↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

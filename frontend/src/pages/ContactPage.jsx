@@ -3,443 +3,333 @@ import { studio } from "../content.js";
 import { postEnquiry } from "../api.js";
 
 export default function ContactPage() {
-  const [formType, setFormType] = useState("wedding_event"); // 'wedding_event' or 'newborn_toddler'
+  const [formType, setFormType] = useState("wedding"); // 'wedding', 'toddler', 'prewedding', 'other'
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !phone) {
+      alert("Please provide your name and phone number.");
+      return;
+    }
     setSubmitting(true);
-    setResult(null);
 
-    const formData = new FormData(event.currentTarget);
-    const payload = {
-      type: formType,
-      name: formData.get("name") || "",
-      phone: formData.get("phone") || "",
-      email: formData.get("email") || "",
-      message: formData.get("message") || "",
+    const typeLabels = {
+      wedding: "Wedding & Reception (Namma Veetu Kalyanam)",
+      toddler: "Toddlers by Raavan (Baby / Newborn Shoot)",
+      prewedding: "Outdoor & Pre-Wedding Shoot",
+      other: "Other Photography Commission",
     };
 
-    if (formType === "wedding_event") {
-      payload.event_type = formData.get("event_type") || "Wedding & Reception";
-      payload.event_date = formData.get("event_date") || "";
-      payload.location = formData.get("location") || "";
-    } else {
-      payload.parent_name = formData.get("parent_name") || "";
-      payload.baby_name = formData.get("baby_name") || "";
-      payload.baby_age = formData.get("baby_age") || "";
-      payload.baby_weight = formData.get("baby_weight") || "";
-      payload.baby_gender = formData.get("baby_gender") || "";
-      payload.selected_package = formData.get("selected_package") || "Little Stars (₹8,000)";
-      payload.preferred_slot = formData.get("preferred_slot") || "";
+    const payload = {
+      type: formType,
+      name,
+      phone,
+      email,
+      event_date: eventDate,
+      location,
+      message,
+    };
+
+    try {
+      await postEnquiry(payload);
+    } catch (err) {
+      console.warn("API submission notice:", err);
     }
 
-    const res = await postEnquiry(payload);
-    setSubmitting(false);
-    setResult(res);
-  }
+    // Direct WhatsApp Message as well for instant confirmation
+    const waText = `Hi Gowtham Raj! I would like to book a photography session with Raavan Studio’z:%0A• Name: ${name}%0A• Mobile: ${phone}%0A• Service: ${typeLabels[formType]}%0A• Date: ${eventDate || "Flexible"}%0A• Location: ${location || "Krishnagiri / Nearby"}%0A• Notes: ${message || "Please share availability and package options."}`;
 
-  function handleCopyEmail() {
+    window.open(`https://wa.me/919500306696?text=${waText}`, "_blank");
+
+    setSubmitting(false);
+    setSubmitted(true);
+  };
+
+  const handleCopyEmail = () => {
     navigator.clipboard?.writeText(studio.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
-  }
+  };
 
   return (
-    <main className="page-container contact-page" id="contact-page">
-      {/* Hero Header */}
-      <section className="page-hero">
-        <div className="page-badge">Connect with Raavan Studio’z</div>
-        <h1>Let’s click the moment.</h1>
-        <p className="page-subtitle">
-          {studio.tagline} · Reserve your date for weddings, newborn sessions with @toddlers_by_raavan, or heirloom photobooks.
-        </p>
+    <div className="clean-subpage-root contact-page-root" id="contact-page">
+      {/* ============================================================== */}
+      {/* 1. HERO HEADER                                                 */}
+      {/* ============================================================== */}
+      <section className="clean-page-hero">
+        <div className="inc-container">
+          <div className="clean-hero-badge-wrap">
+            <span className="clean-eyebrow-tag">CONNECT WITH RAAVAN STUDIO’Z</span>
+          </div>
+          <h1 className="clean-page-title">
+            Let’s Click the Moment Together
+          </h1>
+          <p className="clean-page-subtitle">
+            Reserve your date with <strong>Mr. Gowtham Raj</strong> for weddings, newborn sessions with <strong>@toddlers_by_raavan</strong>, or custom photobooks. We respond promptly via WhatsApp and phone.
+          </p>
+        </div>
       </section>
 
-      <div className="content-wrapper">
-        <div className="contact-page-layout">
-          {/* Left Column: Direct Info & Branches */}
-          <div className="contact-info-panel">
-            <div className="concierge-card status-card">
-              <span className="live-dot" aria-hidden="true" />
-              <div>
-                <p className="status-title">Booking Open for 2026 & 2027</p>
-                <p className="status-sub">Founder Mr. Gowtham Raj &amp; Team</p>
+      {/* ============================================================== */}
+      {/* 2. TWO-COLUMN CONTACT & BOOKING LAYOUT                         */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap contact-main-section">
+        <div className="inc-container">
+          <div className="inc-two-col-grid align-start">
+            {/* Left Column: Direct Info & Studio Locations */}
+            <div className="contact-info-col reveal-on-scroll">
+              <div className="contact-status-badge">
+                <span className="online-indicator" />
+                <span>Now Booking 2026 &amp; 2027 Dates · Krishnagiri</span>
               </div>
-            </div>
 
-            <div className="concierge-card">
-              <h3>Direct Touchpoint</h3>
-              <p className="concierge-text">
-                Speak directly with Mr. Gowtham Raj or our booking coordinators:
+              <h2 className="clean-section-heading" style={{ marginTop: "16px" }}>
+                Direct Studio Touchpoints
+              </h2>
+              <p className="clean-body-text" style={{ marginBottom: "24px" }}>
+                Reach out directly to discuss your event timeline, check studio availability, or schedule an in-person album preview.
               </p>
-              <div className="contact-links-list">
-                <a href={`tel:${studio.phone}`} className="contact-direct-link">
-                  <span className="link-icon">📞</span>
-                  <span>{studio.phone}</span>
-                </a>
-                <a
-                  href={`https://wa.me/919500306696?text=Hi%20Raavan%20Studio%E2%80%99z!%20I%20have%20an%20upcoming%20event/project%20in%20mind.`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="contact-direct-link"
-                >
-                  <span className="link-icon">💬</span>
-                  <span>WhatsApp: +91-9500306696</span>
-                </a>
-                <a href={`mailto:${studio.email}`} className="contact-direct-link">
-                  <span className="link-icon">✉️</span>
-                  <span>{studio.email}</span>
-                </a>
-              </div>
-              <button
-                type="button"
-                className="copy-email-btn"
-                onClick={handleCopyEmail}
-                style={{ marginTop: "0.75rem", fontSize: "0.85rem", opacity: 0.8 }}
-              >
-                {copiedEmail ? "✓ Email copied to clipboard" : "Copy email address"}
-              </button>
-            </div>
 
-            <div className="concierge-card">
-              <h3>Our 2 Studio Branches</h3>
-              <div style={{ display: "grid", gap: "1rem", marginTop: "0.75rem" }}>
-                {studio.branches.map((b) => (
-                  <div
-                    key={b.id}
-                    style={{
-                      background: "rgba(255,255,255,0.03)",
-                      padding: "1rem",
-                      borderRadius: "8px",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                      <strong style={{ color: "#00d4ff", fontSize: "1rem" }}>{b.name}</strong>
-                      <span style={{ fontSize: "0.75rem", opacity: 0.6 }}>{b.type}</span>
-                    </div>
-                    <p style={{ fontSize: "0.85rem", margin: "0.35rem 0", lineHeight: 1.4, opacity: 0.85 }}>
-                      {b.address}
-                    </p>
-                    <p style={{ fontSize: "0.8rem", color: "#e2b876", marginBottom: "0.5rem" }}>
-                      Landmark: {b.landmark}
-                    </p>
-                    <a
-                      href={b.mapUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        fontSize: "0.82rem",
-                        color: "#00d4ff",
-                        textDecoration: "underline",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.25rem",
-                      }}
-                    >
-                      <span>Open in Google Maps ↗</span>
-                    </a>
+              {/* Direct Touchpoints Cards */}
+              <div className="contact-direct-cards">
+                <a href="tel:+919500306696" className="direct-touch-card">
+                  <div className="touch-icon-box">📞</div>
+                  <div className="touch-info">
+                    <span className="touch-label">Direct Phone Call</span>
+                    <strong className="touch-val">+91 9500306696</strong>
+                    <span className="touch-sub">9:00 AM – 9:00 PM Daily</span>
                   </div>
-                ))}
-              </div>
-            </div>
+                </a>
 
-            <div className="concierge-card">
-              <h3>Official Instagram Handles</h3>
-              <ul style={{ listStyle: "none", padding: 0, margin: "0.5rem 0 0", display: "grid", gap: "0.5rem" }}>
-                <li>
-                  <a
-                    href="https://instagram.com/raavan_studioz"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: "#fff", textDecoration: "none", display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>@raavan_studioz</span>
-                    <span style={{ opacity: 0.5, fontSize: "0.8rem" }}>Main Profile</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://instagram.com/toddlers_by_raavan"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: "#fff", textDecoration: "none", display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>@toddlers_by_raavan</span>
-                    <span style={{ opacity: 0.5, fontSize: "0.8rem" }}>Maternity &amp; Newborns</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://instagram.com/photobooks_by_raavan"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: "#fff", textDecoration: "none", display: "flex", justifyContent: "space-between" }}
-                  >
-                    <span>@photobooks_by_raavan</span>
-                    <span style={{ opacity: 0.5, fontSize: "0.8rem" }}>Luxury Photobooks</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    "Hi Gowtham Raj! I would like to connect with Raavan Studio’z."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="direct-touch-card touch-whatsapp"
+                >
+                  <div className="touch-icon-box whatsapp-box">
+                    <svg viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+                      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                    </svg>
+                  </div>
+                  <div className="touch-info">
+                    <span className="touch-label">Official WhatsApp</span>
+                    <strong className="touch-val">+91 9500306696</strong>
+                    <span className="touch-sub">Instant chat with Gowtham Raj</span>
+                  </div>
+                </a>
 
-          {/* Right Column: Dynamic Form */}
-          <div className="contact-form-panel">
-            {/* Form Mode Selector */}
-            <div
-              style={{
-                display: "flex",
-                gap: "0.75rem",
-                marginBottom: "1.5rem",
-                padding: "0.4rem",
-                background: "rgba(255,255,255,0.04)",
-                borderRadius: "10px",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => { setFormType("wedding_event"); setResult(null); }}
-                style={{
-                  flex: 1,
-                  padding: "0.75rem 1rem",
-                  borderRadius: "8px",
-                  border: "none",
-                  background: formType === "wedding_event" ? "var(--color-primary, #00d4ff)" : "transparent",
-                  color: formType === "wedding_event" ? "#000" : "#fff",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                Weddings &amp; Celebrations
-              </button>
-              <button
-                type="button"
-                onClick={() => { setFormType("newborn_toddler"); setResult(null); }}
-                style={{
-                  flex: 1,
-                  padding: "0.75rem 1rem",
-                  borderRadius: "8px",
-                  border: "none",
-                  background: formType === "newborn_toddler" ? "var(--color-primary, #00d4ff)" : "transparent",
-                  color: formType === "newborn_toddler" ? "#000" : "#fff",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                Newborn &amp; Toddlers (@toddlers)
-              </button>
-            </div>
-
-            {result && result.success ? (
-              <div
-                className="form-success-banner"
-                style={{
-                  background: "rgba(0, 212, 255, 0.1)",
-                  border: "1px solid rgba(0, 212, 255, 0.4)",
-                  borderRadius: "12px",
-                  padding: "2rem",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>✨</div>
-                <h3 style={{ fontSize: "1.4rem", marginBottom: "0.5rem", color: "#fff" }}>Enquiry Received!</h3>
-                <p style={{ opacity: 0.85, maxWidth: "500px", margin: "0 auto 1.5rem", lineHeight: 1.5 }}>
-                  {result.message} A copy has been stored in our system and sent to <strong>{studio.email}</strong>.
-                </p>
-                {result.whatsapp_url && (
-                  <a
-                    href={result.whatsapp_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="btn btn-primary"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      padding: "0.85rem 1.75rem",
-                      fontSize: "1rem",
-                      fontWeight: 600,
-                    }}
-                  >
-                    <span>Send via WhatsApp (+91-9500306696) →</span>
-                  </a>
-                )}
-                <div style={{ marginTop: "1.5rem" }}>
-                  <button
-                    type="button"
-                    onClick={() => setResult(null)}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      color: "rgba(255,255,255,0.6)",
-                      textDecoration: "underline",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Submit another enquiry
-                  </button>
+                <div className="direct-touch-card" onClick={handleCopyEmail} style={{ cursor: "pointer" }}>
+                  <div className="touch-icon-box">✉️</div>
+                  <div className="touch-info">
+                    <span className="touch-label">Email Concierge</span>
+                    <strong className="touch-val">{studio.email}</strong>
+                    <span className="touch-sub">{copiedEmail ? "✓ Copied to clipboard!" : "Click to copy email"}</span>
+                  </div>
                 </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="commission-form">
-                {formType === "wedding_event" ? (
-                  <>
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="name">Your Full Name *</label>
-                        <input type="text" id="name" name="name" required placeholder="e.g. Arun & Divya" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="phone">Phone / WhatsApp Number *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+91-9876543210" />
-                      </div>
-                    </div>
 
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="name@example.com" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="event_type">Event / Commission Type</label>
-                        <select id="event_type" name="event_type" defaultValue="Wedding & Reception">
-                          <option value="Wedding & Reception">Wedding &amp; Reception (Namma Veetu Kalyanam)</option>
-                          <option value="Pre-Wedding / Post-Wedding">Pre-Wedding / Post-Wedding Portraits</option>
-                          <option value="Engagement & Sangeet">Engagement &amp; Sangeet Ceremony</option>
-                          <option value="Baby Shower & Maternity">Baby Shower &amp; Outdoor Maternity</option>
-                          <option value="Birthday & Family Milestone">Birthday &amp; Family Milestone</option>
-                          <option value="Corporate / Automotive">Corporate, Commercial &amp; Automotive</option>
-                        </select>
-                      </div>
-                    </div>
+              {/* 2 Studio Facility Locations */}
+              <h3 className="studios-subhead">Our Two Studios in Krishnagiri</h3>
+              <div className="contact-studios-stack">
+                <div className="contact-branch-card">
+                  <div className="branch-card-header">
+                    <span className="branch-pill">STUDIO 01 · THE CREATIVE SPACE</span>
+                    <a
+                      href="https://maps.app.goo.gl/13tnC9ZgRtQ5Ftje8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="branch-map-link"
+                    >
+                      Maps ↗
+                    </a>
+                  </div>
+                  <strong className="branch-name">Baby, Infant &amp; Toddler Studio</strong>
+                  <p className="branch-p">
+                    3/470B RCC Moulding Bldg, Ground Floor, Gandhi Nagar, Salem-Bangalore Hwy, Krishnagiri (Opp. Gunam Hospital)
+                  </p>
+                </div>
 
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="event_date">Date of Event *</label>
-                        <input type="date" id="event_date" name="event_date" required />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="location">Place of Event / Venue *</label>
-                        <input type="text" id="location" name="location" required placeholder="e.g. Mandapam / City / Destination" />
-                      </div>
-                    </div>
+                <div className="contact-branch-card">
+                  <div className="branch-card-header">
+                    <span className="branch-pill">STUDIO 02 · WORK SPACE</span>
+                    <a
+                      href="https://maps.app.goo.gl/e11f4M4RwXUbF1gcA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="branch-map-link"
+                    >
+                      Maps ↗
+                    </a>
+                  </div>
+                  <strong className="branch-name">Weddings &amp; Editing Office</strong>
+                  <p className="branch-p">
+                    3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri (BATA Showroom lane, backside Central Theatre)
+                  </p>
+                </div>
+              </div>
+            </div>
 
-                    <div className="form-group">
-                      <label htmlFor="message">Event Vision &amp; Special Requirements</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows="4"
-                        placeholder="Tell us about the ceremonies, hours of coverage, or preferences..."
-                      />
-                    </div>
-                  </>
+            {/* Right Column: Clean Professional Booking Form */}
+            <div className="contact-form-col reveal-scale">
+              <div className="clean-booking-card">
+                <div className="booking-card-head">
+                  <h3 className="booking-form-title">Check Date Availability</h3>
+                  <p className="booking-form-desc">
+                    Tell us about your celebration or photo session. Mr. Gowtham Raj will review availability and get back to you directly.
+                  </p>
+                </div>
+
+                {submitted ? (
+                  <div className="clean-form-success-state">
+                    <div className="success-badge-circle">✓</div>
+                    <h4>Enquiry Sent Successfully!</h4>
+                    <p>
+                      Thank you, <strong>{name}</strong>! Your request has been opened in WhatsApp with Mr. Gowtham Raj. We will connect with you shortly.
+                    </p>
+                    <button
+                      type="button"
+                      className="clean-primary-btn"
+                      onClick={() => setSubmitted(false)}
+                      style={{ marginTop: "16px" }}
+                    >
+                      Submit Another Enquiry
+                    </button>
+                  </div>
                 ) : (
-                  <>
-                    {/* Newborn & Toddler Specific Form */}
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="parent_name">Name of Parents *</label>
-                        <input type="text" id="parent_name" name="parent_name" required placeholder="e.g. Ramesh & Priya" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="name">Contact Person Name *</label>
-                        <input type="text" id="name" name="name" required placeholder="Primary contact" />
-                      </div>
-                    </div>
-
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="phone">Contact Number (WhatsApp) *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+91-9876543210" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="name@example.com" />
-                      </div>
-                    </div>
-
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="baby_name">Name of Newborn / Toddler (If named)</label>
-                        <input type="text" id="baby_name" name="baby_name" placeholder="Baby name or 'Baby of...'" />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="baby_gender">Gender</label>
-                        <select id="baby_gender" name="baby_gender" defaultValue="Boy">
-                          <option value="Boy">Baby Boy</option>
-                          <option value="Girl">Baby Girl</option>
-                          <option value="Twins">Twins / Multiples</option>
-                        </select>
+                  <form onSubmit={handleSubmit} className="clean-inquiry-form">
+                    {/* Service Type Toggle Pills */}
+                    <div className="form-field-group">
+                      <label className="clean-field-label">Select Service Type</label>
+                      <div className="service-toggle-pills">
+                        <button
+                          type="button"
+                          className={`toggle-pill${formType === "wedding" ? " active" : ""}`}
+                          onClick={() => setFormType("wedding")}
+                        >
+                          Wedding / Reception
+                        </button>
+                        <button
+                          type="button"
+                          className={`toggle-pill${formType === "toddler" ? " active" : ""}`}
+                          onClick={() => setFormType("toddler")}
+                        >
+                          Toddlers / Baby Shoot
+                        </button>
+                        <button
+                          type="button"
+                          className={`toggle-pill${formType === "prewedding" ? " active" : ""}`}
+                          onClick={() => setFormType("prewedding")}
+                        >
+                          Pre-Wedding Shoot
+                        </button>
+                        <button
+                          type="button"
+                          className={`toggle-pill${formType === "other" ? " active" : ""}`}
+                          onClick={() => setFormType("other")}
+                        >
+                          Other Commission
+                        </button>
                       </div>
                     </div>
 
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="baby_age">Age of Baby *</label>
-                        <input type="text" id="baby_age" name="baby_age" required placeholder="e.g. 10 Days / 6 Months / 1 Year" />
+                    <div className="form-two-inputs-row">
+                      <div className="form-field-group">
+                        <label className="clean-field-label">Your Name *</label>
+                        <input
+                          type="text"
+                          required
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="e.g. Priya or Vignesh"
+                          className="clean-text-input"
+                        />
                       </div>
-                      <div className="form-group">
-                        <label htmlFor="baby_weight">Weight of Newborn</label>
-                        <input type="text" id="baby_weight" name="baby_weight" placeholder="e.g. 3.2 kg" />
-                      </div>
-                    </div>
-
-                    <div className="form-row two-col">
-                      <div className="form-group">
-                        <label htmlFor="selected_package">Select Package *</label>
-                        <select id="selected_package" name="selected_package" defaultValue="Little Stars (₹8,000)">
-                          <option value="Mini Memories (₹2,500)">Mini Memories – ₹2,500 (1 setup, 5 photos)</option>
-                          <option value="Sweet Beginnings (₹5,000)">Sweet Beginnings – ₹5,000 (2 setups, 10 photos, parent shot)</option>
-                          <option value="Little Stars (₹8,000)">Little Stars – ₹8,000 (3 setups, 15 photos, frame) [Most Popular]</option>
-                          <option value="Tiny Royalty (₹12,000)">Tiny Royalty – ₹12,000 (5 setups, 25 photos, 3 frames)</option>
-                          <option value="Custom / Home Shoot">Home Shoot Session (Free travel within 20km)</option>
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="preferred_slot">Preferred Date &amp; Time Slot *</label>
-                        <input type="text" id="preferred_slot" name="preferred_slot" required placeholder="e.g. Next Saturday morning (10 AM)" />
+                      <div className="form-field-group">
+                        <label className="clean-field-label">Phone / WhatsApp Number *</label>
+                        <input
+                          type="tel"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="e.g. +91 98765 43210"
+                          className="clean-text-input"
+                        />
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label htmlFor="message">Special Notes / Medical / Allergies</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows="3"
-                        placeholder="Any sleep cycles, feeding schedule, or prop requests..."
+                    <div className="form-two-inputs-row">
+                      <div className="form-field-group">
+                        <label className="clean-field-label">Preferred Date</label>
+                        <input
+                          type="date"
+                          value={eventDate}
+                          onChange={(e) => setEventDate(e.target.value)}
+                          className="clean-text-input"
+                        />
+                      </div>
+                      <div className="form-field-group">
+                        <label className="clean-field-label">Location / City</label>
+                        <input
+                          type="text"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          placeholder="e.g. Krishnagiri, Hosur, Bangalore"
+                          className="clean-text-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-field-group">
+                      <label className="clean-field-label">Email Address (Optional)</label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="e.g. yourname@gmail.com"
+                        className="clean-text-input"
                       />
                     </div>
-                  </>
-                )}
 
-                <button
-                  type="submit"
-                  className="btn btn-primary submit-btn"
-                  disabled={submitting}
-                  style={{
-                    width: "100%",
-                    padding: "1rem",
-                    fontSize: "1.05rem",
-                    fontWeight: 600,
-                    marginTop: "1rem",
-                  }}
-                >
-                  {submitting ? "Submitting to Studio..." : "Submit Enquiry & Connect on WhatsApp →"}
-                </button>
-              </form>
-            )}
+                    <div className="form-field-group">
+                      <label className="clean-field-label">Your Message or Questions</label>
+                      <textarea
+                        rows={3}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Tell us about your event, baby's age, or specific photo requirements..."
+                        className="clean-text-input clean-textarea"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="clean-submit-btn"
+                    >
+                      {submitting ? "Sending..." : "Check Availability on WhatsApp →"}
+                    </button>
+                    <p className="form-privacy-note">
+                      🔒 Your details are kept confidential. Direct communication with Mr. Gowtham Raj.
+                    </p>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </section>
+    </div>
   );
 }

@@ -4,13 +4,12 @@ import { termsConditions as fallbackTerms, studio } from "../content.js";
 
 export default function TermsPage({ onNavigate }) {
   const [terms, setTerms] = useState(fallbackTerms);
-  const [language, setLanguage] = useState("ta"); // default to Tamil / bilingual
+  const [language, setLanguage] = useState("ta"); // 'ta', 'en', 'both'
   const [activeTab, setActiveTab] = useState("all"); // 'all', 'general', 'toddlers'
 
   useEffect(() => {
     fetchFromApi("/terms", null).then((data) => {
       if (data && data.all && data.all.length > 0) {
-        // Map API format to component format
         const formatted = data.all.map((item) => ({
           id: `tc-${item.id}`,
           section: item.section_type,
@@ -31,171 +30,148 @@ export default function TermsPage({ onNavigate }) {
   });
 
   return (
-    <main className="page-shell terms-page" id="main-content">
-      <section className="page-hero">
-        <div className="container">
-          <p className="section-eyebrow">Studio Transparency & Client Agreement</p>
-          <h1 className="page-title">
-            Terms &amp; Conditions <span className="title-ta">(விதிமுறைகள் மற்றும் நிபந்தனைகள்)</span>
+    <div className="clean-subpage-root terms-page-root" id="terms-page">
+      {/* ============================================================== */}
+      {/* 1. HERO HEADER                                                 */}
+      {/* ============================================================== */}
+      <section className="clean-page-hero">
+        <div className="inc-container">
+          <div className="clean-hero-badge-wrap">
+            <span className="clean-eyebrow-tag">STUDIO TRANSPARENCY &amp; CLIENT AGREEMENT</span>
+          </div>
+          <h1 className="clean-page-title">
+            Terms &amp; Conditions <span className="title-ta-sub">(விதிமுறைகள் மற்றும் நிபந்தனைகள்)</span>
           </h1>
-          <p className="page-lead">
-            Clear, honest policies for all photography commissions, newborn sessions by @toddlers_by_raavan, and heirloom photobooks.
+          <p className="clean-page-subtitle">
+            Clear, honest policies for all wedding photography commissions, newborn sessions by <strong>@toddlers_by_raavan</strong>, and handcrafted photobooks.
           </p>
 
-          <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", flexWrap: "wrap", alignItems: "center" }}>
-            <div className="segmented-control" role="group" aria-label="Language selector">
+          {/* Controls: Language and Section Filters */}
+          <div className="terms-controls-row">
+            {/* Language Selector */}
+            <div className="terms-pill-group" role="group" aria-label="Language selector">
               <button
                 type="button"
-                className={`segmented-btn ${language === "ta" ? "active" : ""}`}
+                className={`terms-toggle-pill${language === "ta" ? " active" : ""}`}
                 onClick={() => setLanguage("ta")}
               >
                 தமிழ் (Tamil)
               </button>
               <button
                 type="button"
-                className={`segmented-btn ${language === "en" ? "active" : ""}`}
+                className={`terms-toggle-pill${language === "en" ? " active" : ""}`}
                 onClick={() => setLanguage("en")}
               >
                 English
               </button>
               <button
                 type="button"
-                className={`segmented-btn ${language === "both" ? "active" : ""}`}
+                className={`terms-toggle-pill${language === "both" ? " active" : ""}`}
                 onClick={() => setLanguage("both")}
               >
                 Bilingual (இருமொழிகளிலும்)
               </button>
             </div>
 
-            <div className="segmented-control" role="group" aria-label="Section selector">
+            {/* Category Selector */}
+            <div className="terms-pill-group" role="group" aria-label="Section selector">
               <button
                 type="button"
-                className={`segmented-btn ${activeTab === "all" ? "active" : ""}`}
+                className={`terms-toggle-pill${activeTab === "all" ? " active" : ""}`}
                 onClick={() => setActiveTab("all")}
               >
-                All Terms ({terms.length})
+                All Policies
               </button>
               <button
                 type="button"
-                className={`segmented-btn ${activeTab === "general" ? "active" : ""}`}
+                className={`terms-toggle-pill${activeTab === "general" ? " active" : ""}`}
                 onClick={() => setActiveTab("general")}
               >
-                General Photography
+                Weddings &amp; General
               </button>
               <button
                 type="button"
-                className={`segmented-btn ${activeTab === "toddlers" ? "active" : ""}`}
+                className={`terms-toggle-pill${activeTab === "toddlers" ? " active" : ""}`}
                 onClick={() => setActiveTab("toddlers")}
               >
-                Toddlers by Raavan
+                Toddlers &amp; Babies
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="terms-grid" style={{ display: "grid", gap: "1.5rem" }}>
-            {filteredTerms.map((item) => (
+      {/* ============================================================== */}
+      {/* 2. TERMS CARDS LIST                                            */}
+      {/* ============================================================== */}
+      <section className="inc-section-wrap terms-content-section">
+        <div className="inc-container">
+          <div className="terms-cards-stack">
+            {filteredTerms.map((item, idx) => (
               <article
                 key={item.id}
-                className="terms-card"
-                style={{
-                  background: "var(--color-surface, rgba(255,255,255,0.03))",
-                  border: "1px solid var(--color-border, rgba(255,255,255,0.1))",
-                  borderRadius: "12px",
-                  padding: "1.75rem",
-                  transition: "border-color 0.2s ease",
-                }}
+                className={`clean-terms-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
-                  <span
-                    style={{
-                      fontFamily: "monospace",
-                      fontWeight: 700,
-                      color: "var(--color-accent, #00d4ff)",
-                      fontSize: "0.9rem",
-                      padding: "0.2rem 0.5rem",
-                      borderRadius: "4px",
-                      background: "rgba(0, 212, 255, 0.1)",
-                    }}
-                  >
-                    {item.num}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "0.75rem",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      opacity: 0.65,
-                    }}
-                  >
-                    {item.section === "toddlers" ? "@toddlers_by_raavan" : "Raavan Studio’z"}
+                <div className="terms-card-header">
+                  <span className="terms-number-badge">{item.num}</span>
+                  <div className="terms-card-titles">
+                    {(language === "en" || language === "both") && (
+                      <h3 className="terms-title-en">{item.titleEn}</h3>
+                    )}
+                    {(language === "ta" || language === "both") && (
+                      <h4 className="terms-title-ta">{item.titleTa}</h4>
+                    )}
+                  </div>
+                  <span className="terms-section-tag">
+                    {item.section === "toddlers" ? "Toddlers / Babies" : "Weddings & General"}
                   </span>
                 </div>
 
-                {(language === "en" || language === "both") && (
-                  <div style={{ marginBottom: language === "both" ? "1rem" : 0 }}>
-                    <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: "0.4rem", color: "#fff" }}>
-                      {item.titleEn}
-                    </h2>
-                    <p style={{ opacity: 0.85, lineHeight: 1.6, fontSize: "0.95rem" }}>
-                      {item.contentEn}
-                    </p>
-                  </div>
-                )}
+                <div className="terms-card-body">
+                  {(language === "ta" || language === "both") && (
+                    <div className="terms-text-pane terms-text-ta">
+                      <p>{item.contentTa}</p>
+                    </div>
+                  )}
 
-                {(language === "ta" || language === "both") && (
-                  <div style={{ borderTop: language === "both" ? "1px dashed rgba(255,255,255,0.1)" : "none", paddingTop: language === "both" ? "1rem" : 0 }}>
-                    <h2 style={{ fontSize: "1.15rem", fontWeight: 600, marginBottom: "0.4rem", color: "#7de3ff" }}>
-                      {item.titleTa}
-                    </h2>
-                    <p style={{ opacity: 0.88, lineHeight: 1.7, fontSize: "0.95rem" }}>
-                      {item.contentTa}
-                    </p>
-                  </div>
-                )}
+                  {(language === "en" || language === "both") && (
+                    <div className="terms-text-pane terms-text-en">
+                      <p>{item.contentEn}</p>
+                    </div>
+                  )}
+                </div>
               </article>
             ))}
           </div>
 
-          <div
-            style={{
-              marginTop: "3rem",
-              padding: "2rem",
-              background: "rgba(0, 212, 255, 0.05)",
-              border: "1px solid rgba(0, 212, 255, 0.2)",
-              borderRadius: "12px",
-              textAlign: "center",
-            }}
-          >
-            <h3 style={{ fontSize: "1.3rem", marginBottom: "0.5rem" }}>Questions About Our Policies?</h3>
-            <p style={{ opacity: 0.8, maxWidth: "600px", margin: "0 auto 1.5rem" }}>
-              We are committed to clear and fair client relationships. Reach out to Mr. Gowtham Raj and our team directly for custom package enquiries or adjustments.
+          {/* Questions Callout */}
+          <div className="clean-cta-box reveal-scale" style={{ marginTop: "48px" }}>
+            <h3 className="clean-cta-title">Have Questions About Any Policy?</h3>
+            <p className="clean-cta-desc">
+              We believe in complete transparency. Feel free to discuss any specific clause with Mr. Gowtham Raj.
             </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <div className="clean-cta-buttons-row">
               <a
-                href={`https://wa.me/919500306696?text=Hi%20Raavan%20Studio%E2%80%99z!%20I%20have%20a%20question%20regarding%20the%20booking%20terms.`}
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  "Hi Gowtham Raj! I have a question regarding Raavan Studio’z booking terms."
+                )}`}
                 target="_blank"
-                rel="noreferrer"
-                className="btn btn-primary"
-                style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+                rel="noopener noreferrer"
+                className="clean-cta-whatsapp-btn"
               >
-                <span>Chat on WhatsApp (+91-9500306696)</span>
+                <span>Clarify on WhatsApp →</span>
               </a>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="clean-cta-contact-btn"
                 onClick={() => onNavigate("/contact")}
               >
-                Open Enquiry Form
+                <span>Contact Studio Office ↗</span>
               </button>
             </div>
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
-
