@@ -6959,16 +6959,40 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 18px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
+  padding: 22px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.75) 100%);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   pointer-events: none;
 }
 
 .inc-hero-tagline {
-  display: none;
+  display: block;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.inc-hero-badge {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 15;
+  background: rgba(10, 25, 47, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: auto;
 }
 
 .inc-hero-dots-row {
@@ -8133,16 +8157,40 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 18px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
+  padding: 22px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.75) 100%);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   pointer-events: none;
 }
 
 .inc-hero-tagline {
-  display: none;
+  display: block;
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.inc-hero-badge {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 15;
+  background: rgba(10, 25, 47, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: auto;
 }
 
 .inc-hero-dots-row {
