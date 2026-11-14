@@ -11252,3 +11252,117 @@ footer a:hover {
   color: #ffffff !important;
   outline: none !important;
 }
+
+/* ==========================================================================
+   CLEAN LUXURY ABOUT STATS CARDS & ACTION BUTTONS
+   ========================================================================== */
+
+.about-stats-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 32px 0 28px;
+}
+
+.about-stat-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.about-stat-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 20px rgba(10, 25, 47, 0.06);
+  transform: translateY(-2px);
+}
+
+.about-stat-value {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0284c7;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.about-stat-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.about-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.about-primary-btn {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-primary-btn:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.4);
+}
+
+.about-whatsapp-btn {
+  background: #ffffff;
+  color: #15803d;
+  border: 1.5px solid #86efac;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
+}
+
+.about-whatsapp-btn:hover {
+  background: #f0fdf4;
+  border-color: #22c55e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.2);
+}
+
+@media (max-width: 640px) {
+  .about-stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .about-actions-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .about-primary-btn,
+  .about-whatsapp-btn {
+    width: 100%;
+  }
+}
