@@ -96,6 +96,15 @@ export default function HomePage({ onNavigate }) {
                 className={`full-banner-slide${index === activeSlide ? " active" : ""}`}
                 aria-hidden={index !== activeSlide}
               >
+                {/* Ambient Atmospheric Backdrop */}
+                <img
+                  src={item.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="full-banner-ambient-bg"
+                />
+
+                {/* Crisp Foreground Photo (Natural Proportion, Zero Excessive Zoom) */}
                 <img
                   src={item.image}
                   alt={item.alt}
