@@ -334,75 +334,70 @@ export default function AdminPage({ onNavigate }) {
   // ==========================================
   if (!authToken) {
     return (
-      <main className="page-container" style={{ minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 20px 60px" }}>
-        <div
-          style={{
-            maxWidth: "440px",
-            width: "100%",
-            background: "var(--color-surface, rgba(255,255,255,0.03))",
-            border: "1px solid rgba(0, 212, 255, 0.3)",
-            borderRadius: "16px",
-            padding: "2.5rem 2rem",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
-            textAlign: "center",
-          }}
-        >
+      <main className="page-container admin-login-wrapper">
+        <div className="admin-login-card">
           <img
             src="/raavan-emblem-clean.png"
             alt="Raavan Studio'z"
-            style={{ width: "80px", height: "80px", objectFit: "contain", margin: "0 auto 1.25rem", filter: "drop-shadow(0 4px 16px rgba(56, 189, 248, 0.4))" }}
+            className="admin-login-logo"
           />
-          <h1 style={{ fontSize: "1.6rem", color: "#fff", marginBottom: "0.4rem" }}>Raavan Studio’z</h1>
-          <p style={{ color: "#00d4ff", fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 700, marginBottom: "1.5rem" }}>
+          <h1 className="admin-login-title">Raavan Studio’z</h1>
+          <p className="admin-login-subtitle">
             Admin Control Center
           </p>
 
           {loginError && (
-            <div style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.4)", color: "#fca5a5", padding: "0.75rem", borderRadius: "8px", fontSize: "0.88rem", marginBottom: "1.25rem" }}>
+            <div className="admin-login-error">
               {loginError}
             </div>
           )}
 
-          <form onSubmit={handleLogin} style={{ display: "grid", gap: "1rem", textAlign: "left" }}>
-            <div>
-              <label style={{ display: "block", fontSize: "0.82rem", opacity: 0.8, marginBottom: "0.35rem" }}>
+          <form onSubmit={handleLogin} className="admin-login-form">
+            <div className="admin-field-group">
+              <label className="admin-field-label">
                 Admin Email
               </label>
               <input
                 type="email"
                 required
+                autoComplete="username"
+                placeholder="admin@raavanstudioz.com"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                style={{ width: "100%", padding: "0.8rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}
+                className="admin-login-input"
               />
             </div>
 
-            <div>
-              <label style={{ display: "block", fontSize: "0.82rem", opacity: 0.8, marginBottom: "0.35rem" }}>
+            <div className="admin-field-group">
+              <label className="admin-field-label">
                 Password
               </label>
               <input
                 type="password"
                 required
+                autoComplete="current-password"
+                placeholder="Enter password"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                style={{ width: "100%", padding: "0.8rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}
+                className="admin-login-input"
               />
             </div>
 
             <button
               type="submit"
               disabled={loggingIn}
-              className="btn btn-primary"
-              style={{ width: "100%", padding: "0.9rem", marginTop: "0.5rem", fontWeight: 700 }}
+              className="admin-login-submit-btn"
             >
               {loggingIn ? "Verifying..." : "Login to Admin Dashboard →"}
             </button>
           </form>
 
-          <div style={{ marginTop: "1.5rem", paddingTop: "1.25rem", borderTop: "1px dashed rgba(255,255,255,0.1)", fontSize: "0.82rem", opacity: 0.75 }}>
-            <p style={{ margin: "0 0 0.5rem" }}>Default Credentials:</p>
-            <code>admin@raavanstudioz.com</code> / <code>admin123</code>
+          <div className="admin-login-credentials">
+            <p className="cred-title">Default Credentials:</p>
+            <div className="cred-badges">
+              <code>admin@raavanstudioz.com</code>
+              <code>admin123</code>
+            </div>
           </div>
         </div>
       </main>

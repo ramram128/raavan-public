@@ -988,10 +988,13 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
     cursor: pointer;
   }
 
+  input,
   input[type="text"],
   input[type="email"],
+  input[type="password"],
   input[type="tel"],
   input[type="search"],
+  select,
   textarea {
     cursor: text;
   }
