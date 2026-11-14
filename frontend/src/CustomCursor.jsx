@@ -22,25 +22,20 @@ export default function CustomCursor() {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      // Center dot follows mouse coordinates directly with zero lag
+      // Center dot follows mouse coordinates directly
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
 
-      // Check if cursor is hovering over a photography element
+      // ONLY show camera viewfinder cursor when hovering over interactive gallery photos
       const target = e.target;
       if (target) {
         const photoEl = target.closest(
-          'img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img), ' +
-          '.full-banner-hero-container, ' +
-          '.full-banner-slide, ' +
-          '.full-banner-slide-image, ' +
+          '.incredible-gallery-item, ' +
+          '.incredible-gallery-item img, ' +
           '.clean-gallery-photo-card, ' +
           '.clean-gallery-img-container, ' +
-          '.clean-discipline-image-wrap, ' +
-          '.hero-showcase-frame, ' +
           '.clean-lightbox-img, ' +
-          '.gallery-photo-item, ' +
           '[data-photo], ' +
           '[data-cursor="camera"]'
         );
