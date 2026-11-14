@@ -476,77 +476,100 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 7. TRANSPARENT PRICING & BESPOKE WEDDING QUOTE                  */}
-      {/* Kutty Chutties Packages ₹2,500 - ₹12,000                       */}
+      {/* 7. TRANSPARENT PRICING: KUTTY CHUTTIES PACKAGES (4 CLEAN CARDS) */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-pricing-section" id="pricing">
         <div className="inc-container">
           <div className="inc-centered-header">
             <div className="inc-centered-label-row">
               <div className="inc-line" />
-              <span className="inc-label-text">TRANSPARENT INVESTMENTS</span>
+              <span className="inc-label-text">TRANSPARENT INVESTMENTS · THE CREATIVE SPACE</span>
               <div className="inc-line" />
             </div>
             <h2 className="inc-heading-1 text-center">Kutty Chutties Pricing Packages</h2>
             <p className="inc-subtitle text-center">
               Milestone portrait sessions starting from ₹2,500/-. Complimentary travel within 20km from Krishnagiri.
             </p>
+
+            <div className="inc-pricing-perks-row">
+              <span className="inc-perk-chip">✓ 15+ Themed Handcrafted Sets</span>
+              <span className="inc-perk-chip">✓ All Props &amp; Outfits Included</span>
+              <span className="inc-perk-chip">✓ Temperature-Controlled Studio Suites</span>
+              <span className="inc-perk-chip">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
+            </div>
           </div>
 
+          {/* 4 Clean Baby Milestone Package Cards */}
           <div className="inc-pricing-grid">
-            {servicePackages.map((pkg) => {
-              const isPopular = pkg.badge === "Most Popular" || pkg.badge === "VIP Masterpiece";
-              return (
-                <div
-                  className={`inc-pricing-card${isPopular ? " highlight-popular" : ""}`}
-                  key={pkg.id}
-                >
-                  {pkg.badge && (
-                    <div className="inc-pkg-badge">
-                      <span>{isPopular ? "⭐ " : ""}{pkg.badge}</span>
-                    </div>
-                  )}
+            {servicePackages
+              .filter((pkg) => pkg.id !== "namma-veetu-kalyanam")
+              .map((pkg) => {
+                const isPopular = pkg.id === "little-stars" || pkg.badge === "Most Popular";
+                const isLuxury = pkg.id === "tiny-royalty" || pkg.badge === "Luxury Experience";
 
-                  <h3 className="inc-pkg-title">{pkg.name}</h3>
-                  <p className="inc-pkg-tagline">“{pkg.tagline}”</p>
-
-                  <div className="inc-pkg-price-row">
-                    <span className="inc-price-val">{pkg.price}</span>
-                    <span className="inc-price-dur">/ {pkg.duration}</span>
-                  </div>
-
-                  <ul className="inc-pkg-features">
-                    {pkg.features.map((feat) => (
-                      <li key={feat}>
-                        <span className="inc-check">✓</span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                      `Hi Gowtham Raj, I would like to book the "${pkg.name}" (${pkg.price}) package with Raavan Studio’z!`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inc-pkg-btn${isPopular ? " filled" : ""}`}
+                return (
+                  <div
+                    className={`inc-pricing-card${isPopular ? " highlight-popular" : ""}${isLuxury ? " highlight-luxury" : ""}`}
+                    key={pkg.id}
                   >
-                    <span>Book on WhatsApp →</span>
-                  </a>
-                </div>
-              );
-            })}
+                    {/* Badge */}
+                    <div className={`inc-pkg-badge${isPopular ? " badge-popular" : ""}${isLuxury ? " badge-luxury" : ""}`}>
+                      <span>{isPopular ? "⭐ " : isLuxury ? "👑 " : ""}{pkg.badge}</span>
+                    </div>
+
+                    <div className="inc-pkg-head">
+                      <h3 className="inc-pkg-title">{pkg.name}</h3>
+                      <p className="inc-pkg-tagline">“{pkg.tagline}”</p>
+                    </div>
+
+                    <div className="inc-pkg-price-row">
+                      <span className="inc-price-val">{pkg.price}</span>
+                      <span className="inc-price-dur">/ session</span>
+                    </div>
+                    <span className="inc-duration-tag">⏱ {pkg.duration}</span>
+
+                    <div className="inc-pkg-divider" />
+
+                    <ul className="inc-pkg-features">
+                      {pkg.features.map((feat) => (
+                        <li key={feat}>
+                          <span className="inc-check">✓</span>
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="inc-pkg-footer">
+                      <a
+                        href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                          `Hi Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) session with Raavan Studio’z.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`inc-pkg-btn${isPopular ? " filled" : ""}${isLuxury ? " luxury-btn" : ""}`}
+                      >
+                        <span>Book on WhatsApp →</span>
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
 
-          {/* Wedding Custom Quote Card */}
+          {/* Wedding Custom Quote Card (Full Width Banner) */}
           <div className="inc-wedding-quote-card">
             <div className="inc-wedding-quote-info">
-              <span className="inc-quote-badge">💍 Namma Veetu Kalyanam</span>
+              <span className="inc-quote-badge">💍 NAMMA VEETU KALYANAM</span>
               <h3 className="inc-quote-heading">Planning a Wedding, Reception or Sacred Muhurtham?</h3>
               <p className="inc-quote-desc">
                 Every sacred celebration is distinct. We craft bespoke wedding quotations including 4K candid cinema, aerial drone visuals, and handcrafted archival photobooks.
               </p>
+              <div className="inc-wedding-tags-row">
+                <span className="inc-mini-tag">✓ Multi-Camera Candid Crew</span>
+                <span className="inc-mini-tag">✓ 4K Cinematic Teasers</span>
+                <span className="inc-mini-tag">✓ Drone Aerial Cinematography</span>
+                <span className="inc-mini-tag">✓ Handcrafted Photobooks</span>
+              </div>
             </div>
             <div className="inc-quote-btn-wrap">
               <a
@@ -559,6 +582,13 @@ export default function HomePage({ onNavigate }) {
               >
                 <span>Get Custom Wedding Quote ↗</span>
               </a>
+              <button
+                type="button"
+                className="inc-secondary-button-light"
+                onClick={() => onNavigate("/pricing")}
+              >
+                <span>View Full Pricing Page →</span>
+              </button>
             </div>
           </div>
         </div>
