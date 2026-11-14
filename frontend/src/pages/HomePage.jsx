@@ -12,17 +12,29 @@ const cleanHeroSlides = [
   {
     image: "/banners/banner_wedding.jpg",
     alt: "Namma Veetu Kalyanam sacred South Indian wedding rituals",
-    tagline: "Namma Veetu Kalyanam · Sacred Wedding Traditions",
+    kicker: "✦ RAAVAN STUDIO’Z · NAMMA VEETU KALYANAM",
+    title: "MAKE A COUNT, CLICK THE MOMENT.",
+    subtitle: "Documenting sacred South Indian wedding rituals, pure emotional connections, and archival 4K cinema. Directed by Mr. Gowtham Raj with 8+ years of dedicated artistry.",
+    primaryCta: { label: "Explore Curated Works ↗", path: "/gallery" },
+    secondaryCta: { label: "Book a Session", path: "/contact" },
   },
   {
     image: "/banners/banner_toddler.jpg",
     alt: "Toddlers by Raavan luxury newborn & baby milestone photography",
-    tagline: "The Creative Space · Toddlers by Raavan Studio",
+    kicker: "✦ THE CREATIVE SPACE · TODDLERS BY RAAVAN",
+    title: "Pure Newborn Wonder & Baby Milestones.",
+    subtitle: "Krishnagiri's premier dedicated baby studio with 15+ bespoke handcrafted themes, temperature-controlled sanitized suites, and gentle care.",
+    primaryCta: { label: "Kutty Chutties Packages ↗", path: "/pricing" },
+    secondaryCta: { label: "Book a Session", path: "/contact" },
   },
   {
     image: "/banners/banner_couple.jpg",
     alt: "Cinematic pre-wedding romance at Krishnagiri Hills",
-    tagline: "Krishnagiri Hills · Outdoor Cinematography & Couple Portraits",
+    kicker: "✦ OUTDOOR CINEMATOGRAPHY · KRISHNAGIRI HILLS",
+    title: "Breathtaking Pre-Wedding Romance.",
+    subtitle: "Unscripted love stories, sunset golden-hour direction, and timeless couple portraiture amidst scenic Krishnagiri vistas.",
+    primaryCta: { label: "View Outdoor Shoots ↗", path: "/services" },
+    secondaryCta: { label: "Book a Session", path: "/contact" },
   },
 ];
 
@@ -100,8 +112,7 @@ export default function HomePage({ onNavigate }) {
   return (
     <div className="incredible-homepage-root" id="home-page">
       {/* ============================================================== */}
-      {/* 1. HERO SLIDER: FULL-BLEED 16:9 CINEMATIC WIDESCREEN SLIDER     */}
-      {/* Matches incrediblephotography.in (.hero .swiper)               */}
+      {/* 1. HERO SLIDER: CINEMATIC WIDESCREEN BANNER WITH TITLE & DESC  */}
       {/* ============================================================== */}
       <section className="inc-hero-section" id="home" aria-label="Raavan Studio'z Widescreen Banner">
         <div className="inc-hero-slider-track">
@@ -118,6 +129,47 @@ export default function HomePage({ onNavigate }) {
                 fetchpriority={index === 0 ? "high" : "auto"}
                 loading={index === 0 ? "eager" : "lazy"}
               />
+
+              {/* Cinematic Shadow & Gradient Overlay for Contrast */}
+              <div className="inc-hero-vignette-overlay" />
+
+              {/* Hero Title, Description & Action Buttons Overlay */}
+              <div className="inc-hero-content-overlay">
+                <div className="inc-container">
+                  <div className="inc-hero-text-card">
+                    <span className="inc-hero-kicker-pill">{item.kicker}</span>
+                    <h1 className="inc-hero-headline-title">{item.title}</h1>
+                    <p className="inc-hero-lead-desc">{item.subtitle}</p>
+
+                    <div className="inc-hero-buttons-group">
+                      <button
+                        type="button"
+                        className="inc-hero-primary-btn"
+                        onClick={() => onNavigate(item.primaryCta.path)}
+                      >
+                        <span>{item.primaryCta.label}</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="inc-hero-secondary-btn"
+                        onClick={() => onNavigate(item.secondaryCta.path)}
+                      >
+                        <span>{item.secondaryCta.label}</span>
+                      </button>
+                      <a
+                        href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                          `Hi Gowtham Raj! I would like to book a session for "${item.title}" with Raavan Studio’z.`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inc-hero-whatsapp-btn"
+                      >
+                        <span>💬 Chat on WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -142,15 +194,8 @@ export default function HomePage({ onNavigate }) {
           ›
         </button>
 
-        {/* Subtle Signature Badge Top-Right */}
-        <div className="inc-hero-badge">
-          <span>✦ Raavan Studio’z Signature Reel</span>
-        </div>
-
-        {/* Bottom Control Bar: Location Tag & Indicator Dots */}
+        {/* Bottom Control Bar: Indicator Dots */}
         <div className="inc-hero-bottom-bar">
-          <span className="inc-hero-tagline">📍 {slide.tagline}</span>
-
           <div className="inc-hero-dots-row" role="group" aria-label="Hero slide dots">
             {cleanHeroSlides.map((item, index) => (
               <button

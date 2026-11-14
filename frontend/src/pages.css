@@ -6863,8 +6863,8 @@ footer a:hover {
   margin-left: -50vw !important;
   margin-right: -50vw !important;
   aspect-ratio: 16 / 9;
-  max-height: 680px;
-  min-height: 380px;
+  max-height: 720px;
+  min-height: 520px;
   background: #050d1a;
   overflow: hidden;
 }
@@ -6896,6 +6896,152 @@ footer a:hover {
   object-fit: cover;
   object-position: center 30%;
   display: block;
+}
+
+/* Cinematic Shadow & Gradient Overlay for Contrast */
+.inc-hero-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 13, 26, 0.88) 0%, rgba(5, 13, 26, 0.58) 50%, rgba(5, 13, 26, 0.15) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Hero Title, Description & Action Buttons Overlay */
+.inc-hero-content-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  padding: 0 48px;
+}
+
+.inc-hero-content-overlay .inc-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.inc-hero-text-card {
+  max-width: 660px;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.inc-hero-kicker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(2, 132, 199, 0.22);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  color: #38bdf8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.inc-hero-headline-title {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+}
+
+.inc-hero-lead-desc {
+  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+  color: rgba(241, 245, 249, 0.95);
+  line-height: 1.65;
+  margin: 0 0 28px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  max-width: 620px;
+}
+
+.inc-hero-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.inc-hero-primary-btn {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-primary-btn:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.55);
+}
+
+.inc-hero-secondary-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.inc-hero-whatsapp-btn {
+  background: #10b981;
+  color: #ffffff;
+  padding: 13px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-whatsapp-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.45);
 }
 
 .inc-slider-arrow {
@@ -6959,40 +7105,16 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 22px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.75) 100%);
+  padding: 18px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   pointer-events: none;
 }
 
 .inc-hero-tagline {
-  display: block;
-  color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-  pointer-events: auto;
-}
-
-.inc-hero-badge {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  z-index: 15;
-  background: rgba(10, 25, 47, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  pointer-events: auto;
+  display: none;
 }
 
 .inc-hero-dots-row {
@@ -8061,8 +8183,8 @@ footer a:hover {
   margin-left: -50vw !important;
   margin-right: -50vw !important;
   aspect-ratio: 16 / 9;
-  max-height: 680px;
-  min-height: 380px;
+  max-height: 720px;
+  min-height: 520px;
   background: #050d1a;
   overflow: hidden;
 }
@@ -8094,6 +8216,152 @@ footer a:hover {
   object-fit: cover;
   object-position: center 30%;
   display: block;
+}
+
+/* Cinematic Shadow & Gradient Overlay for Contrast */
+.inc-hero-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 13, 26, 0.88) 0%, rgba(5, 13, 26, 0.58) 50%, rgba(5, 13, 26, 0.15) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Hero Title, Description & Action Buttons Overlay */
+.inc-hero-content-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  padding: 0 48px;
+}
+
+.inc-hero-content-overlay .inc-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+.inc-hero-text-card {
+  max-width: 660px;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.inc-hero-kicker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(2, 132, 199, 0.22);
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  color: #38bdf8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.inc-hero-headline-title {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+}
+
+.inc-hero-lead-desc {
+  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+  color: rgba(241, 245, 249, 0.95);
+  line-height: 1.65;
+  margin: 0 0 28px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  max-width: 620px;
+}
+
+.inc-hero-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.inc-hero-primary-btn {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-primary-btn:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.55);
+}
+
+.inc-hero-secondary-btn {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.inc-hero-whatsapp-btn {
+  background: #10b981;
+  color: #ffffff;
+  padding: 13px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inc-hero-whatsapp-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.45);
 }
 
 .inc-slider-arrow {
@@ -8157,40 +8425,16 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 22px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.75) 100%);
+  padding: 18px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   pointer-events: none;
 }
 
 .inc-hero-tagline {
-  display: block;
-  color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-  pointer-events: auto;
-}
-
-.inc-hero-badge {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  z-index: 15;
-  background: rgba(10, 25, 47, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  pointer-events: auto;
+  display: none;
 }
 
 .inc-hero-dots-row {
@@ -9965,6 +10209,35 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
+  .inc-hero-section {
+    min-height: 480px;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  .inc-hero-content-overlay {
+    padding: 30px 20px;
+  }
+  .inc-hero-headline-title {
+    font-size: 1.85rem;
+    margin-bottom: 12px;
+  }
+  .inc-hero-lead-desc {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .inc-hero-buttons-group {
+    gap: 10px;
+  }
+  .inc-hero-primary-btn,
+  .inc-hero-secondary-btn,
+  .inc-hero-whatsapp-btn {
+    padding: 10px 18px;
+    font-size: 0.88rem;
+  }
+  .inc-slider-arrow {
+    display: none;
+  }
   .clean-packages-grid {
     grid-template-columns: 1fr;
   }
