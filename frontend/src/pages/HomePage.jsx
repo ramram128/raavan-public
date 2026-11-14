@@ -7,33 +7,33 @@ import {
   testimonials,
 } from "../content.js";
 
-// Curated bespoke 16:9 widescreen cinematic hero banners for Raavan Studio'z
+// 16:9 widescreen hero banners for Raavan Studio'z
 const cleanHeroSlides = [
   {
     image: "/banners/banner_wedding.jpg",
-    alt: "Namma Veetu Kalyanam sacred South Indian wedding rituals",
-    kicker: "✦ RAAVAN STUDIO’Z · NAMMA VEETU KALYANAM",
-    title: "MAKE A COUNT, CLICK THE MOMENT.",
-    subtitle: "Documenting sacred South Indian wedding rituals, pure emotional connections, and archival 4K cinema. Directed by Mr. Gowtham Raj with 8+ years of dedicated artistry.",
-    primaryCta: { label: "Explore Curated Works ↗", path: "/gallery" },
+    alt: "Wedding Photography by Raavan Studio'z Krishnagiri",
+    kicker: "WEDDING PHOTOGRAPHY · KRISHNAGIRI",
+    title: "Preserving Every Precious Wedding Moment.",
+    subtitle: "Traditional wedding rituals, candid family smiles, and cinematic wedding films. Led by Gowtham Raj with 8+ years of photography experience.",
+    primaryCta: { label: "View Wedding Gallery ↗", path: "/gallery" },
     secondaryCta: { label: "Book a Session", path: "/contact" },
   },
   {
     image: "/banners/banner_toddler.jpg",
-    alt: "Toddlers by Raavan luxury newborn & baby milestone photography",
-    kicker: "✦ THE CREATIVE SPACE · TODDLERS BY RAAVAN",
-    title: "Pure Newborn Wonder & Baby Milestones.",
-    subtitle: "Krishnagiri's premier dedicated baby studio with 15+ bespoke handcrafted themes, temperature-controlled sanitized suites, and gentle care.",
-    primaryCta: { label: "Kutty Chutties Packages ↗", path: "/pricing" },
+    alt: "Toddlers by Raavan baby milestone photography",
+    kicker: "THE CREATIVE SPACE · TODDLERS BY RAAVAN",
+    title: "Cute Baby Milestones & Newborn Portraits.",
+    subtitle: "Krishnagiri's dedicated baby studio with 15+ colorful themes, safe props, cute costumes, and comfortable suites for your little one.",
+    primaryCta: { label: "View Baby Packages ↗", path: "/pricing" },
     secondaryCta: { label: "Book a Session", path: "/contact" },
   },
   {
     image: "/banners/banner_couple.jpg",
-    alt: "Cinematic pre-wedding romance at Krishnagiri Hills",
-    kicker: "✦ OUTDOOR CINEMATOGRAPHY · KRISHNAGIRI HILLS",
-    title: "Breathtaking Pre-Wedding Romance.",
-    subtitle: "Unscripted love stories, sunset golden-hour direction, and timeless couple portraiture amidst scenic Krishnagiri vistas.",
-    primaryCta: { label: "View Outdoor Shoots ↗", path: "/services" },
+    alt: "Outdoor Pre-Wedding photography at Krishnagiri Hills",
+    kicker: "PRE-WEDDING & OUTDOOR SHOOTS",
+    title: "Romantic Outdoor & Pre-Wedding Shoots.",
+    subtitle: "Natural couple portraits amidst Krishnagiri Hills, sunset golden-hour views, and relaxed outdoor sessions you'll cherish forever.",
+    primaryCta: { label: "Explore Outdoor Shoots ↗", path: "/services" },
     secondaryCta: { label: "Book a Session", path: "/contact" },
   },
 ];
@@ -230,31 +230,31 @@ export default function HomePage({ onNavigate }) {
             {/* Right: Studio Editorial Narrative */}
             <div className="inc-about-content-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">PROFESSIONAL · EXPERIENCED PHOTOGRAPHY</span>
+                <span className="inc-label-text">ABOUT RAAVAN STUDIO’Z</span>
                 <div className="inc-line" />
               </div>
 
-              <h1 className="inc-heading-1">
-                Adding the Memories of Every Moment with Raavan Studio’z
-              </h1>
+              <h2 className="inc-heading-1">
+                Capturing Real Emotions &amp; Family Celebrations
+              </h2>
 
               <p className="inc-paragraph">
-                We at Raavan Studio’z preserve each cherished moment with enduring elegance. Founded on <strong>21st January 2021</strong> by <strong>Mr. Gowtham Raj</strong> with over 8 years of specialized artistic mastery, we bring creativity, cinematic lighting, and heartfelt precision to every frame.
+                At Raavan Studio’z, we believe great photography is about capturing genuine emotions without forced poses. Founded on <strong>21st January 2021</strong> by <strong>Mr. Gowtham Raj</strong> with over 8 years of hands-on experience, our team brings passion, natural lighting, and dedicated care to every wedding and family session.
               </p>
 
               <p className="inc-paragraph">
-                With two dedicated physical studios in Krishnagiri — <strong>The Creative Space</strong> for toddler milestones and baby art, and <strong>Work Space</strong> for sacred wedding traditions (Namma Veetu Kalyanam) and outdoor cinematography — we craft visual heirlooms that outlive lifetimes.
+                We operate two dedicated studios in Krishnagiri: <strong>The Creative Space</strong> designed exclusively for newborn, infant, and toddler shoots, and <strong>Work Space</strong> for wedding consultations, couple photography, and video editing.
               </p>
 
               {/* 4 Quick Highlight Metric Cards */}
               <div className="inc-stats-strip-grid">
                 <div className="inc-stat-box">
                   <strong className="inc-stat-num">8+</strong>
-                  <span className="inc-stat-label">Years Craftsmanship</span>
+                  <span className="inc-stat-label">Years Experience</span>
                 </div>
                 <div className="inc-stat-box">
                   <strong className="inc-stat-num">1,500+</strong>
-                  <span className="inc-stat-label">Moments Told</span>
+                  <span className="inc-stat-label">Happy Clients</span>
                 </div>
                 <div className="inc-stat-box">
                   <strong className="inc-stat-num">2</strong>
@@ -262,7 +262,7 @@ export default function HomePage({ onNavigate }) {
                 </div>
                 <div className="inc-stat-box">
                   <strong className="inc-stat-num">5.0 ★</strong>
-                  <span className="inc-stat-label">Client Trust</span>
+                  <span className="inc-stat-label">Client Reviews</span>
                 </div>
               </div>
 
@@ -272,7 +272,7 @@ export default function HomePage({ onNavigate }) {
                   className="inc-primary-button"
                   onClick={() => onNavigate("/about")}
                 >
-                  <span>Know More About Us →</span>
+                  <span>About Our Studio →</span>
                 </button>
                 <a
                   href={`https://wa.me/919500306696?text=${encodeURIComponent(
@@ -292,27 +292,28 @@ export default function HomePage({ onNavigate }) {
 
       {/* ============================================================== */}
       {/* 3. SERVICE 1: WEDDING COUPLE SHOOT (Namma Veetu Kalyanam)       */}
-      {/* Matches incrediblephotography.in (Wedding Couple Shoot)        */}
+      {/* ============================================================== */}
+      {/* 3. SERVICE 1: WEDDING PHOTOGRAPHY (Namma Veetu Kalyanam)       */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-service-section" id="wedding-couple-shoot">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">Our Service</span>
+                <span className="inc-label-text">WEDDING PHOTOGRAPHY</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-2">Wedding Couple Shoot</h2>
+              <h2 className="inc-heading-2">Namma Veetu Kalyanam</h2>
 
               <p className="inc-paragraph">
-                Capture the sacred essence of your love story with our beautifully curated <strong>Namma Veetu Kalyanam</strong> wedding collections. Whether it’s an unscripted quiet exchange, traditional South Indian muhurtham rituals, or grand evening celebrations, we craft timeless images that reflect your unique bond.
+                From morning muhurtham rituals to evening reception celebrations, our wedding photography captures real family moments, candid smiles, and traditional ceremonies. We provide complete wedding coverage across Krishnagiri, Hosur, Dharmapuri, and Bangalore.
               </p>
 
               <div className="inc-service-highlights-list">
-                <div className="inc-highlight-pill">✓ Sacred Muhurtham &amp; Candid Moments</div>
-                <div className="inc-highlight-pill">✓ Archival 4K Cinematic Highlights</div>
-                <div className="inc-highlight-pill">✓ Handcrafted Photobooks with Archival Paper</div>
+                <div className="inc-highlight-pill">✓ Traditional Muhurtham &amp; Candid Photography</div>
+                <div className="inc-highlight-pill">✓ 4K Cinematic Wedding Films &amp; Teasers</div>
+                <div className="inc-highlight-pill">✓ Premium Printed Wedding Albums</div>
               </div>
 
               <div className="inc-btn-row">
@@ -321,7 +322,7 @@ export default function HomePage({ onNavigate }) {
                   className="inc-primary-button"
                   onClick={() => onNavigate("/services")}
                 >
-                  <span>View More Wedding Works →</span>
+                  <span>View Wedding Services →</span>
                 </button>
               </div>
             </div>
@@ -330,7 +331,7 @@ export default function HomePage({ onNavigate }) {
               <div className="inc-showcase-image-card">
                 <img
                   src="/banners/banner_wedding.jpg"
-                  alt="Wedding Couple Shoot by Raavan Studio'z"
+                  alt="Wedding Photography by Raavan Studio'z"
                   loading="lazy"
                 />
               </div>
@@ -340,8 +341,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. SERVICE 2: OUTDOOR COUPLE SHOOT (Krishnagiri Hills)         */}
-      {/* Matches incrediblephotography.in (Outdoor Couple Shoot)        */}
+      {/* 4. SERVICE 2: OUTDOOR & PRE-WEDDING SHOOTS                     */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-service-section inc-alt-bg" id="outdoor-couple-shoot">
         <div className="inc-container">
@@ -358,20 +358,20 @@ export default function HomePage({ onNavigate }) {
 
             <div className="inc-service-text-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">Our Service</span>
+                <span className="inc-label-text">COUPLE PORTRAITS</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-2">Outdoor Couple Shoot</h2>
+              <h2 className="inc-heading-2">Outdoor &amp; Pre-Wedding Shoots</h2>
 
               <p className="inc-paragraph">
-                Capture every nuance of your love in breathtaking natural surroundings with our expertly directed outdoor couple shoots. From majestic Krishnagiri Hills sunset panoramas to secluded natural lakesides and heritage architecture, we create cinematic portraits charged with authentic warmth.
+                Pre-wedding and couple shoots at Krishnagiri Hills, scenic lakesides, and heritage spots. We guide you with natural, relaxed poses and golden hour lighting so your photos feel comfortable, candid, and full of life.
               </p>
 
               <div className="inc-service-highlights-list">
-                <div className="inc-highlight-pill">✓ Scenic Krishnagiri Hilltop &amp; Nature Locations</div>
-                <div className="inc-highlight-pill">✓ Golden Hour &amp; Sunset Direction</div>
-                <div className="inc-highlight-pill">✓ Pre-Wedding Cinematic Teasers</div>
+                <div className="inc-highlight-pill">✓ Krishnagiri Hills &amp; Scenic Outdoor Spots</div>
+                <div className="inc-highlight-pill">✓ Sunset &amp; Golden Hour Timing</div>
+                <div className="inc-highlight-pill">✓ Pre-Wedding Teasers &amp; Cinematic Reels</div>
               </div>
 
               <div className="inc-btn-row">
@@ -380,7 +380,7 @@ export default function HomePage({ onNavigate }) {
                   className="inc-primary-button"
                   onClick={() => onNavigate("/services")}
                 >
-                  <span>View More Outdoor Shoots →</span>
+                  <span>View Outdoor Shoots →</span>
                 </button>
               </div>
             </div>
@@ -390,27 +390,26 @@ export default function HomePage({ onNavigate }) {
 
       {/* ============================================================== */}
       {/* 5. SERVICE 3: TODDLERS BY RAAVAN (The Creative Space)          */}
-      {/* Baby Milestone & Luxury Studio Sets                            */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-service-section" id="toddlers-shoot">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">Our Dedicated Studio</span>
+                <span className="inc-label-text">BABY PHOTOGRAPHY</span>
                 <div className="inc-line" />
               </div>
 
               <h2 className="inc-heading-2">Toddlers by Raavan</h2>
 
               <p className="inc-paragraph">
-                Krishnagiri's premier dedicated baby milestone studio — <strong>The Creative Space</strong>. We celebrate the innocent wonder of childhood with 15+ bespoke handcrafted themed sets, sanitized hypoallergenic props, temperature-regulated suites, and calm, loving patience for newborns and toddlers.
+                Our dedicated baby studio in Krishnagiri — <strong>The Creative Space</strong> — is custom designed for newborns, infants, and toddlers. With 15+ creative themed sets, cute outfits, clean props, and a cozy environment, we ensure your baby stays comfortable and smiling throughout the session.
               </p>
 
               <div className="inc-service-highlights-list">
-                <div className="inc-highlight-pill">✓ 15+ Bespoke Handcrafted Themes &amp; Costumes</div>
-                <div className="inc-highlight-pill">✓ Packages Starting from ₹2,500/-</div>
-                <div className="inc-highlight-pill">✓ Gentle, Patient &amp; Sanitized Environment</div>
+                <div className="inc-highlight-pill">✓ 15+ Creative Themed Sets &amp; Baby Costumes</div>
+                <div className="inc-highlight-pill">✓ Packages Starting from ₹2,500</div>
+                <div className="inc-highlight-pill">✓ Safe, Clean &amp; Baby-Friendly Studio</div>
               </div>
 
               <div className="inc-btn-row">
@@ -419,7 +418,7 @@ export default function HomePage({ onNavigate }) {
                   className="inc-primary-button"
                   onClick={() => onNavigate("/pricing")}
                 >
-                  <span>Explore Kutty Chutties Packages →</span>
+                  <span>View Kutty Chutties Packages →</span>
                 </button>
               </div>
             </div>
@@ -446,10 +445,10 @@ export default function HomePage({ onNavigate }) {
           <div className="inc-centered-header">
             <div className="inc-centered-label-row">
               <div className="inc-line" />
-              <span className="inc-label-text">WORK GALLERY</span>
+              <span className="inc-label-text">OUR WORK</span>
               <div className="inc-line" />
             </div>
-            <h2 className="inc-heading-1 text-center">Showcase Of Our Work</h2>
+            <h2 className="inc-heading-1 text-center">Featured Photos</h2>
 
             {/* Filter Tabs */}
             <div className="inc-filter-tabs-row" role="tablist">
@@ -501,42 +500,42 @@ export default function HomePage({ onNavigate }) {
               className="inc-primary-button"
               onClick={() => onNavigate("/gallery")}
             >
-              <span>View Complete 16+ Curated Works Gallery ↗</span>
+              <span>View Full Photo Gallery ↗</span>
             </button>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 7. TRANSPARENT PRICING: KUTTY CHUTTIES LUXURY TIERS             */}
+      {/* 7. PRICING: KUTTY CHUTTIES PACKAGES                            */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-pricing-section" id="pricing">
         <div className="inc-container">
           <div className="inc-centered-header">
             <div className="inc-centered-label-row">
               <div className="inc-line" />
-              <span className="inc-label-text">TRANSPARENT INVESTMENTS · THE CREATIVE SPACE</span>
+              <span className="inc-label-text">BABY &amp; TODDLER PACKAGES</span>
               <div className="inc-line" />
             </div>
             <h2 className="inc-heading-1 text-center">Kutty Chutties Pricing Packages</h2>
             <p className="inc-subtitle text-center">
-              Honest, transparent milestone portrait sessions starting from ₹2,500/-. Complimentary travel within 20km from Krishnagiri.
+              Simple, transparent packages starting from ₹2,500 at The Creative Space, Krishnagiri. Free travel within 20km.
             </p>
 
             <div className="inc-pricing-perks-row">
-              <span className="inc-perk-chip">✓ 15+ Themed Handcrafted Sets</span>
-              <span className="inc-perk-chip">✓ All Props &amp; Outfits Included</span>
-              <span className="inc-perk-chip">✓ Temperature-Controlled Studio Suites</span>
-              <span className="inc-perk-chip">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
+              <span className="inc-perk-chip">✓ 15+ Themed Sets</span>
+              <span className="inc-perk-chip">✓ Outfits &amp; Props Included</span>
+              <span className="inc-perk-chip">✓ Baby-Safe &amp; Clean Studio</span>
+              <span className="inc-perk-chip">✓ Led by Gowtham Raj (8+ Yrs Exp)</span>
             </div>
           </div>
 
-          {/* 4 Luxury Kutty Chutties Tier Cards */}
+          {/* 4 Kutty Chutties Tier Cards */}
           <div className="inc-pricing-grid luxury-tiers-grid">
             {/* 1. Mini Memories */}
             <div className="luxury-pricing-card tier-intro">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-intro">🌱 Intro Session</span>
+                <span className="tier-pill pill-intro">🌱 Mini Session</span>
               </div>
               <h3 className="tier-card-title">Mini Memories</h3>
               <div className="tier-price-box">
@@ -554,15 +553,15 @@ export default function HomePage({ onNavigate }) {
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>1 Outfit / wrap provided</span>
+                  <span>1 Baby outfit / wrap provided</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>5 Professionally edited photos</span>
+                  <span>5 Edited high-resolution photos</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>High-resolution download gallery</span>
+                  <span>Digital download link provided</span>
                 </li>
               </ul>
               <div className="tier-card-footer">
@@ -582,7 +581,7 @@ export default function HomePage({ onNavigate }) {
             {/* 2. Sweet Beginnings */}
             <div className="luxury-pricing-card tier-classic">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-classic">✨ Classic Milestone</span>
+                <span className="tier-pill pill-classic">✨ Standard Session</span>
               </div>
               <h3 className="tier-card-title">Sweet Beginnings</h3>
               <div className="tier-price-box">
@@ -596,15 +595,15 @@ export default function HomePage({ onNavigate }) {
               <ul className="tier-features-list">
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>2 Creative setups (wraps &amp; props)</span>
+                  <span>2 Creative setups (props &amp; wraps)</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>2 Outfits / swaddles provided</span>
+                  <span>2 Baby outfits provided</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>10 Professionally edited photos</span>
+                  <span>10 Edited high-resolution photos</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
@@ -636,7 +635,7 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹8,000</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip chip-popular">⏱ 60 Mins Leisurely Session</span>
+                <span className="tier-duration-chip chip-popular">⏱ 60 Mins Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
@@ -646,15 +645,15 @@ export default function HomePage({ onNavigate }) {
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>3 Designer outfits &amp; props provided</span>
+                  <span>3 Baby outfits &amp; props provided</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>15 Edited digital photos + Family shot</span>
+                  <span>15 Edited photos + Family pictures</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>1 Complimentary wooden keepsake frame</span>
+                  <span>1 Complimentary wooden photo frame</span>
                 </li>
               </ul>
               <div className="tier-card-footer">
@@ -674,7 +673,7 @@ export default function HomePage({ onNavigate }) {
             {/* 4. Tiny Royalty (VIP Luxury) */}
             <div className="luxury-pricing-card tier-luxury is-luxury-tier">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-luxury">👑 VIP LUXURY HEIRLOOM</span>
+                <span className="tier-pill pill-luxury">👑 PREMIUM SESSION</span>
               </div>
               <h3 className="tier-card-title">Tiny Royalty</h3>
               <div className="tier-price-box">
@@ -682,17 +681,17 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹12,000</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip chip-luxury">⏱ 90 Mins Unhurried Session</span>
+                <span className="tier-duration-chip chip-luxury">⏱ 90 Mins Relaxed Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>5 Premium creative themed setups</span>
+                  <span>5 Themed setups of your choice</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>All designer props &amp; outfits provided</span>
+                  <span>All props &amp; outfits provided</span>
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
@@ -700,7 +699,7 @@ export default function HomePage({ onNavigate }) {
                 </li>
                 <li>
                   <span className="tier-check-icon">✓</span>
-                  <span>3 Complimentary wooden frames + Priority turnaround</span>
+                  <span>3 Complimentary wooden frames</span>
                 </li>
               </ul>
               <div className="tier-card-footer">
@@ -722,27 +721,27 @@ export default function HomePage({ onNavigate }) {
           <div className="inc-wedding-quote-card">
             <div className="inc-wedding-quote-info">
               <span className="inc-quote-badge">💍 NAMMA VEETU KALYANAM</span>
-              <h3 className="inc-quote-heading">Planning a Wedding, Reception or Sacred Muhurtham?</h3>
+              <h3 className="inc-quote-heading">Planning a Wedding, Reception, or Muhurtham?</h3>
               <p className="inc-quote-desc">
-                Every sacred celebration is distinct. We craft bespoke wedding quotations including 4K candid cinema, aerial drone visuals, and handcrafted archival photobooks.
+                Every wedding is special. We provide customized wedding packages with candid photography, traditional rituals, 4K wedding films, drone shoots, and premium photo albums.
               </p>
               <div className="inc-wedding-tags-row">
-                <span className="inc-mini-tag">✓ Multi-Camera Candid Crew</span>
-                <span className="inc-mini-tag">✓ 4K Cinematic Teasers</span>
-                <span className="inc-mini-tag">✓ Drone Aerial Cinematography</span>
-                <span className="inc-mini-tag">✓ Handcrafted Photobooks</span>
+                <span className="inc-mini-tag">✓ Candid Photography Team</span>
+                <span className="inc-mini-tag">✓ 4K Cinematic Video &amp; Teasers</span>
+                <span className="inc-mini-tag">✓ Drone Aerial Shoots</span>
+                <span className="inc-mini-tag">✓ Premium Wedding Albums</span>
               </div>
             </div>
             <div className="inc-quote-btn-wrap">
               <a
                 href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                  "Hi Gowtham Raj! I would like to request a custom quotation for our upcoming wedding celebration."
+                  "Hi Gowtham Raj! I would like to request a quote for our upcoming wedding celebration."
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inc-primary-button"
               >
-                <span>Get Custom Wedding Quote ↗</span>
+                <span>Get Wedding Quote ↗</span>
               </a>
               <button
                 type="button"
@@ -757,16 +756,15 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 8. TESTIMONIALS: "What our client says about us"               */}
-      {/* Matches incrediblephotography.in (.gtco-testimonials)          */}
+      {/* 8. TESTIMONIALS: "What Our Clients Say"                        */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-testimonials-section inc-alt-bg" id="testimonials">
         <div className="inc-container">
           <div className="inc-section-label-row">
-            <span className="inc-label-text">Testimonial</span>
+            <span className="inc-label-text">TESTIMONIALS</span>
             <div className="inc-line" />
           </div>
-          <h2 className="inc-heading-1">What our client says about us</h2>
+          <h2 className="inc-heading-1">What Our Clients Say</h2>
 
           <div className="inc-testimonials-grid">
             {testimonials.map((t) => (
@@ -791,7 +789,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 9. STUDIO LOCATIONS & BOOKING CONSULTATION (PROFESSIONAL)       */}
+      {/* 9. STUDIO LOCATIONS & QUICK BOOKING                            */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-book-us-section" id="contact-booking">
         <div className="inc-container">
@@ -799,14 +797,14 @@ export default function HomePage({ onNavigate }) {
             {/* Left: Studio Locations Hub */}
             <div className="inc-book-info-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">STUDIO VISITS &amp; RESERVATIONS</span>
+                <span className="inc-label-text">VISIT OUR STUDIOS</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-1">Visit Our Studios &amp; Connect</h2>
+              <h2 className="inc-heading-1">Visit Our Studios in Krishnagiri</h2>
 
               <p className="inc-paragraph" style={{ marginBottom: "26px" }}>
-                Walk into our creative spaces in Krishnagiri for an album consultation, toddler set preview, or discuss your upcoming wedding traditions with <strong>Mr. Gowtham Raj</strong>.
+                Visit our studios in Krishnagiri to view printed album samples, check our themed baby sets, or discuss wedding dates with <strong>Mr. Gowtham Raj</strong>.
               </p>
 
               {/* 2 Clean Studio Location Cards */}
@@ -852,7 +850,7 @@ export default function HomePage({ onNavigate }) {
                 {/* Direct Contact Info Block */}
                 <div className="pro-contact-bar">
                   <div className="pro-contact-meta">
-                    <span className="pro-meta-label">DIRECT INQUIRIES &amp; APPOINTMENTS</span>
+                    <span className="pro-meta-label">DIRECT PHONE &amp; WHATSAPP</span>
                     <div className="pro-meta-phone-row">
                       <a href="tel:+919500306696" className="pro-phone-number">
                         +91 9500306696
@@ -878,10 +876,10 @@ export default function HomePage({ onNavigate }) {
             <div className="inc-book-form-col">
               <div className="pro-booking-card">
                 <div className="pro-form-head">
-                  <span className="pro-form-kicker">DATE AVAILABILITY &amp; BOOKING</span>
-                  <h3 className="pro-form-title">Request a Studio Session</h3>
+                  <span className="pro-form-kicker">CHECK AVAILABILITY &amp; BOOKING</span>
+                  <h3 className="pro-form-title">Check Date Availability</h3>
                   <p className="pro-form-subtitle">
-                    Submit your event details below to receive availability and package estimates directly from Mr. Gowtham Raj.
+                    Share your shoot details below and Mr. Gowtham Raj will connect with you directly with availability and pricing.
                   </p>
                 </div>
 
@@ -931,7 +929,7 @@ export default function HomePage({ onNavigate }) {
                           <option value="Toddlers by Raavan (Baby / Newborn Milestone)">Toddlers by Raavan (Baby / Newborn)</option>
                           <option value="Outdoor Couple Shoot (Krishnagiri Hills)">Outdoor Couple (Krishnagiri Hills)</option>
                           <option value="Maternity & Family Portraiture">Maternity &amp; Family Portrait</option>
-                          <option value="Custom Bespoke Event">Custom Bespoke Event</option>
+                          <option value="Birthday & Family Event">Birthday &amp; Family Event</option>
                         </select>
                       </div>
                     </div>
@@ -980,7 +978,7 @@ export default function HomePage({ onNavigate }) {
                     </button>
 
                     <div className="pro-privacy-text">
-                      Direct response from founder Mr. Gowtham Raj within 1 business day.
+                      Direct response from founder Mr. Gowtham Raj.
                     </div>
                   </form>
                 )}

@@ -12,15 +12,15 @@ export const studio = {
   foundedDate: "21st January 2021",
   founder: {
     name: "Mr. Gowtham Raj",
-    title: "Founder & Creative Director",
-    experience: "8+ Years of Craftsmanship",
-    bio: "With over 8 years of specialized visual mastery, Mr. Gowtham Raj founded Raavan Studio’z to document life's most sacred emotions with cinematic elegance and unscripted intimacy.",
+    title: "Founder & Lead Photographer",
+    experience: "8+ Years Experience",
+    bio: "With over 8 years of experience in wedding and portrait photography, Mr. Gowtham Raj founded Raavan Studio’z to capture honest, heartfelt family moments and traditional celebrations across Tamil Nadu and Bangalore.",
   },
   branches: [
     {
       id: "creative-space",
       name: "The Creative Space",
-      type: "Flagship Experience Studio",
+      type: "Baby & Milestone Studio",
       address: "Raavan Studio’z, 3/470B RCC Moulding Building- Ground floor, Gandhi nagar, Salem-Bangalore Highways, Krishnagiri- 635001",
       landmark: "Opposite Gunam Hospital, Near Challenge Gym",
       mapUrl: "https://maps.app.goo.gl/13tnC9ZgRtQ5Ftje8",
@@ -28,17 +28,17 @@ export const studio = {
     {
       id: "work-space",
       name: "Work Space",
-      type: "Production & Post-Processing Atelier",
+      type: "Wedding Consultation & Editing Office",
       address: "Raavan Studio’z, 3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri- 635001",
       landmark: "BATA Showroom down lane, backside central theatre",
       mapUrl: "https://maps.app.goo.gl/e11f4M4RwXUbF1gcA",
     },
   ],
   stats: [
-    { value: "250+", label: "Weddings Documented" },
-    { value: "8+ Years", label: "Craftsmanship & Experience" },
-    { value: "100%", label: "Unscripted Emotion" },
-    { value: "500+", label: "Happy Families Captured" },
+    { value: "250+", label: "Weddings Covered" },
+    { value: "8+ Years", label: "Experience" },
+    { value: "100%", label: "Real Moments" },
+    { value: "500+", label: "Happy Families" },
   ],
   serviceRadius: "We provide services across all parts of India and internationally. For newborn 'HOME SHOOTS', travel is completely complimentary within a 20km radius of Krishnagiri.",
 };
