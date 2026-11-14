@@ -92,8 +92,11 @@ function BrandLogo() {
         src="/raavan-logo-only.png"
         alt="Raavan Studio'z Emblem"
         className="brand-emblem-clean-img"
-        style={{ height: "48px", width: "auto", objectFit: "contain" }}
       />
+      <div className="navbar-brand-text-block">
+        <span className="navbar-brand-title footer-brand-title">RAAVAN STUDIO’Z</span>
+        <span className="navbar-brand-subtitle footer-brand-sub">PHOTOGRAPHY · KRISHNAGIRI</span>
+      </div>
     </div>
   );
 }
@@ -145,6 +148,10 @@ function Header({ theme, currentPage, onNavigate }) {
             alt={studio.name}
             className="navbar-emblem-image"
           />
+          <div className="navbar-brand-text-block">
+            <span className="navbar-brand-title">RAAVAN STUDIO’Z</span>
+            <span className="navbar-brand-subtitle">PHOTOGRAPHY · KRISHNAGIRI</span>
+          </div>
         </a>
 
         <div className="navbar-right-group">
