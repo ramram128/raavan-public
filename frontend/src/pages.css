@@ -5171,10 +5171,11 @@ footer a:hover {
 
 .full-banner-hero-container {
   position: relative;
-  width: 100%;
+  width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
+  height: 400px !important;
   overflow: hidden;
   background: #050d1a;
 }
@@ -5182,31 +5183,32 @@ footer a:hover {
 .full-banner-slider-track {
   position: relative;
   width: 100%;
-  height: auto;
+  height: 400px !important;
 }
 
 .full-banner-slide {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  display: none;
+  height: 400px !important;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
 }
 
 .full-banner-slide.active {
-  display: block;
-  animation: bannerFadeIn 0.35s ease forwards;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
 }
 
-@keyframes bannerFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Full Width & All Text Inside Height 100% Visible */
+/* Banner Image at Exact Height: 400px & Width: 100% */
 .full-banner-slide-image {
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: 400px !important;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center 30%;
 }
 
 /* Navigation Arrows (Left & Right) */
