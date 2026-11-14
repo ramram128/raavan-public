@@ -85,6 +85,19 @@ function TopAnnouncementBar() {
   );
 }
 
+function BrandLogo() {
+  return (
+    <div className="brand-emblem-pure" aria-label="Raavan Studio'z">
+      <img
+        src="/raavan-logo-only.png"
+        alt="Raavan Studio'z Emblem"
+        className="brand-emblem-clean-img"
+        style={{ height: "48px", width: "auto", objectFit: "contain" }}
+      />
+    </div>
+  );
+}
+
 function Header({ theme, currentPage, onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef(null);

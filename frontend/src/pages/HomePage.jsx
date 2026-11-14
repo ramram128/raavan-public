@@ -155,7 +155,7 @@ export default function HomePage({ onNavigate }) {
                     src={item.image}
                     alt={item.alt}
                     className={`showcase-slide-img${index === activeSlide ? " active" : ""}`}
-                    fetchPriority={index === 0 ? "high" : "auto"}
+                    fetchpriority={index === 0 ? "high" : "auto"}
                     aria-hidden={index !== activeSlide}
                   />
                 ))}
