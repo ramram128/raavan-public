@@ -152,7 +152,7 @@ export default function GalleryPage({ onNavigate }) {
                 </span>
                 <h3 style={{ fontSize: "1.15rem", margin: "0.2rem 0", color: "#fff" }}>{photo.title}</h3>
                 {photo.location && (
-                  <p style={{ fontSize: "0.82rem", opacity: 0.75 }}>📍 {photo.location}</p>
+                  <p style={{ fontSize: "0.82rem", opacity: 0.75 }}>{photo.location}</p>
                 )}
               </div>
             </div>

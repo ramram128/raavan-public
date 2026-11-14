@@ -125,7 +125,7 @@ export default function ContactPage() {
                       {b.address}
                     </p>
                     <p style={{ fontSize: "0.8rem", color: "#e2b876", marginBottom: "0.5rem" }}>
-                      📍 Landmark: {b.landmark}
+                      Landmark: {b.landmark}
                     </p>
                     <a
                       href={b.mapUrl}

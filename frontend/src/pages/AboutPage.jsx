@@ -189,7 +189,7 @@ export default function AboutPage({ onNavigate }) {
                     {b.address}
                   </p>
                   <p style={{ fontSize: "0.85rem", color: "#e2b876", marginBottom: "1rem" }}>
-                    📍 Landmark: {b.landmark}
+                    Landmark: {b.landmark}
                   </p>
                 </div>
 

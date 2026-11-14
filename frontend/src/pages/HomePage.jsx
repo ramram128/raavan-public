@@ -458,7 +458,7 @@ export default function HomePage({ onNavigate }) {
                     <span className="inc-photo-cat-badge">{photo.category}</span>
                     <h3 className="inc-photo-card-title">{photo.title}</h3>
                     <p className="inc-photo-card-story">{photo.story}</p>
-                    <span className="inc-photo-card-loc">📍 {photo.location}</span>
+                    <span className="inc-photo-card-loc">{photo.location}</span>
                   </div>
                 </div>
               </div>
@@ -501,7 +501,7 @@ export default function HomePage({ onNavigate }) {
             {/* 1. Mini Memories */}
             <div className="luxury-pricing-card tier-intro">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-intro">🌱 Mini Session</span>
+                <span className="tier-pill pill-intro">Mini Session</span>
               </div>
               <h3 className="tier-card-title">Mini Memories</h3>
               <div className="tier-price-box">
@@ -509,7 +509,7 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹2,500</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip">⏱ 15–20 Mins Session</span>
+                <span className="tier-duration-chip">15–20 Mins Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
@@ -547,7 +547,7 @@ export default function HomePage({ onNavigate }) {
             {/* 2. Sweet Beginnings */}
             <div className="luxury-pricing-card tier-classic">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-classic">✨ Standard Session</span>
+                <span className="tier-pill pill-classic">Standard Session</span>
               </div>
               <h3 className="tier-card-title">Sweet Beginnings</h3>
               <div className="tier-price-box">
@@ -555,7 +555,7 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹5,000</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip">⏱ 30 Mins Session</span>
+                <span className="tier-duration-chip">30 Mins Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
@@ -593,7 +593,7 @@ export default function HomePage({ onNavigate }) {
             {/* 3. Little Stars (Featured Popular) */}
             <div className="luxury-pricing-card tier-popular is-featured-tier">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-popular">⭐ MOST POPULAR CHOICE</span>
+                <span className="tier-pill pill-popular">MOST POPULAR CHOICE</span>
               </div>
               <h3 className="tier-card-title">Little Stars</h3>
               <div className="tier-price-box">
@@ -601,7 +601,7 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹8,000</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip chip-popular">⏱ 60 Mins Session</span>
+                <span className="tier-duration-chip chip-popular">60 Mins Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
@@ -639,7 +639,7 @@ export default function HomePage({ onNavigate }) {
             {/* 4. Tiny Royalty (VIP Luxury) */}
             <div className="luxury-pricing-card tier-luxury is-luxury-tier">
               <div className="tier-header-badge">
-                <span className="tier-pill pill-luxury">👑 PREMIUM SESSION</span>
+                <span className="tier-pill pill-luxury">PREMIUM SESSION</span>
               </div>
               <h3 className="tier-card-title">Tiny Royalty</h3>
               <div className="tier-price-box">
@@ -647,7 +647,7 @@ export default function HomePage({ onNavigate }) {
                   <span className="tier-price-amount">₹12,000</span>
                   <span className="tier-price-sub">/ session</span>
                 </div>
-                <span className="tier-duration-chip chip-luxury">⏱ 90 Mins Relaxed Session</span>
+                <span className="tier-duration-chip chip-luxury">90 Mins Relaxed Session</span>
               </div>
               <div className="tier-divider" />
               <ul className="tier-features-list">
@@ -686,7 +686,7 @@ export default function HomePage({ onNavigate }) {
           {/* Wedding Custom Quote Card (Full Width Banner) */}
           <div className="inc-wedding-quote-card">
             <div className="inc-wedding-quote-info">
-              <span className="inc-quote-badge">💍 NAMMA VEETU KALYANAM</span>
+              <span className="inc-quote-badge">NAMMA VEETU KALYANAM</span>
               <h3 className="inc-quote-heading">Planning a Wedding, Reception, or Muhurtham?</h3>
               <p className="inc-quote-desc">
                 Every wedding is special. We provide customized wedding packages with candid photography, traditional rituals, 4K wedding films, drone shoots, and premium photo albums.
@@ -741,7 +741,7 @@ export default function HomePage({ onNavigate }) {
                   />
                   <div className="inc-author-info">
                     <strong className="inc-author-name">{t.couple}</strong>
-                    <span className="inc-author-loc">📍 {t.location}</span>
+                    <span className="inc-author-loc">{t.location}</span>
                   </div>
                 </div>
               </div>
@@ -975,7 +975,7 @@ export default function HomePage({ onNavigate }) {
               <span className="clean-lightbox-cat">{lightboxPhoto.category}</span>
               <h3>{lightboxPhoto.title}</h3>
               <p>{lightboxPhoto.story}</p>
-              <span className="clean-lightbox-loc">📍 {lightboxPhoto.location}</span>
+              <span className="clean-lightbox-loc">{lightboxPhoto.location}</span>
             </div>
           </div>
         </div>
