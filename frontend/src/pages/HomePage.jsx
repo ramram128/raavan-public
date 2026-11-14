@@ -142,15 +142,8 @@ export default function HomePage({ onNavigate }) {
           ›
         </button>
 
-        {/* Subtle Signature Badge */}
-        <div className="inc-hero-badge">
-          <span>✦ Raavan Studio’z Signature Reel</span>
-        </div>
-
-        {/* Bottom Control Bar: Location Tag & Indicator Dots */}
+        {/* Bottom Controls: Indicator Dots Centered */}
         <div className="inc-hero-bottom-bar">
-          <span className="inc-hero-tagline">📍 {slide.tagline}</span>
-
           <div className="inc-hero-dots-row" role="group" aria-label="Hero slide dots">
             {cleanHeroSlides.map((item, index) => (
               <button

@@ -6911,24 +6911,23 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 24px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.85) 100%);
+  padding: 18px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .inc-hero-tagline {
-  color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 500;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: none;
 }
 
 .inc-hero-dots-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  pointer-events: auto;
 }
 
 .inc-dot {
@@ -8096,24 +8095,23 @@ footer a:hover {
   left: 0;
   right: 0;
   z-index: 15;
-  padding: 24px 32px;
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.85) 100%);
+  padding: 18px 32px;
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 13, 26, 0.35) 100%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .inc-hero-tagline {
-  color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 500;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: none;
 }
 
 .inc-hero-dots-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  pointer-events: auto;
 }
 
 .inc-dot {
