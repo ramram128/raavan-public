@@ -758,17 +758,14 @@ export default function HomePage({ onNavigate }) {
             {/* Left: Studio Locations & Direct Reach */}
             <div className="inc-book-info-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">Book Us Now</span>
+                <span className="inc-label-text">GET IN TOUCH</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-1">We are here to stitch your story.</h2>
+              <h2 className="inc-heading-1">Visit Our Studios &amp; Connect</h2>
 
-              <p className="inc-paragraph">
-                We are here to lessen your worries and stitch a memorable story of your wedding, baby milestones, or family moments. If you are ready to put things in motion, what are you waiting for?
-              </p>
-              <p className="inc-paragraph">
-                Book Us Now — Mr. Gowtham Raj and our team will be more than happy to welcome you to our studios.
+              <p className="inc-paragraph" style={{ marginBottom: "24px" }}>
+                Walk into our dedicated studios in Krishnagiri or get in touch directly with Mr. Gowtham Raj for bookings and date availability.
               </p>
 
               {/* Dual Krishnagiri Studios */}
