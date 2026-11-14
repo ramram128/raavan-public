@@ -11639,28 +11639,46 @@ footer a:hover {
    ========================================================================== */
 
 /* 1. Scroll-Triggered Reveal Animations */
+@keyframes fallbackReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fallbackScaleReveal {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(26px);
   transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fallbackReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
   will-change: opacity, transform;
 }
 
 .reveal-on-scroll.revealed {
   opacity: 1;
   transform: translateY(0);
+  animation: none;
 }
 
 .reveal-scale {
   opacity: 0;
   transform: scale(0.96) translateY(20px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fallbackScaleReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
   will-change: opacity, transform;
 }
 
 .reveal-scale.revealed {
   opacity: 1;
   transform: scale(1) translateY(0);
+  animation: none;
 }
 
 /* Stagger Delay Utility Classes */
@@ -11829,7 +11847,7 @@ footer a:hover {
 /* 1. Universal Clean Page Hero Header */
 .clean-page-hero {
   background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
-  padding: 68px 0 52px;
+  padding: 92px 0 52px;
   text-align: center;
   border-bottom: 1px solid #e2e8f0;
   position: relative;
@@ -12603,26 +12621,55 @@ footer a:hover {
   box-shadow: 0 4px 14px rgba(2, 132, 199, 0.28);
 }
 
+.gallery-grid-section {
+  padding: 44px 0 88px;
+  background: #ffffff;
+}
+
 .clean-gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
+@keyframes galleryCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .clean-gallery-card {
   position: relative;
   aspect-ratio: 4 / 3;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: #f1f5f9;
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 25px rgba(10, 25, 47, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  animation: galleryCardEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
+
+.clean-gallery-card:nth-child(1) { animation-delay: 0.03s; }
+.clean-gallery-card:nth-child(2) { animation-delay: 0.06s; }
+.clean-gallery-card:nth-child(3) { animation-delay: 0.09s; }
+.clean-gallery-card:nth-child(4) { animation-delay: 0.12s; }
+.clean-gallery-card:nth-child(5) { animation-delay: 0.15s; }
+.clean-gallery-card:nth-child(6) { animation-delay: 0.18s; }
+.clean-gallery-card:nth-child(7) { animation-delay: 0.21s; }
+.clean-gallery-card:nth-child(8) { animation-delay: 0.24s; }
+.clean-gallery-card:nth-child(n+9) { animation-delay: 0.27s; }
 
 .clean-gallery-card:hover {
   transform: translateY(-8px) scale(1.015);
-  box-shadow: 0 24px 48px rgba(2, 132, 199, 0.18);
+  border-color: #38bdf8;
+  box-shadow: 0 24px 48px rgba(2, 132, 199, 0.2);
 }
 
 .gallery-photo-holder {
@@ -13525,7 +13572,7 @@ footer a:hover {
 
 @media (max-width: 768px) {
   .clean-page-hero {
-    padding: 48px 0 36px;
+    padding: 72px 0 40px;
   }
 
   .studios-cards-grid,

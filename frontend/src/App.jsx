@@ -347,8 +347,27 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }
 
+  // Always scroll to top whenever the current page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [currentPage]);
+
   // Universal Scroll-Reveal IntersectionObserver for animatic experience
   useEffect(() => {
+    function revealVisibleElements() {
+      const targets = document.querySelectorAll(
+        ".reveal-on-scroll, .reveal-scale, .reveal-stagger, .inc-two-col-grid, .inc-showcase-image-card, .inc-arched-images-stack, .about-stats-container, .incredible-gallery-item, .luxury-pricing-card, .inc-testimonial-card, .pro-studio-card, .pro-booking-card"
+      );
+      targets.forEach((el) => {
+        if (!el.classList.contains("revealed")) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight + 80 && rect.bottom > -80) {
+            el.classList.add("revealed");
+          }
+        }
+      });
+    }
+
     // If user prefers reduced motion, reveal everything immediately
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.querySelectorAll(".reveal-on-scroll, .reveal-scale, .reveal-stagger").forEach((el) => {
@@ -367,19 +386,18 @@ export default function App() {
         });
       },
       {
-        threshold: 0.08,
-        rootMargin: "0px 0px -40px 0px",
+        threshold: 0.04,
+        rootMargin: "0px 0px -20px 0px",
       }
     );
 
-    const timer = setTimeout(() => {
+    function scanAndObserve() {
       const targets = document.querySelectorAll(
         ".reveal-on-scroll, .reveal-scale, .reveal-stagger, .inc-two-col-grid, .inc-showcase-image-card, .inc-arched-images-stack, .about-stats-container, .incredible-gallery-item, .luxury-pricing-card, .inc-testimonial-card, .pro-studio-card, .pro-booking-card"
       );
       targets.forEach((el) => {
         if (!el.classList.contains("revealed")) {
           const rect = el.getBoundingClientRect();
-          // If already in viewport on mount, mark revealed directly
           if (rect.top < window.innerHeight && rect.bottom > 0) {
             el.classList.add("revealed");
           } else {
@@ -387,11 +405,27 @@ export default function App() {
           }
         }
       });
-    }, 60);
+    }
+
+    scanAndObserve();
+    const t1 = setTimeout(scanAndObserve, 50);
+    const t2 = setTimeout(scanAndObserve, 250);
+    const t3 = setTimeout(scanAndObserve, 800);
+
+    const mutationObserver = new MutationObserver(() => {
+      scanAndObserve();
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    window.addEventListener("scroll", revealVisibleElements, { passive: true });
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       observer.disconnect();
+      mutationObserver.disconnect();
+      window.removeEventListener("scroll", revealVisibleElements);
     };
   }, [currentPage]);
 

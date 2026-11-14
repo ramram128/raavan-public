@@ -113,7 +113,7 @@ export default function GalleryPage({ onNavigate }) {
             {filteredPhotos.map((photo, index) => (
               <div
                 key={photo.id}
-                className={`clean-gallery-card reveal-on-scroll stagger-${(index % 4) + 1}`}
+                className={`clean-gallery-card stagger-${(index % 4) + 1}`}
                 data-photo="true"
                 onClick={() => setSelectedPhoto(photo)}
                 role="button"
@@ -123,7 +123,15 @@ export default function GalleryPage({ onNavigate }) {
                 }}
               >
                 <div className="gallery-photo-holder">
-                  <img src={photo.image} alt={photo.title} loading="lazy" />
+                  <img
+                    src={photo.image}
+                    alt={photo.title}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/kalyanam/page_4_img_1.png";
+                    }}
+                  />
                   <div className="gallery-photo-overlay">
                     <span className="gallery-photo-badge">{photo.category}</span>
                     <h3 className="gallery-photo-title">{photo.title}</h3>
