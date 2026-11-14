@@ -156,16 +156,6 @@ export default function HomePage({ onNavigate }) {
                       >
                         <span>{item.secondaryCta.label}</span>
                       </button>
-                      <a
-                        href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                          `Hi Gowtham Raj! I would like to book a session for "${item.title}" with Raavan Studio’z.`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inc-hero-whatsapp-btn"
-                      >
-                        <span>💬 Chat on WhatsApp</span>
-                      </a>
                     </div>
                   </div>
                 </div>
