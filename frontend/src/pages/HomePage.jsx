@@ -8,26 +8,21 @@ import {
   testimonials,
 } from "../content.js";
 
-// Curated clean high-res hero slides without messy text watermarks
+// Curated bespoke 16:9 widescreen cinematic hero banners for Raavan Studio'z
 const cleanHeroSlides = [
   {
-    image: "/kalyanam/page_4_img_1.png",
-    alt: "Namma Veetu Kalyanam sacred moments",
+    image: "/banners/banner_wedding.jpg",
+    alt: "Namma Veetu Kalyanam sacred South Indian wedding rituals",
     tagline: "Namma Veetu Kalyanam · Krishnagiri",
   },
   {
-    image: "/kalyanam/page_2_img_1.png",
-    alt: "Cinematic wedding vows and rituals",
-    tagline: "Sacred Traditions · Tamil Nadu",
-  },
-  {
-    image: "/gallery/kutty_4.jpg",
-    alt: "Toddlers by Raavan newborn portrait",
+    image: "/banners/banner_toddler.jpg",
+    alt: "Toddlers by Raavan luxury newborn & baby milestone photography",
     tagline: "The Creative Space · Toddlers by Raavan",
   },
   {
-    image: "/kalyanam/page_5_img_1.png",
-    alt: "Pre-wedding portrait in Krishnagiri Hills",
+    image: "/banners/banner_couple.jpg",
+    alt: "Cinematic pre-wedding romance at Krishnagiri Hills",
     tagline: "Outdoor Cinematography · Krishnagiri Hills",
   },
 ];
