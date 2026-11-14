@@ -11259,8 +11259,8 @@ footer a:hover {
 
 .about-stats-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
   margin: 32px 0 28px;
 }
 
@@ -11354,8 +11354,18 @@ footer a:hover {
 
 @media (max-width: 640px) {
   .about-stats-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 24px 0 22px;
+  }
+  .about-stat-card {
+    padding: 10px 4px;
+  }
+  .about-stat-value {
+    font-size: 1.35rem;
+  }
+  .about-stat-text {
+    font-size: 0.72rem;
   }
   .about-actions-row {
     flex-direction: column;

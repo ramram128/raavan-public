@@ -237,7 +237,7 @@ export default function HomePage({ onNavigate }) {
                 We operate two dedicated studios in Krishnagiri: <strong>The Creative Space</strong> designed exclusively for newborn, infant, and toddler shoots, and <strong>Work Space</strong> for wedding consultations, couple photography, and video editing.
               </p>
 
-              {/* 4 Clean Metric Cards */}
+              {/* 3 Clean Metric Cards */}
               <div className="about-stats-container">
                 <div className="about-stat-card">
                   <div className="about-stat-value">8+</div>
@@ -246,10 +246,6 @@ export default function HomePage({ onNavigate }) {
                 <div className="about-stat-card">
                   <div className="about-stat-value">1,500+</div>
                   <div className="about-stat-text">Happy Clients</div>
-                </div>
-                <div className="about-stat-card">
-                  <div className="about-stat-value">2</div>
-                  <div className="about-stat-text">Krishnagiri Studios</div>
                 </div>
                 <div className="about-stat-card">
                   <div className="about-stat-value">5.0 ★</div>
