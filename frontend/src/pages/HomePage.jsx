@@ -749,97 +749,112 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 9. BOOK US NOW: Studio Locations & Quick Booking Form          */}
-      {/* Matches incrediblephotography.in (Book Us Now)                 */}
+      {/* 9. VISIT STUDIOS & QUICK BOOKING CONCIERGE (STYLISH & MODERN)   */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-book-us-section" id="contact-booking">
         <div className="inc-container">
-          <div className="inc-two-col-grid">
-            {/* Left: Studio Locations & Direct Reach */}
+          <div className="inc-two-col-grid align-center">
+            {/* Left: 2 Physical Studios Hub */}
             <div className="inc-book-info-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">GET IN TOUCH</span>
+                <span className="inc-label-text">✦ GET IN TOUCH · KRISHNAGIRI</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-1">Visit Our Studios &amp; Connect</h2>
+              <h2 className="inc-heading-1">Visit Our 2 Studios in Krishnagiri</h2>
 
-              <p className="inc-paragraph" style={{ marginBottom: "24px" }}>
-                Walk into our dedicated studios in Krishnagiri or get in touch directly with Mr. Gowtham Raj for bookings and date availability.
+              <p className="inc-paragraph" style={{ marginBottom: "28px" }}>
+                Walk into our dedicated creative spaces in Krishnagiri for an album consultation, toddler set preview, or discuss your upcoming wedding traditions with <strong>Mr. Gowtham Raj</strong>.
               </p>
 
-              {/* Dual Krishnagiri Studios */}
-              <div className="inc-address-boxes-stack">
-                {/* Branch 1 */}
-                <div className="inc-address-box">
-                  <div className="inc-address-icon">📍</div>
-                  <div className="inc-address-content">
-                    <strong className="inc-address-title">Studio 1: The Creative Space</strong>
-                    <span className="inc-address-sub">Toddlers, Baby Milestones &amp; Family Portraits</span>
-                    <p className="inc-address-text">
-                      3/470B RCC Moulding Bldg, Gandhi Nagar, Salem-Bangalore Hwy, Krishnagiri (Opp. Gunam Hospital)
-                    </p>
+              {/* Dual Studio Cards Stack */}
+              <div className="inc-studios-luxury-stack">
+                {/* Branch 1: The Creative Space */}
+                <div className="inc-luxury-studio-card card-creative">
+                  <div className="studio-card-top-row">
+                    <span className="studio-badge-pill pill-cyan">🌿 STUDIO 1 · BABY &amp; TODDLERS</span>
                     <a
                       href="https://maps.app.goo.gl/13tnC9ZgRtQ5Ftje8"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inc-map-link"
+                      className="studio-maps-pill-btn"
                     >
-                      Open in Google Maps ↗
+                      📍 Maps ↗
                     </a>
                   </div>
+                  <h3 className="studio-card-name">The Creative Space</h3>
+                  <span className="studio-card-focus">Dedicated Newborn &amp; Toddler Milestone Studio Suites</span>
+                  <p className="studio-card-addr">
+                    3/470B RCC Moulding Bldg, Gandhi Nagar, Salem-Bangalore Hwy, Krishnagiri (Opp. Gunam Hospital)
+                  </p>
                 </div>
 
-                {/* Branch 2 */}
-                <div className="inc-address-box">
-                  <div className="inc-address-icon">📍</div>
-                  <div className="inc-address-content">
-                    <strong className="inc-address-title">Studio 2: Work Space</strong>
-                    <span className="inc-address-sub">Weddings, Couples &amp; Commercial Cinematography</span>
-                    <p className="inc-address-text">
-                      3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri (BATA Showroom down lane, backside Central Theatre)
-                    </p>
+                {/* Branch 2: Work Space */}
+                <div className="inc-luxury-studio-card card-workspace">
+                  <div className="studio-card-top-row">
+                    <span className="studio-badge-pill pill-navy">🏛️ STUDIO 2 · WEDDINGS &amp; CINEMA</span>
                     <a
                       href="https://maps.app.goo.gl/e11f4M4RwXUbF1gcA"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inc-map-link"
+                      className="studio-maps-pill-btn"
                     >
-                      Open in Google Maps ↗
+                      📍 Maps ↗
                     </a>
                   </div>
+                  <h3 className="studio-card-name">Work Space</h3>
+                  <span className="studio-card-focus">Weddings, Outdoor Romance &amp; Commercial Editing Atelier</span>
+                  <p className="studio-card-addr">
+                    3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri (BATA Showroom down lane, backside Central Theatre)
+                  </p>
                 </div>
 
-                {/* Direct Phone & WhatsApp */}
-                <div className="inc-address-box">
-                  <div className="inc-address-icon">📞</div>
-                  <div className="inc-address-content">
-                    <strong className="inc-address-title">Call or WhatsApp Mr. Gowtham Raj</strong>
-                    <p className="inc-address-text">
-                      <a href="tel:+919500306696" className="inc-phone-link">
+                {/* Direct Phone & WhatsApp Strip */}
+                <div className="inc-luxury-contact-strip">
+                  <div className="contact-strip-icon">📞</div>
+                  <div className="contact-strip-info">
+                    <strong className="contact-strip-title">Mr. Gowtham Raj · Direct Line</strong>
+                    <div className="contact-strip-links">
+                      <a href="tel:+919500306696" className="contact-strip-phone">
                         +91 9500306696
-                      </a>{" "}
-                      · Daily 9:00 AM – 9:00 PM
-                    </p>
-                    <span className="inc-address-sub">raavanstudioz@gmail.com</span>
+                      </a>
+                      <span className="contact-strip-sep">•</span>
+                      <span className="contact-strip-hours">9:00 AM – 9:00 PM Daily</span>
+                    </div>
                   </div>
+                  <a
+                    href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                      "Hi Gowtham Raj! I would like to inquire about booking a photography session with Raavan Studio’z."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-strip-wa-btn"
+                  >
+                    <span>WhatsApp ↗</span>
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* Right: Quick Booking Inquiry Form */}
+            {/* Right: Modern High-End Booking Concierge Card */}
             <div className="inc-book-form-col">
-              <div className="inc-booking-card">
-                <h3 className="inc-form-heading">Check Date Availability &amp; Booking</h3>
-                <p className="inc-form-sub">
-                  Tell us about your upcoming occasion, and Mr. Gowtham Raj will connect with you promptly.
-                </p>
+              <div className="inc-luxury-booking-card">
+                <div className="booking-card-header">
+                  <div className="booking-live-status">
+                    <span className="live-pulse-dot" />
+                    <span>DIRECT BOOKING CONCIERGE</span>
+                  </div>
+                  <h3 className="booking-card-title">Check Date Availability &amp; Booking</h3>
+                  <p className="booking-card-desc">
+                    Tell us about your upcoming occasion. Mr. Gowtham Raj connects back promptly.
+                  </p>
+                </div>
 
                 {formSent ? (
                   <div className="inc-form-success">
                     <div className="inc-success-icon">✓</div>
                     <h4>Enquiry Sent via WhatsApp!</h4>
-                    <p>Thank you! Gowtham Raj has received your message and will get back to you shortly.</p>
+                    <p>Thank you! Mr. Gowtham Raj has received your message and will get back to you shortly.</p>
                     <button
                       type="button"
                       className="inc-primary-button mt-3"
@@ -849,85 +864,89 @@ export default function HomePage({ onNavigate }) {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleQuickBookingSubmit} className="inc-booking-form">
-                    <div className="inc-form-field">
-                      <label htmlFor="formRole">I am the:</label>
-                      <select
-                        id="formRole"
-                        value={formRole}
-                        onChange={(e) => setFormRole(e.target.value)}
-                        className="inc-input-control"
-                      >
-                        <option value="">Select your relation</option>
-                        <option value="Bride">Bride</option>
-                        <option value="Groom">Groom</option>
-                        <option value="Parent (Baby/Toddler Shoot)">Parent (Baby / Toddler Shoot)</option>
-                        <option value="Family Member">Family Member</option>
-                        <option value="Friend">Friend</option>
-                      </select>
+                  <form onSubmit={handleQuickBookingSubmit} className="inc-luxury-form">
+                    <div className="form-fields-two-grid">
+                      <div className="form-field-group">
+                        <label htmlFor="formRole">I am the:</label>
+                        <select
+                          id="formRole"
+                          value={formRole}
+                          onChange={(e) => setFormRole(e.target.value)}
+                          className="luxury-select-input"
+                        >
+                          <option value="">Select your relation</option>
+                          <option value="Bride">Bride</option>
+                          <option value="Groom">Groom</option>
+                          <option value="Parent (Baby/Toddler Shoot)">Parent (Baby / Toddler Shoot)</option>
+                          <option value="Family Member">Family Member</option>
+                          <option value="Friend">Friend</option>
+                        </select>
+                      </div>
+
+                      <div className="form-field-group">
+                        <label htmlFor="formService">Photography Service</label>
+                        <select
+                          id="formService"
+                          value={formService}
+                          onChange={(e) => setFormService(e.target.value)}
+                          className="luxury-select-input"
+                        >
+                          <option value="">Select service</option>
+                          <option value="Wedding Couple Shoot / Namma Veetu Kalyanam">Wedding (Namma Veetu Kalyanam)</option>
+                          <option value="Toddlers by Raavan (Baby / Newborn Milestone)">Toddlers by Raavan (Baby / Newborn)</option>
+                          <option value="Outdoor Couple Shoot (Krishnagiri Hills)">Outdoor Couple (Krishnagiri Hills)</option>
+                          <option value="Maternity & Family Portraiture">Maternity &amp; Family Portrait</option>
+                          <option value="Custom Bespoke Event">Custom Bespoke Event</option>
+                        </select>
+                      </div>
                     </div>
 
-                    <div className="inc-form-field">
-                      <label htmlFor="formName">Your Name *</label>
-                      <input
-                        type="text"
-                        id="formName"
-                        required
-                        placeholder="e.g. Priyadarshini / Karthik"
-                        value={formName}
-                        onChange={(e) => setFormName(e.target.value)}
-                        className="inc-input-control"
-                      />
+                    <div className="form-fields-two-grid">
+                      <div className="form-field-group">
+                        <label htmlFor="formName">Your Name *</label>
+                        <input
+                          type="text"
+                          id="formName"
+                          required
+                          placeholder="e.g. Priyadarshini / Karthik"
+                          value={formName}
+                          onChange={(e) => setFormName(e.target.value)}
+                          className="luxury-text-input"
+                        />
+                      </div>
+
+                      <div className="form-field-group">
+                        <label htmlFor="formMobile">Mobile Number *</label>
+                        <input
+                          type="tel"
+                          id="formMobile"
+                          required
+                          placeholder="e.g. +91 98765 43210"
+                          value={formMobile}
+                          onChange={(e) => setFormMobile(e.target.value)}
+                          className="luxury-text-input"
+                        />
+                      </div>
                     </div>
 
-                    <div className="inc-form-field">
-                      <label htmlFor="formMobile">Mobile Number *</label>
-                      <input
-                        type="tel"
-                        id="formMobile"
-                        required
-                        placeholder="e.g. +91 98765 43210"
-                        value={formMobile}
-                        onChange={(e) => setFormMobile(e.target.value)}
-                        className="inc-input-control"
-                      />
-                    </div>
-
-                    <div className="inc-form-field">
-                      <label htmlFor="formService">Photography Service</label>
-                      <select
-                        id="formService"
-                        value={formService}
-                        onChange={(e) => setFormService(e.target.value)}
-                        className="inc-input-control"
-                      >
-                        <option value="">Select service</option>
-                        <option value="Wedding Couple Shoot / Namma Veetu Kalyanam">Wedding Couple Shoot (Namma Veetu Kalyanam)</option>
-                        <option value="Outdoor Couple Shoot (Krishnagiri Hills)">Outdoor Couple Shoot (Krishnagiri Hills)</option>
-                        <option value="Toddlers by Raavan (Baby / Newborn Milestone)">Toddlers by Raavan (Baby / Newborn Milestone)</option>
-                        <option value="Maternity & Family Portraiture">Maternity &amp; Family Portraiture</option>
-                        <option value="Custom Bespoke Event">Custom Bespoke Event</option>
-                      </select>
-                    </div>
-
-                    <div className="inc-form-field">
-                      <label htmlFor="formDate">Expected Event Date</label>
+                    <div className="form-field-group">
+                      <label htmlFor="formDate">Expected Event / Shoot Date</label>
                       <input
                         type="date"
                         id="formDate"
                         value={formDate}
                         onChange={(e) => setFormDate(e.target.value)}
-                        className="inc-input-control"
+                        className="luxury-text-input"
                       />
                     </div>
 
-                    <button type="submit" className="inc-submit-button">
-                      <span>Reserve Date &amp; Connect on WhatsApp →</span>
+                    <button type="submit" className="luxury-submit-button">
+                      <span>✨ Reserve Date &amp; Connect on WhatsApp →</span>
                     </button>
 
-                    <p className="inc-form-privacy-note">
-                      🔒 Your details are kept private and confidential. Direct response from Mr. Gowtham Raj.
-                    </p>
+                    <div className="booking-trust-note">
+                      <span>🔒 100% Private &amp; Confidential · Direct Response from Mr. Gowtham Raj</span>
+                    </div>
                   </form>
                 )}
               </div>
