@@ -499,39 +499,43 @@ export default function HomePage({ onNavigate }) {
             </div>
           </div>
 
-          {/* 4 Clean Baby Milestone Package Cards */}
-          <div className="inc-pricing-grid">
+          {/* 4 Clean Baby Milestone Package Cards (Compact & Neat) */}
+          <div className="inc-pricing-grid compact-grid">
             {servicePackages
               .filter((pkg) => pkg.id !== "namma-veetu-kalyanam")
               .map((pkg) => {
                 const isPopular = pkg.id === "little-stars" || pkg.badge === "Most Popular";
                 const isLuxury = pkg.id === "tiny-royalty" || pkg.badge === "Luxury Experience";
 
+                // Shorten duration for compact display
+                const shortDur = pkg.duration
+                  ? pkg.duration.replace(" studio session", "").replace(" relaxed session", "").replace(" leisurely session", "").replace(" session", "")
+                  : "session";
+
                 return (
                   <div
-                    className={`inc-pricing-card${isPopular ? " highlight-popular" : ""}${isLuxury ? " highlight-luxury" : ""}`}
+                    className={`inc-pricing-card compact-card${isPopular ? " highlight-popular" : ""}${isLuxury ? " highlight-luxury" : ""}`}
                     key={pkg.id}
                   >
                     {/* Badge */}
-                    <div className={`inc-pkg-badge${isPopular ? " badge-popular" : ""}${isLuxury ? " badge-luxury" : ""}`}>
+                    <div className={`inc-pkg-badge compact-badge${isPopular ? " badge-popular" : ""}${isLuxury ? " badge-luxury" : ""}`}>
                       <span>{isPopular ? "⭐ " : isLuxury ? "👑 " : ""}{pkg.badge}</span>
                     </div>
 
                     <div className="inc-pkg-head">
                       <h3 className="inc-pkg-title">{pkg.name}</h3>
-                      <p className="inc-pkg-tagline">“{pkg.tagline}”</p>
                     </div>
 
                     <div className="inc-pkg-price-row">
                       <span className="inc-price-val">{pkg.price}</span>
-                      <span className="inc-price-dur">/ session</span>
+                      <span className="inc-price-dur">/ {shortDur}</span>
                     </div>
-                    <span className="inc-duration-tag">⏱ {pkg.duration}</span>
 
                     <div className="inc-pkg-divider" />
 
-                    <ul className="inc-pkg-features">
-                      {pkg.features.map((feat) => (
+                    {/* Top 4 Core Deliverables */}
+                    <ul className="inc-pkg-features compact-features">
+                      {pkg.features.slice(0, 4).map((feat) => (
                         <li key={feat}>
                           <span className="inc-check">✓</span>
                           <span>{feat}</span>
@@ -546,7 +550,7 @@ export default function HomePage({ onNavigate }) {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`inc-pkg-btn${isPopular ? " filled" : ""}${isLuxury ? " luxury-btn" : ""}`}
+                        className={`inc-pkg-btn compact-btn${isPopular ? " filled" : ""}${isLuxury ? " luxury-btn" : ""}`}
                       >
                         <span>Book on WhatsApp →</span>
                       </a>
