@@ -12,7 +12,7 @@ export default function PricingPage({ onNavigate }) {
   const [packages, setPackages] = useState(fallbackPackages);
   const [addons, setAddons] = useState(fallbackAddons);
   const [openFaq, setOpenFaq] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("toddlers");
 
   useEffect(() => {
     fetchFromApi("/packages", null).then((data) => {
@@ -35,277 +35,285 @@ export default function PricingPage({ onNavigate }) {
 
   const filteredPackages = packages.filter((p) => {
     if (selectedCategory === "all") return true;
-    if (selectedCategory === "toddlers") return p.category === "newborn_toddler";
-    if (selectedCategory === "weddings") return p.category === "wedding";
+    if (selectedCategory === "toddlers") {
+      return (
+        p.category === "newborn_toddler" ||
+        p.id === "mini-memories" ||
+        p.id === "sweet-beginnings" ||
+        p.id === "little-stars" ||
+        p.id === "tiny-royalty"
+      );
+    }
+    if (selectedCategory === "weddings") {
+      return p.category === "wedding" || p.id === "namma-veetu-kalyanam";
+    }
     return true;
   });
 
   return (
-    <main className="page-container pricing-page" id="pricing-page">
-      {/* Page Hero */}
-      <section className="page-hero">
-        <div className="page-badge">Investment &amp; Packages</div>
-        <h1>Transparent, Honest Investment.</h1>
-        <p className="page-subtitle">
-          {studio.tagline} · Clear tier packages for newborns &amp; toddlers with @toddlers_by_raavan, and custom quotes for weddings and grand celebrations. Free travel within 20km radius of Krishnagiri.
-        </p>
+    <div className="clean-pricing-page-root" id="pricing-page">
+      {/* ============================================================== */}
+      {/* 1. PAGE HERO HEADER                                            */}
+      {/* ============================================================== */}
+      <section className="clean-pricing-hero-section">
+        <div className="inc-container">
+          <div className="clean-pricing-hero-content">
+            <div className="inc-section-label-row center-aligned">
+              <div className="inc-line" />
+              <span className="inc-label-text">THE CREATIVE SPACE · KRISHNAGIRI</span>
+              <div className="inc-line" />
+            </div>
 
-        {/* Filter Switcher */}
-        <div className="segmented-control" style={{ marginTop: "24px", display: "inline-flex" }}>
-          <button
-            type="button"
-            className={`segmented-btn ${selectedCategory === "all" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("all")}
-          >
-            All Collections
-          </button>
-          <button
-            type="button"
-            className={`segmented-btn ${selectedCategory === "toddlers" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("toddlers")}
-          >
-            Kutty Chutties (Newborn &amp; Toddlers)
-          </button>
-          <button
-            type="button"
-            className={`segmented-btn ${selectedCategory === "weddings" ? "active" : ""}`}
-            onClick={() => setSelectedCategory("weddings")}
-          >
-            Weddings &amp; Celebrations
-          </button>
-        </div>
-      </section>
+            <h1 className="clean-pricing-hero-title">
+              Kutty Chutties Pricing Packages
+            </h1>
 
-      {/* Main Packages Grid */}
-      <section className="section" style={{ paddingTop: "1rem" }}>
-        <div className="content-wrapper">
-          <div className="packages-grid">
-            {filteredPackages.map((pkg) => (
-              <div
-                key={pkg.id || pkg.name}
-                className={`package-card ${pkg.badge === "Most Popular" || pkg.isFeatured ? "featured" : ""}`}
-                style={{
-                  position: "relative",
-                  background: "var(--color-surface, rgba(255,255,255,0.03))",
-                  border: pkg.badge === "Most Popular" ? "1.5px solid #00d4ff" : "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "14px",
-                  padding: "2rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                {pkg.badge && (
-                  <div
-                    className="package-badge"
-                    style={{
-                      position: "absolute",
-                      top: "-12px",
-                      right: "20px",
-                      background: pkg.badge === "Most Popular" ? "#00d4ff" : "rgba(255,255,255,0.15)",
-                      color: pkg.badge === "Most Popular" ? "#000" : "#fff",
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      padding: "0.25rem 0.75rem",
-                      borderRadius: "20px",
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {pkg.badge}
-                  </div>
-                )}
-
-                <div>
-                  <h3 style={{ fontSize: "1.4rem", marginBottom: "0.25rem", color: "#fff" }}>{pkg.name}</h3>
-                  <p style={{ fontSize: "0.88rem", opacity: 0.75, minHeight: "2.4em", marginBottom: "1rem" }}>
-                    {pkg.tagline}
-                  </p>
-
-                  <div className="package-price" style={{ margin: "1rem 0" }}>
-                    <span style={{ fontSize: "2rem", fontWeight: 700, color: "#00d4ff" }}>{pkg.price}</span>
-                    {pkg.duration && (
-                      <span style={{ display: "block", fontSize: "0.85rem", opacity: 0.7, marginTop: "0.2rem" }}>
-                        ⏱ {pkg.duration}
-                      </span>
-                    )}
-                  </div>
-
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: 0,
-                      margin: "1.5rem 0",
-                      display: "grid",
-                      gap: "0.6rem",
-                      fontSize: "0.9rem",
-                    }}
-                  >
-                    {(pkg.features || []).map((feat, idx) => (
-                      <li key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
-                        <span style={{ color: "#00d4ff", fontWeight: "bold" }}>✓</span>
-                        <span style={{ opacity: 0.9 }}>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div style={{ marginTop: "1.5rem" }}>
-                  <button
-                    type="button"
-                    className={`btn ${pkg.badge === "Most Popular" ? "btn-primary" : "btn-secondary"}`}
-                    style={{ width: "100%", padding: "0.85rem", fontWeight: 600 }}
-                    onClick={() => onNavigate("/contact")}
-                  >
-                    {pkg.price === "Get a Quote" ? "Request Bespoke Quote" : "Book This Session"}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Add-Ons Section */}
-      <section className="section" style={{ background: "rgba(0,0,0,0.2)" }}>
-        <div className="content-wrapper">
-          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <div className="page-badge">Custom Tailoring</div>
-            <h2>Add-Ons &amp; Enhancements</h2>
-            <p className="section-head-subtitle">
-              Enhance any newborn, toddler, or wedding collection with our bespoke additions.
+            <p className="clean-pricing-hero-subtitle">
+              Honest, transparent investments for newborn, baby milestones &amp; toddler photography with <strong>@toddlers_by_raavan</strong>. Every session is hosted in our sanitized, climate-controlled studio suites in Krishnagiri.
             </p>
-          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
-            {addons.map((add, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "10px",
-                  padding: "1.5rem",
-                }}
+            <div className="clean-pricing-perks-row">
+              <span className="clean-perk-badge">✓ Free Travel within 20km from Krishnagiri</span>
+              <span className="clean-perk-badge">✓ 15+ Themed Handcrafted Sets</span>
+              <span className="clean-perk-badge">✓ All Props &amp; Outfits Included</span>
+              <span className="clean-perk-badge">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
+            </div>
+
+            {/* Category Filter Tabs */}
+            <div className="clean-pricing-filter-tabs">
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("toddlers")}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
-                  <h4 style={{ fontSize: "1.05rem", color: "#fff" }}>{add.name}</h4>
-                  <span style={{ color: "#00d4ff", fontWeight: 700, fontSize: "0.95rem" }}>{add.price}</span>
-                </div>
-                <p style={{ fontSize: "0.85rem", opacity: 0.75, lineHeight: 1.4 }}>{add.detail}</p>
-              </div>
-            ))}
+                👶 Kutty Chutties (Newborn &amp; Toddlers)
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("all")}
+              >
+                All Collections
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("weddings")}
+              >
+                💍 Weddings &amp; Celebrations
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Payment Milestones */}
-      <section className="section">
-        <div className="content-wrapper">
-          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <div className="page-badge">Studio Policy</div>
-            <h2>Payment Milestones &amp; Structure</h2>
-            <p className="section-head-subtitle">
-              Fair, straightforward payments as documented in our client agreement.
-            </p>
-          </div>
+      {/* ============================================================== */}
+      {/* 2. MAIN PACKAGES GRID                                          */}
+      {/* ============================================================== */}
+      <section className="clean-packages-section">
+        <div className="inc-container">
+          <div className="clean-packages-grid">
+            {filteredPackages.map((pkg) => {
+              const isPopular =
+                pkg.badge === "Most Popular" ||
+                pkg.badge === "VIP Masterpiece" ||
+                pkg.id === "little-stars";
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem" }}>
-            {paymentSchedule.map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: "rgba(0, 212, 255, 0.04)",
-                  border: "1px solid rgba(0, 212, 255, 0.15)",
-                  borderRadius: "12px",
-                  padding: "1.75rem",
-                  textAlign: "center",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    color: "#00d4ff",
-                    marginBottom: "0.25rem",
-                  }}
+              const isLuxury =
+                pkg.badge === "Luxury Experience" || pkg.id === "tiny-royalty";
+
+              return (
+                <div
+                  key={pkg.id || pkg.name}
+                  className={`clean-pkg-card${isPopular ? " is-popular" : ""}${isLuxury ? " is-luxury" : ""}`}
                 >
-                  {item.pct}
-                </span>
-                <h4 style={{ fontSize: "1.1rem", marginBottom: "0.4rem", color: "#fff" }}>{item.label}</h4>
-                <p style={{ fontSize: "0.85rem", opacity: 0.8, lineHeight: 1.4 }}>{item.detail}</p>
-              </div>
-            ))}
+                  {/* Top Floating Badge */}
+                  {pkg.badge && (
+                    <div className="clean-pkg-floating-badge">
+                      <span>{isPopular ? "⭐ " : isLuxury ? "👑 " : ""}{pkg.badge}</span>
+                    </div>
+                  )}
+
+                  <div className="clean-pkg-header">
+                    <h2 className="clean-pkg-name">{pkg.name}</h2>
+                    <p className="clean-pkg-tagline">“{pkg.tagline}”</p>
+                  </div>
+
+                  <div className="clean-pkg-pricing-box">
+                    <div className="clean-pkg-price-wrap">
+                      <span className="clean-pkg-price-text">{pkg.price}</span>
+                      {pkg.price !== "Get a Quote" && (
+                        <span className="clean-pkg-period">/ session</span>
+                      )}
+                    </div>
+                    <span className="clean-pkg-duration-label">⏱ {pkg.duration}</span>
+                  </div>
+
+                  {/* Features List */}
+                  <div className="clean-pkg-features-wrap">
+                    <span className="clean-pkg-includes-heading">Included in this session:</span>
+                    <ul className="clean-pkg-features-list">
+                      {pkg.features.map((feat) => (
+                        <li key={feat}>
+                          <span className="clean-feat-check">✓</span>
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Booking CTA Button */}
+                  <div className="clean-pkg-footer">
+                    <a
+                      href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                        `Hi Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) session with Raavan Studio’z.`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`clean-pkg-action-btn${isPopular ? " btn-popular" : isLuxury ? " btn-luxury" : ""}`}
+                    >
+                      <span>Book on WhatsApp →</span>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          <div
-            style={{
-              marginTop: "2rem",
-              padding: "1rem 1.5rem",
-              background: "rgba(255,255,255,0.02)",
-              borderRadius: "8px",
-              border: "1px dashed rgba(255,255,255,0.15)",
-              textAlign: "center",
-              fontSize: "0.9rem",
-              opacity: 0.85,
-            }}
-          >
-            📄 Read full details on extra sheets (₹550/sheet) and cancellation rights on our{" "}
-            <a href="/terms" onClick={(e) => { e.preventDefault(); onNavigate("/terms"); }} style={{ color: "#00d4ff", textDecoration: "underline" }}>
-              Terms &amp; Conditions Page
-            </a>.
+          {/* Wedding Custom Quote Card (When weddings or all selected) */}
+          <div className="clean-wedding-quote-box">
+            <div className="wedding-quote-info">
+              <span className="wedding-quote-tag">💍 NAMMA VEETU KALYANAM</span>
+              <h3 className="wedding-quote-title">Planning a Wedding, Reception or Sacred Muhurtham?</h3>
+              <p className="wedding-quote-p">
+                We craft bespoke wedding packages tailored to your ceremony timeline, including multi-camera candid photography, 4K cinema highlight reels, drone aerial cinematography, and luxury handcrafted Italian-bound photobooks.
+              </p>
+            </div>
+            <div className="wedding-quote-btn-wrap">
+              <a
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  "Hi Gowtham Raj! I would like to request a bespoke quotation for our upcoming wedding celebration."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="clean-quote-btn"
+              >
+                <span>Request Custom Wedding Quote ↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="section" style={{ background: "rgba(0,0,0,0.15)" }}>
-        <div className="content-wrapper" style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <div className="section-head-wrap" style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <div className="page-badge">Common Questions</div>
-            <h2>Everything you need to know</h2>
+      {/* ============================================================== */}
+      {/* 3. A LA CARTE ADD-ONS SECTION                                  */}
+      {/* ============================================================== */}
+      <section className="clean-addons-section">
+        <div className="inc-container">
+          <div className="clean-section-center-head">
+            <div className="inc-section-label-row center-aligned">
+              <div className="inc-line" />
+              <span className="inc-label-text">A LA CARTE ENHANCEMENTS</span>
+              <div className="inc-line" />
+            </div>
+            <h2 className="clean-section-h2">Enhance Your Photoshoot Experience</h2>
+            <p className="clean-section-p">
+              Add extra magic to any Kutty Chutties or family session with our bespoke studio add-ons.
+            </p>
           </div>
 
-          <div style={{ display: "grid", gap: "1rem" }}>
+          <div className="clean-addons-grid">
+            {addons.map((add) => (
+              <div className="clean-addon-card" key={add.name}>
+                <div className="clean-addon-top">
+                  <h3 className="clean-addon-title">{add.name}</h3>
+                  <span className="clean-addon-price">{add.price}</span>
+                </div>
+                <p className="clean-addon-detail">{add.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 4. PAYMENT MILESTONES & STUDIO POLICY                          */}
+      {/* ============================================================== */}
+      <section className="clean-policy-section">
+        <div className="inc-container">
+          <div className="clean-section-center-head">
+            <div className="inc-section-label-row center-aligned">
+              <div className="inc-line" />
+              <span className="inc-label-text">STUDIO POLICY</span>
+              <div className="inc-line" />
+            </div>
+            <h2 className="clean-section-h2">Payment Milestones &amp; Structure</h2>
+            <p className="clean-section-p">
+              Transparent, straightforward milestone payments as outlined in our client agreement.
+            </p>
+          </div>
+
+          <div className="clean-milestones-grid">
+            {paymentSchedule.map((item, idx) => (
+              <div className="clean-milestone-card" key={idx}>
+                <span className="clean-milestone-pct">{item.pct}</span>
+                <span className="clean-milestone-step">Step {item.step || `0${idx + 1}`}</span>
+                <h3 className="clean-milestone-label">{item.label}</h3>
+                <p className="clean-milestone-detail">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="clean-policy-banner">
+            <span>📄 Looking for album re-order terms, extra sheets (₹550/sheet), or cancellation rights?</span>
+            <button
+              type="button"
+              className="clean-policy-link-btn"
+              onClick={() => onNavigate("/terms")}
+            >
+              <span>Read Full Terms &amp; Conditions ↗</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 5. FREQUENTLY ASKED QUESTIONS (FAQ)                            */}
+      {/* ============================================================== */}
+      <section className="clean-faq-section">
+        <div className="inc-container">
+          <div className="clean-section-center-head">
+            <div className="inc-section-label-row center-aligned">
+              <div className="inc-line" />
+              <span className="inc-label-text">COMMON QUESTIONS</span>
+              <div className="inc-line" />
+            </div>
+            <h2 className="clean-section-h2">Frequently Asked Questions</h2>
+            <p className="clean-section-p">
+              Everything you need to know before stepping into our Krishnagiri studio.
+            </p>
+          </div>
+
+          <div className="clean-faq-accordion">
             {faqs.map((faq, index) => {
               const isOpen = openFaq === index;
               return (
                 <div
                   key={index}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                  }}
+                  className={`clean-faq-item${isOpen ? " is-open" : ""}`}
                 >
                   <button
                     type="button"
+                    className="clean-faq-trigger"
                     onClick={() => setOpenFaq(isOpen ? null : index)}
-                    style={{
-                      width: "100%",
-                      padding: "1.25rem 1.5rem",
-                      background: "transparent",
-                      border: "none",
-                      color: "#fff",
-                      fontSize: "1.05rem",
-                      fontWeight: 600,
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
+                    aria-expanded={isOpen}
                   >
-                    <span>{faq.question}</span>
-                    <span style={{ fontSize: "1.2rem", color: "#00d4ff", transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.2s" }}>
-                      +
-                    </span>
+                    <span className="clean-faq-q">{faq.question}</span>
+                    <span className="clean-faq-icon">{isOpen ? "−" : "+"}</span>
                   </button>
                   {isOpen && (
-                    <div style={{ padding: "0 1.5rem 1.25rem", opacity: 0.85, fontSize: "0.95rem", lineHeight: 1.6 }}>
-                      {faq.answer}
+                    <div className="clean-faq-answer">
+                      <p>{faq.answer}</p>
                     </div>
                   )}
                 </div>
@@ -314,6 +322,40 @@ export default function PricingPage({ onNavigate }) {
           </div>
         </div>
       </section>
-    </main>
+
+      {/* ============================================================== */}
+      {/* 6. BOTTOM VIP BOOKING CALLOUT                                  */}
+      {/* ============================================================== */}
+      <section className="clean-pricing-bottom-cta">
+        <div className="inc-container">
+          <div className="clean-pricing-cta-card">
+            <span className="cta-sparkle-tag">✦ READY TO CAPTURE YOUR BABY'S MILESTONE?</span>
+            <h2 className="cta-headline">Reserve your date at The Creative Space.</h2>
+            <p className="cta-sub">
+              Slots fill quickly on weekends and auspicious dates. Connect directly with Mr. Gowtham Raj to confirm date availability.
+            </p>
+            <div className="cta-buttons-row">
+              <a
+                href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                  "Hi Gowtham Raj! I would like to check availability for a Kutty Chutties baby photography session."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-wa-btn"
+              >
+                <span>Chat with Gowtham Raj on WhatsApp</span>
+              </a>
+              <button
+                type="button"
+                className="cta-contact-btn"
+                onClick={() => onNavigate("/contact")}
+              >
+                <span>Send Online Enquiry →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
