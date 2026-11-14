@@ -749,104 +749,97 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 9. VISIT STUDIOS & QUICK BOOKING CONCIERGE (STYLISH & MODERN)   */}
+      {/* 9. STUDIO LOCATIONS & BOOKING CONSULTATION (PROFESSIONAL)       */}
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-book-us-section" id="contact-booking">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
-            {/* Left: 2 Physical Studios Hub */}
+            {/* Left: Studio Locations Hub */}
             <div className="inc-book-info-col">
               <div className="inc-section-label-row">
-                <span className="inc-label-text">✦ GET IN TOUCH · KRISHNAGIRI</span>
+                <span className="inc-label-text">STUDIO VISITS &amp; RESERVATIONS</span>
                 <div className="inc-line" />
               </div>
 
-              <h2 className="inc-heading-1">Visit Our 2 Studios in Krishnagiri</h2>
+              <h2 className="inc-heading-1">Visit Our Studios &amp; Connect</h2>
 
-              <p className="inc-paragraph" style={{ marginBottom: "28px" }}>
-                Walk into our dedicated creative spaces in Krishnagiri for an album consultation, toddler set preview, or discuss your upcoming wedding traditions with <strong>Mr. Gowtham Raj</strong>.
+              <p className="inc-paragraph" style={{ marginBottom: "26px" }}>
+                Walk into our creative spaces in Krishnagiri for an album consultation, toddler set preview, or discuss your upcoming wedding traditions with <strong>Mr. Gowtham Raj</strong>.
               </p>
 
-              {/* Dual Studio Cards Stack */}
-              <div className="inc-studios-luxury-stack">
-                {/* Branch 1: The Creative Space */}
-                <div className="inc-luxury-studio-card card-creative">
-                  <div className="studio-card-top-row">
-                    <span className="studio-badge-pill pill-cyan">🌿 STUDIO 1 · BABY &amp; TODDLERS</span>
+              {/* 2 Clean Studio Location Cards */}
+              <div className="pro-studios-stack">
+                {/* Studio 1 */}
+                <div className="pro-studio-card">
+                  <div className="pro-card-header">
+                    <span className="pro-branch-tag">STUDIO 01 · NEWBORN &amp; TODDLERS</span>
                     <a
                       href="https://maps.app.goo.gl/13tnC9ZgRtQ5Ftje8"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="studio-maps-pill-btn"
+                      className="pro-map-link"
                     >
-                      📍 Maps ↗
+                      Open in Maps ↗
                     </a>
                   </div>
-                  <h3 className="studio-card-name">The Creative Space</h3>
-                  <span className="studio-card-focus">Dedicated Newborn &amp; Toddler Milestone Studio Suites</span>
-                  <p className="studio-card-addr">
+                  <h3 className="pro-studio-title">The Creative Space</h3>
+                  <p className="pro-studio-detail">
                     3/470B RCC Moulding Bldg, Gandhi Nagar, Salem-Bangalore Hwy, Krishnagiri (Opp. Gunam Hospital)
                   </p>
                 </div>
 
-                {/* Branch 2: Work Space */}
-                <div className="inc-luxury-studio-card card-workspace">
-                  <div className="studio-card-top-row">
-                    <span className="studio-badge-pill pill-navy">🏛️ STUDIO 2 · WEDDINGS &amp; CINEMA</span>
+                {/* Studio 2 */}
+                <div className="pro-studio-card">
+                  <div className="pro-card-header">
+                    <span className="pro-branch-tag">STUDIO 02 · WEDDINGS &amp; CINEMA</span>
                     <a
                       href="https://maps.app.goo.gl/e11f4M4RwXUbF1gcA"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="studio-maps-pill-btn"
+                      className="pro-map-link"
                     >
-                      📍 Maps ↗
+                      Open in Maps ↗
                     </a>
                   </div>
-                  <h3 className="studio-card-name">Work Space</h3>
-                  <span className="studio-card-focus">Weddings, Outdoor Romance &amp; Commercial Editing Atelier</span>
-                  <p className="studio-card-addr">
-                    3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri (BATA Showroom down lane, backside Central Theatre)
+                  <h3 className="pro-studio-title">Work Space</h3>
+                  <p className="pro-studio-detail">
+                    3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri (BATA Showroom lane, backside Central Theatre)
                   </p>
                 </div>
 
-                {/* Direct Phone & WhatsApp Strip */}
-                <div className="inc-luxury-contact-strip">
-                  <div className="contact-strip-icon">📞</div>
-                  <div className="contact-strip-info">
-                    <strong className="contact-strip-title">Mr. Gowtham Raj · Direct Line</strong>
-                    <div className="contact-strip-links">
-                      <a href="tel:+919500306696" className="contact-strip-phone">
+                {/* Direct Contact Info Block */}
+                <div className="pro-contact-bar">
+                  <div className="pro-contact-meta">
+                    <span className="pro-meta-label">DIRECT INQUIRIES &amp; APPOINTMENTS</span>
+                    <div className="pro-meta-phone-row">
+                      <a href="tel:+919500306696" className="pro-phone-number">
                         +91 9500306696
                       </a>
-                      <span className="contact-strip-sep">•</span>
-                      <span className="contact-strip-hours">9:00 AM – 9:00 PM Daily</span>
+                      <span className="pro-hours-tag">9:00 AM – 9:00 PM Daily</span>
                     </div>
                   </div>
                   <a
                     href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                      "Hi Gowtham Raj! I would like to inquire about booking a photography session with Raavan Studio’z."
+                      "Hi Gowtham Raj! I would like to schedule a studio appointment with Raavan Studio’z."
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact-strip-wa-btn"
+                    className="pro-whatsapp-cta"
                   >
-                    <span>WhatsApp ↗</span>
+                    <span>Chat on WhatsApp →</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* Right: Modern High-End Booking Concierge Card */}
+            {/* Right: Clean Professional Booking Form */}
             <div className="inc-book-form-col">
-              <div className="inc-luxury-booking-card">
-                <div className="booking-card-header">
-                  <div className="booking-live-status">
-                    <span className="live-pulse-dot" />
-                    <span>DIRECT BOOKING CONCIERGE</span>
-                  </div>
-                  <h3 className="booking-card-title">Check Date Availability &amp; Booking</h3>
-                  <p className="booking-card-desc">
-                    Tell us about your upcoming occasion. Mr. Gowtham Raj connects back promptly.
+              <div className="pro-booking-card">
+                <div className="pro-form-head">
+                  <span className="pro-form-kicker">DATE AVAILABILITY &amp; BOOKING</span>
+                  <h3 className="pro-form-title">Request a Studio Session</h3>
+                  <p className="pro-form-subtitle">
+                    Submit your event details below to receive availability and package estimates directly from Mr. Gowtham Raj.
                   </p>
                 </div>
 
@@ -854,7 +847,7 @@ export default function HomePage({ onNavigate }) {
                   <div className="inc-form-success">
                     <div className="inc-success-icon">✓</div>
                     <h4>Enquiry Sent via WhatsApp!</h4>
-                    <p>Thank you! Mr. Gowtham Raj has received your message and will get back to you shortly.</p>
+                    <p>Thank you! Mr. Gowtham Raj will review your request and get back to you shortly.</p>
                     <button
                       type="button"
                       className="inc-primary-button mt-3"
@@ -864,32 +857,32 @@ export default function HomePage({ onNavigate }) {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleQuickBookingSubmit} className="inc-luxury-form">
-                    <div className="form-fields-two-grid">
-                      <div className="form-field-group">
-                        <label htmlFor="formRole">I am the:</label>
+                  <form onSubmit={handleQuickBookingSubmit} className="pro-inquiry-form">
+                    <div className="pro-form-row">
+                      <div className="pro-form-group">
+                        <label htmlFor="formRole">Client Type</label>
                         <select
                           id="formRole"
                           value={formRole}
                           onChange={(e) => setFormRole(e.target.value)}
-                          className="luxury-select-input"
+                          className="pro-form-control"
                         >
-                          <option value="">Select your relation</option>
+                          <option value="">Select client type</option>
                           <option value="Bride">Bride</option>
                           <option value="Groom">Groom</option>
                           <option value="Parent (Baby/Toddler Shoot)">Parent (Baby / Toddler Shoot)</option>
                           <option value="Family Member">Family Member</option>
-                          <option value="Friend">Friend</option>
+                          <option value="Individual Client">Individual Client</option>
                         </select>
                       </div>
 
-                      <div className="form-field-group">
+                      <div className="pro-form-group">
                         <label htmlFor="formService">Photography Service</label>
                         <select
                           id="formService"
                           value={formService}
                           onChange={(e) => setFormService(e.target.value)}
-                          className="luxury-select-input"
+                          className="pro-form-control"
                         >
                           <option value="">Select service</option>
                           <option value="Wedding Couple Shoot / Namma Veetu Kalyanam">Wedding (Namma Veetu Kalyanam)</option>
@@ -901,51 +894,51 @@ export default function HomePage({ onNavigate }) {
                       </div>
                     </div>
 
-                    <div className="form-fields-two-grid">
-                      <div className="form-field-group">
-                        <label htmlFor="formName">Your Name *</label>
+                    <div className="pro-form-row">
+                      <div className="pro-form-group">
+                        <label htmlFor="formName">Full Name *</label>
                         <input
                           type="text"
                           id="formName"
                           required
-                          placeholder="e.g. Priyadarshini / Karthik"
+                          placeholder="Your name"
                           value={formName}
                           onChange={(e) => setFormName(e.target.value)}
-                          className="luxury-text-input"
+                          className="pro-form-control"
                         />
                       </div>
 
-                      <div className="form-field-group">
-                        <label htmlFor="formMobile">Mobile Number *</label>
+                      <div className="pro-form-group">
+                        <label htmlFor="formMobile">Mobile / WhatsApp *</label>
                         <input
                           type="tel"
                           id="formMobile"
                           required
-                          placeholder="e.g. +91 98765 43210"
+                          placeholder="Phone number"
                           value={formMobile}
                           onChange={(e) => setFormMobile(e.target.value)}
-                          className="luxury-text-input"
+                          className="pro-form-control"
                         />
                       </div>
                     </div>
 
-                    <div className="form-field-group">
-                      <label htmlFor="formDate">Expected Event / Shoot Date</label>
+                    <div className="pro-form-group">
+                      <label htmlFor="formDate">Preferred Event / Shoot Date</label>
                       <input
                         type="date"
                         id="formDate"
                         value={formDate}
                         onChange={(e) => setFormDate(e.target.value)}
-                        className="luxury-text-input"
+                        className="pro-form-control"
                       />
                     </div>
 
-                    <button type="submit" className="luxury-submit-button">
-                      <span>✨ Reserve Date &amp; Connect on WhatsApp →</span>
+                    <button type="submit" className="pro-submit-btn">
+                      <span>Check Availability on WhatsApp →</span>
                     </button>
 
-                    <div className="booking-trust-note">
-                      <span>🔒 100% Private &amp; Confidential · Direct Response from Mr. Gowtham Raj</span>
+                    <div className="pro-privacy-text">
+                      Direct response from founder Mr. Gowtham Raj within 1 business day.
                     </div>
                   </form>
                 )}
