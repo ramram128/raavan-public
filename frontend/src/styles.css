@@ -877,15 +877,12 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   pointer-events: none;
   z-index: 9999999;
   overflow: hidden;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
 }
 
 .custom-cursor-root.is-hidden {
   opacity: 0;
-}
-
-.custom-cursor-root.is-text-mode {
-  opacity: 0;
+  visibility: hidden;
 }
 
 /* Center camera focus dot - exactly matching the user's reference image */
@@ -896,8 +893,8 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   width: 6.5px;
   height: 6.5px;
   border-radius: 50%;
-  background-color: var(--cursor-dot, #fedbc0);
-  box-shadow: 0 0 5px var(--cursor-glow, rgba(254, 219, 192, 0.65)),
+  background-color: var(--cursor-dot, #0284c7);
+  box-shadow: 0 0 5px var(--cursor-glow, rgba(2, 132, 199, 0.65)),
               0 0 1px rgba(0, 0, 0, 0.6);
   pointer-events: none;
   will-change: transform;
@@ -912,7 +909,7 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
 .custom-cursor-dot.is-clicked {
   width: 4.5px;
   height: 4.5px;
-  box-shadow: 0 0 8px rgba(254, 219, 192, 0.95), 0 0 2px rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 8px rgba(2, 132, 199, 0.95), 0 0 2px rgba(255, 255, 255, 0.9);
 }
 
 /* Camera focus reticle (4 viewfinder corner brackets) */
@@ -941,7 +938,7 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   position: absolute;
   width: 5px;
   height: 5px;
-  border-color: var(--cursor-bracket, rgba(255, 255, 255, 0.95));
+  border-color: var(--cursor-bracket, #0284c7);
   border-style: solid;
   pointer-events: none;
   filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, 0.85));
@@ -977,17 +974,17 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   border-width: 0 1.5px 1.5px 0;
 }
 
-/* Hide default cursor on desktop with pointer */
+/* Show native cursor everywhere by default; only hide native cursor over photo elements */
 @media (hover: hover) and (pointer: fine) {
   html,
-  body,
+  body {
+    cursor: default;
+  }
+
   a,
   button,
-  [role="button"],
-  select,
-  .clickable,
-  .camera-object {
-    cursor: none !important;
+  [role="button"] {
+    cursor: pointer;
   }
 
   input[type="text"],
@@ -995,7 +992,24 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   input[type="tel"],
   input[type="search"],
   textarea {
-    cursor: text !important;
+    cursor: text;
+  }
+
+  /* Only photo / gallery elements hide the default cursor so camera viewfinder reticle takes over cleanly */
+  img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img):not(.founder-emblem-img),
+  .clean-gallery-photo-card,
+  .clean-gallery-photo-card *,
+  .clean-gallery-img-container,
+  .clean-gallery-img-container *,
+  .clean-discipline-image-wrap,
+  .clean-discipline-image-wrap *,
+  .hero-showcase-frame,
+  .hero-showcase-frame *,
+  .clean-lightbox-img,
+  .gallery-photo-item,
+  [data-photo],
+  [data-cursor="camera"] {
+    cursor: none !important;
   }
 }
 
