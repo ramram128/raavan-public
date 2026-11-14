@@ -996,22 +996,31 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
   }
 
   /* Only photo / gallery elements hide the default cursor so camera viewfinder reticle takes over cleanly */
-  img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img):not(.founder-emblem-img),
-  .full-banner-hero-container,
-  .full-banner-hero-container *,
+  img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img):not(.founder-emblem-img):not(.inc-author-avatar),
+  .inc-hero-section,
+  .inc-hero-section img,
+  .inc-abt-frame-1,
+  .inc-abt-frame-1 img,
+  .inc-abt-frame-2,
+  .inc-abt-frame-2 img,
+  .inc-showcase-image-card,
+  .inc-showcase-image-card img,
+  .incredible-gallery-item,
+  .incredible-gallery-item img,
   .clean-gallery-photo-card,
   .clean-gallery-photo-card *,
   .clean-gallery-img-container,
   .clean-gallery-img-container *,
-  .clean-discipline-image-wrap,
-  .clean-discipline-image-wrap *,
-  .hero-showcase-frame,
-  .hero-showcase-frame *,
   .clean-lightbox-img,
-  .gallery-photo-item,
   [data-photo],
+  [data-photo] *,
   [data-cursor="camera"] {
     cursor: none !important;
+  }
+
+  .inc-slider-arrow,
+  .inc-dot {
+    cursor: pointer !important;
   }
 }
 

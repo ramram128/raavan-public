@@ -27,15 +27,41 @@ export default function CustomCursor() {
         dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
 
-      // ONLY show camera viewfinder cursor when hovering over interactive gallery photos
+      // Show camera viewfinder cursor whenever hovering over photography elements
       const target = e.target;
       if (target) {
+        // Exclude system UI logos, icons, avatars, slider buttons
+        const isExcluded = target.closest(
+          '.navbar-emblem-image, ' +
+          '.brand-emblem-clean-img, ' +
+          '.client-avatar-img, ' +
+          '.founder-emblem-img, ' +
+          '.inc-author-avatar, ' +
+          '.navbar-brand-emblem-link, ' +
+          '.floating-whatsapp-btn, ' +
+          '.whatsapp-svg-icon, ' +
+          '.inc-slider-arrow, ' +
+          '.inc-dot'
+        );
+
+        if (isExcluded) {
+          setIsOverPhoto(false);
+          return;
+        }
+
         const photoEl = target.closest(
+          'img, ' +
+          '.inc-hero-section, ' +
+          '.inc-hero-slide, ' +
+          '.inc-hero-image, ' +
+          '.inc-abt-frame-1, ' +
+          '.inc-abt-frame-2, ' +
+          '.inc-showcase-image-card, ' +
           '.incredible-gallery-item, ' +
-          '.incredible-gallery-item img, ' +
           '.clean-gallery-photo-card, ' +
           '.clean-gallery-img-container, ' +
           '.clean-lightbox-img, ' +
+          '.hero-showcase-frame, ' +
           '[data-photo], ' +
           '[data-cursor="camera"]'
         );
