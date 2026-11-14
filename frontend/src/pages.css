@@ -7176,17 +7176,7 @@ footer a:hover {
 }
 
 .inc-showcase-caption {
-  position: absolute;
-  bottom: 16px;
-  left: 18px;
-  background: rgba(10, 25, 47, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  font-weight: 500;
+  display: none !important;
 }
 
 .inc-service-highlights-list {
@@ -8360,17 +8350,7 @@ footer a:hover {
 }
 
 .inc-showcase-caption {
-  position: absolute;
-  bottom: 16px;
-  left: 18px;
-  background: rgba(10, 25, 47, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 0.82rem;
-  font-weight: 500;
+  display: none !important;
 }
 
 .inc-service-highlights-list {

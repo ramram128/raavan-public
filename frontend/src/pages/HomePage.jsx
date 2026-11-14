@@ -291,7 +291,6 @@ export default function HomePage({ onNavigate }) {
                   alt="Wedding Couple Shoot by Raavan Studio'z"
                   loading="lazy"
                 />
-                <span className="inc-showcase-caption">Namma Veetu Kalyanam · Sacred Traditions</span>
               </div>
             </div>
           </div>
@@ -312,7 +311,6 @@ export default function HomePage({ onNavigate }) {
                   alt="Outdoor Couple Shoot at Krishnagiri Hills"
                   loading="lazy"
                 />
-                <span className="inc-showcase-caption">Outdoor Cinematography · Krishnagiri Hills</span>
               </div>
             </div>
 
@@ -391,7 +389,6 @@ export default function HomePage({ onNavigate }) {
                   alt="Toddlers by Raavan Newborn & Milestone Shoot"
                   loading="lazy"
                 />
-                <span className="inc-showcase-caption">The Creative Space · Toddlers by Raavan</span>
               </div>
             </div>
           </div>
