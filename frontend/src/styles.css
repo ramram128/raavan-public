@@ -997,6 +997,8 @@ footer { background: var(--footer); color: #f4f7fa; padding: 50px 6vw 25px; }
 
   /* Only photo / gallery elements hide the default cursor so camera viewfinder reticle takes over cleanly */
   img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img):not(.founder-emblem-img),
+  .full-banner-hero-container,
+  .full-banner-hero-container *,
   .clean-gallery-photo-card,
   .clean-gallery-photo-card *,
   .clean-gallery-img-container,

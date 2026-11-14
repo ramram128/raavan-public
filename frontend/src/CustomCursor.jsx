@@ -32,6 +32,9 @@ export default function CustomCursor() {
       if (target) {
         const photoEl = target.closest(
           'img:not(.navbar-emblem-image):not(.brand-emblem-clean-img):not(.client-avatar-img), ' +
+          '.full-banner-hero-container, ' +
+          '.full-banner-slide, ' +
+          '.full-banner-slide-image, ' +
           '.clean-gallery-photo-card, ' +
           '.clean-gallery-img-container, ' +
           '.clean-discipline-image-wrap, ' +

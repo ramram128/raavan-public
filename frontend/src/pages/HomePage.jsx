@@ -76,109 +76,76 @@ export default function HomePage({ onNavigate }) {
     };
   }, [lightboxPhoto]);
 
+  const handlePrevSlide = () => {
+    setActiveSlide((curr) => (curr - 1 + cleanHeroSlides.length) % cleanHeroSlides.length);
+  };
+
+  const handleNextSlide = () => {
+    setActiveSlide((curr) => (curr + 1) % cleanHeroSlides.length);
+  };
+
   return (
     <div className="clean-homepage-root" id="home-page">
-      {/* 1. CLEAN EDITORIAL HERO SECTION (WHITE CANVAS WITH 2 BRAND BLUES) */}
-      <section className="editorial-hero-section" id="home" aria-label="Raavan Studio'z visual highlights">
-        <div className="site-max-container">
-          <div className="editorial-hero-two-col-grid">
-            {/* Left Column: Typography & CTAs on Pure White */}
-            <div className="editorial-hero-left-content">
-              <div className="editorial-hero-pill-badge">
-                <span className="badge-sparkle">✦</span>
-                <span>Raavan Studio’z · Krishnagiri · Estd. 2021</span>
+      {/* 1. FULL-WIDTH CINEMATIC HERO SLIDER BANNER (COVERING FULL BANNER) */}
+      <section className="full-banner-hero-section" id="home" aria-label="Raavan Studio'z visual highlights">
+        <div className="full-banner-hero-container">
+          <div className="full-banner-slider-track">
+            {cleanHeroSlides.map((item, index) => (
+              <div
+                key={item.image}
+                className={`full-banner-slide${index === activeSlide ? " active" : ""}`}
+                aria-hidden={index !== activeSlide}
+              >
+                <img
+                  src={item.image}
+                  alt={item.alt}
+                  className="full-banner-slide-image"
+                  fetchpriority={index === 0 ? "high" : "auto"}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
               </div>
+            ))}
+          </div>
 
-              <h1 className="editorial-hero-heading">
-                Make a count,
-                <span className="heading-italic-accent"> Click the moment.</span>
-              </h1>
+          {/* Left Navigation Arrow */}
+          <button
+            type="button"
+            className="banner-nav-arrow prev-arrow"
+            onClick={handlePrevSlide}
+            aria-label="Previous slide"
+          >
+            ‹
+          </button>
 
-              <p className="editorial-hero-subparagraph">
-                Documenting sacred wedding traditions with <strong>Namma Veetu Kalyanam</strong> &amp; pure newborn wonder with <strong>Toddlers by Raavan</strong>. Directed by <strong>Mr. Gowtham Raj</strong> with 8+ years of dedicated artistry.
-              </p>
+          {/* Right Navigation Arrow */}
+          <button
+            type="button"
+            className="banner-nav-arrow next-arrow"
+            onClick={handleNextSlide}
+            aria-label="Next slide"
+          >
+            ›
+          </button>
 
-              <div className="editorial-hero-actions-row">
+          {/* Floating Studio Craft Tag Top-Right */}
+          <div className="banner-floating-badge">
+            <span>✦ Raavan Studio’z Signature Reel</span>
+          </div>
+
+          {/* Bottom Controls Bar: Location Tag & Dots */}
+          <div className="banner-bottom-controls-bar">
+            <span className="banner-location-tag">📍 {slide.tagline}</span>
+
+            <div className="banner-slide-dots-group" role="group" aria-label="Hero slide dots">
+              {cleanHeroSlides.map((item, index) => (
                 <button
                   type="button"
-                  className="clean-btn-primary"
-                  onClick={() => onNavigate("/gallery")}
-                >
-                  <span>Explore Curated Works ↗</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="clean-btn-secondary"
-                  onClick={() => onNavigate("/contact")}
-                >
-                  <span>Book a Session</span>
-                </button>
-
-                <a
-                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                    "Hi Gowtham Raj! I would like to inquire about date availability for Raavan Studio’z."
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="clean-btn-whatsapp"
-                >
-                  <span>Chat on WhatsApp</span>
-                </a>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="hero-trust-chips-row">
-                <div className="trust-chip-item">
-                  <span className="trust-icon">⭐</span>
-                  <strong>5.0 Client Trust</strong>
-                </div>
-                <div className="trust-chip-divider" />
-                <div className="trust-chip-item">
-                  <span className="trust-icon">📸</span>
-                  <strong>1,500+ Moments Told</strong>
-                </div>
-                <div className="trust-chip-divider" />
-                <div className="trust-chip-item">
-                  <span className="trust-icon">🏛️</span>
-                  <strong>2 Krishnagiri Studios</strong>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: High-Res Framed Showcase Carousel */}
-            <div className="editorial-hero-right-showcase">
-              <div className="hero-showcase-frame">
-                {cleanHeroSlides.map((item, index) => (
-                  <img
-                    key={item.image}
-                    src={item.image}
-                    alt={item.alt}
-                    className={`showcase-slide-img${index === activeSlide ? " active" : ""}`}
-                    fetchpriority={index === 0 ? "high" : "auto"}
-                    aria-hidden={index !== activeSlide}
-                  />
-                ))}
-
-                <div className="showcase-floating-craft-badge">
-                  <span>✦ Raavan Signature Craft</span>
-                </div>
-
-                <div className="showcase-bottom-caption-bar">
-                  <span className="showcase-tagline-text">📍 {slide.tagline}</span>
-                  <div className="showcase-dots-group" role="group" aria-label="Hero slide dots">
-                    {cleanHeroSlides.map((item, index) => (
-                      <button
-                        type="button"
-                        key={item.image}
-                        className={`showcase-dot-btn${index === activeSlide ? " active" : ""}`}
-                        aria-label={`Slide ${index + 1}`}
-                        onClick={() => setActiveSlide(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
+                  key={item.image}
+                  className={`banner-indicator-dot${index === activeSlide ? " active" : ""}`}
+                  aria-label={`Go to slide ${index + 1}`}
+                  onClick={() => setActiveSlide(index)}
+                />
+              ))}
             </div>
           </div>
         </div>
