@@ -6903,6 +6903,12 @@ footer a:hover {
   object-fit: cover;
   object-position: center 30%;
   display: block;
+  transform: scale(1.0);
+  transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.inc-hero-slide.active .inc-hero-image {
+  transform: scale(1.07);
 }
 
 /* Cinematic Shadow & Gradient Overlay for Contrast */
@@ -6951,6 +6957,14 @@ footer a:hover {
   letter-spacing: -0.025em;
   margin: 0 0 16px;
   text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.inc-hero-slide.active .inc-hero-headline-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-lead-desc {
@@ -6960,6 +6974,14 @@ footer a:hover {
   margin: 0 0 28px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   max-width: 620px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.inc-hero-slide.active .inc-hero-lead-desc {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-buttons-group {
@@ -6967,6 +6989,14 @@ footer a:hover {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.38s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.38s;
+}
+
+.inc-hero-slide.active .inc-hero-buttons-group {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-primary-btn {
@@ -7213,7 +7243,25 @@ footer a:hover {
   font-weight: 600;
 }
 
-/* Arched Overlapping Photo Collage (Matches .abt-sec & .abt-sec2 in Incredible) */
+/* Arched Overlapping Photo Collage with Gentle Floating Drift */
+@keyframes floatFrame1 {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.4deg);
+  }
+}
+
+@keyframes floatFrame2 {
+  0%, 100% {
+    transform: translateY(50px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(42px) rotate(0.5deg);
+  }
+}
+
 .inc-arched-images-stack {
   position: relative;
   display: flex;
@@ -7228,6 +7276,14 @@ footer a:hover {
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(10, 25, 47, 0.12);
   border: 4px solid #ffffff;
+  animation: floatFrame1 7s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.inc-abt-frame-1:hover {
+  animation-play-state: paused;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(2, 132, 199, 0.2);
 }
 
 .inc-abt-frame-1 img {
@@ -7235,6 +7291,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inc-abt-frame-1:hover img {
+  transform: scale(1.05);
 }
 
 .inc-abt-frame-2 {
@@ -7245,6 +7306,14 @@ footer a:hover {
   transform: translateY(50px);
   box-shadow: 0 20px 40px rgba(10, 25, 47, 0.12);
   border: 4px solid #ffffff;
+  animation: floatFrame2 6.5s ease-in-out infinite 0.6s;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.inc-abt-frame-2:hover {
+  animation-play-state: paused;
+  transform: translateY(38px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(2, 132, 199, 0.2);
 }
 
 .inc-abt-frame-2 img {
@@ -7252,6 +7321,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inc-abt-frame-2:hover img {
+  transform: scale(1.05);
 }
 
 /* Stats Strip */
@@ -7338,7 +7412,7 @@ footer a:hover {
   background: rgba(2, 132, 199, 0.05);
 }
 
-/* Service Image Showcase Card */
+/* Service Image Showcase Card with 3D Lift & Glass Sheen */
 .inc-showcase-image-card {
   position: relative;
   width: 100%;
@@ -7347,6 +7421,36 @@ footer a:hover {
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(10, 25, 47, 0.12);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease;
+}
+
+.inc-showcase-image-card::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    135deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.32) 50%,
+    transparent 58%
+  );
+  transform: rotate(35deg) translateY(-100%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.inc-showcase-image-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 50px -10px rgba(2, 132, 199, 0.22);
+  border-color: #7dd3fc;
+}
+
+.inc-showcase-image-card:hover::after {
+  transform: rotate(35deg) translateY(100%);
 }
 
 .inc-showcase-image-card img {
@@ -7354,11 +7458,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .inc-showcase-image-card:hover img {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .inc-showcase-caption {
@@ -7368,14 +7472,27 @@ footer a:hover {
 .inc-service-highlights-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 18px 0;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .inc-highlight-pill {
   font-size: 0.92rem;
   color: #334155;
   font-weight: 500;
+  padding: 8px 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 3px solid #0284c7;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+
+.inc-highlight-pill:hover {
+  background: #f0f9ff;
+  color: #0284c7;
+  transform: translateX(4px);
+  border-left-color: #0369a1;
 }
 
 /* 3. Work Gallery Section */
@@ -8208,6 +8325,12 @@ footer a:hover {
   object-fit: cover;
   object-position: center 30%;
   display: block;
+  transform: scale(1.0);
+  transition: transform 8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.inc-hero-slide.active .inc-hero-image {
+  transform: scale(1.07);
 }
 
 /* Cinematic Shadow & Gradient Overlay for Contrast */
@@ -8256,6 +8379,14 @@ footer a:hover {
   letter-spacing: -0.025em;
   margin: 0 0 16px;
   text-shadow: 0 4px 16px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+.inc-hero-slide.active .inc-hero-headline-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-lead-desc {
@@ -8265,6 +8396,14 @@ footer a:hover {
   margin: 0 0 28px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   max-width: 620px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.inc-hero-slide.active .inc-hero-lead-desc {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-buttons-group {
@@ -8272,6 +8411,14 @@ footer a:hover {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.38s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.38s;
+}
+
+.inc-hero-slide.active .inc-hero-buttons-group {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inc-hero-primary-btn {
@@ -8518,7 +8665,25 @@ footer a:hover {
   font-weight: 600;
 }
 
-/* Arched Overlapping Photo Collage (Matches .abt-sec & .abt-sec2 in Incredible) */
+/* Arched Overlapping Photo Collage with Gentle Floating Drift */
+@keyframes floatFrame1 {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.4deg);
+  }
+}
+
+@keyframes floatFrame2 {
+  0%, 100% {
+    transform: translateY(50px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(42px) rotate(0.5deg);
+  }
+}
+
 .inc-arched-images-stack {
   position: relative;
   display: flex;
@@ -8533,6 +8698,14 @@ footer a:hover {
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(10, 25, 47, 0.12);
   border: 4px solid #ffffff;
+  animation: floatFrame1 7s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.inc-abt-frame-1:hover {
+  animation-play-state: paused;
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(2, 132, 199, 0.2);
 }
 
 .inc-abt-frame-1 img {
@@ -8540,6 +8713,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inc-abt-frame-1:hover img {
+  transform: scale(1.05);
 }
 
 .inc-abt-frame-2 {
@@ -8550,6 +8728,14 @@ footer a:hover {
   transform: translateY(50px);
   box-shadow: 0 20px 40px rgba(10, 25, 47, 0.12);
   border: 4px solid #ffffff;
+  animation: floatFrame2 6.5s ease-in-out infinite 0.6s;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.inc-abt-frame-2:hover {
+  animation-play-state: paused;
+  transform: translateY(38px) scale(1.02);
+  box-shadow: 0 28px 56px rgba(2, 132, 199, 0.2);
 }
 
 .inc-abt-frame-2 img {
@@ -8557,6 +8743,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.inc-abt-frame-2:hover img {
+  transform: scale(1.05);
 }
 
 /* Stats Strip */
@@ -8643,7 +8834,7 @@ footer a:hover {
   background: rgba(2, 132, 199, 0.05);
 }
 
-/* Service Image Showcase Card */
+/* Service Image Showcase Card with 3D Lift & Glass Sheen */
 .inc-showcase-image-card {
   position: relative;
   width: 100%;
@@ -8652,6 +8843,36 @@ footer a:hover {
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(10, 25, 47, 0.12);
   border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.45s ease;
+}
+
+.inc-showcase-image-card::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    135deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.32) 50%,
+    transparent 58%
+  );
+  transform: rotate(35deg) translateY(-100%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.inc-showcase-image-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 50px -10px rgba(2, 132, 199, 0.22);
+  border-color: #7dd3fc;
+}
+
+.inc-showcase-image-card:hover::after {
+  transform: rotate(35deg) translateY(100%);
 }
 
 .inc-showcase-image-card img {
@@ -8659,11 +8880,11 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.6s ease;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .inc-showcase-image-card:hover img {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .inc-showcase-caption {
@@ -8673,14 +8894,27 @@ footer a:hover {
 .inc-service-highlights-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 18px 0;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .inc-highlight-pill {
   font-size: 0.92rem;
   color: #334155;
   font-weight: 500;
+  padding: 8px 14px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 3px solid #0284c7;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+
+.inc-highlight-pill:hover {
+  background: #f0f9ff;
+  color: #0284c7;
+  transform: translateX(4px);
+  border-left-color: #0369a1;
 }
 
 /* 3. Work Gallery Section */
@@ -11265,20 +11499,42 @@ footer a:hover {
 }
 
 .about-stat-card {
-  background: #f8fafc;
+  background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 14px 10px;
+  padding: 16px 12px;
   text-align: center;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .about-stat-card:hover {
   background: #ffffff;
-  border-color: #cbd5e1;
-  box-shadow: 0 8px 20px rgba(10, 25, 47, 0.06);
-  transform: translateY(-2px);
+  border-color: #38bdf8;
+  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.16);
+  transform: translateY(-4px);
+}
+
+.about-stat-card:hover::before {
+  opacity: 1;
+}
+
+.about-stat-card:hover .about-stat-value {
+  transform: scale(1.06);
 }
 
 .about-stat-value {
@@ -11289,6 +11545,7 @@ footer a:hover {
   line-height: 1.1;
   margin-bottom: 4px;
   letter-spacing: -0.02em;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .about-stat-text {
@@ -11375,4 +11632,184 @@ footer a:hover {
   .about-whatsapp-btn {
     width: 100%;
   }
+}
+
+/* ==========================================================================
+   ANIMATIC & ATTRACTIVE ENHANCEMENTS: SCROLL REVEAL, HOVER LIFTS, BUTTON GLEAM
+   ========================================================================== */
+
+/* 1. Scroll-Triggered Reveal Animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Stagger Delay Utility Classes */
+.stagger-1 { transition-delay: 0.08s !important; }
+.stagger-2 { transition-delay: 0.16s !important; }
+.stagger-3 { transition-delay: 0.24s !important; }
+.stagger-4 { transition-delay: 0.32s !important; }
+
+/* 2. Primary Button Continuous Luxury Light Gleam */
+@keyframes luxuryGleam {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  30%, 100% {
+    transform: translateX(240%) skewX(-20deg);
+  }
+}
+
+.about-primary-btn,
+.inc-hero-primary-btn,
+.inc-primary-button,
+.tier-cta-button.btn-primary-filled,
+.admin-login-submit-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-primary-btn::after,
+.inc-hero-primary-btn::after,
+.inc-primary-button::after,
+.tier-cta-button.btn-primary-filled::after,
+.admin-login-submit-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  animation: luxuryGleam 4.8s infinite ease-in-out;
+  pointer-events: none;
+}
+
+/* 3. Floating WhatsApp Pulsing Radar Wave */
+@keyframes whatsappRadarPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.65), 0 8px 24px rgba(34, 197, 94, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgba(34, 197, 94, 0), 0 8px 24px rgba(34, 197, 94, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0), 0 8px 24px rgba(34, 197, 94, 0.35);
+  }
+}
+
+.floating-whatsapp-btn {
+  animation: whatsappRadarPulse 2.8s infinite cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.floating-whatsapp-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+}
+
+/* 4. Curated Works Gallery Item 3D Lift & Smooth Overlay */
+.incredible-gallery-item {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.incredible-gallery-item:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 24px 48px rgba(2, 132, 199, 0.18);
+}
+
+/* 5. Testimonial Cards Hover Lift & Gradient Accent */
+.inc-testimonial-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.inc-testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: #38bdf8;
+  box-shadow: 0 18px 40px rgba(10, 25, 47, 0.08);
+}
+
+.inc-testimonial-card:hover .inc-star-rating {
+  letter-spacing: 3px;
+  transition: letter-spacing 0.3s ease;
+}
+
+/* 6. Pricing Cards Micro-Interactions */
+.luxury-pricing-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.luxury-pricing-card:hover {
+  transform: translateY(-8px);
+  border-color: #38bdf8;
+  box-shadow: 0 24px 50px rgba(2, 132, 199, 0.15);
+}
+
+.luxury-pricing-card.is-featured-tier:hover {
+  transform: scale(1.025) translateY(-8px);
+  box-shadow: 0 30px 60px rgba(2, 132, 199, 0.26);
+}
+
+/* 7. Pro Studio Cards & Booking Form Hover */
+.pro-studio-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pro-studio-card:hover {
+  transform: translateY(-3px);
+  border-color: #0284c7;
+  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.12);
+}
+
+.pro-booking-card {
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.pro-booking-card:hover {
+  box-shadow: 0 24px 55px rgba(2, 132, 199, 0.14);
+}
+
+/* 8. Ambient Background Lighting on Alternating Sections */
+.inc-section-wrap.inc-alt-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.inc-section-wrap.inc-alt-bg::before {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  top: -160px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ambientOrbFloat 14s ease-in-out infinite alternate;
+}
+
+@keyframes ambientOrbFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-35px, 45px) scale(1.12); }
+  100% { transform: translate(25px, -25px) scale(0.95); }
 }

@@ -204,7 +204,7 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             {/* Left: Overlapping Arched Images */}
-            <div className="inc-about-images-col">
+            <div className="inc-about-images-col reveal-scale">
               <div className="inc-arched-images-stack">
                 <div className="inc-abt-frame-1">
                   <img
@@ -224,7 +224,7 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             {/* Right: Studio Editorial Narrative */}
-            <div className="inc-about-content-col">
+            <div className="inc-about-content-col reveal-on-scroll">
               <h2 className="inc-heading-1">
                 Capturing Real Emotions &amp; Family Celebrations
               </h2>
@@ -239,15 +239,15 @@ export default function HomePage({ onNavigate }) {
 
               {/* 3 Clean Metric Cards */}
               <div className="about-stats-container">
-                <div className="about-stat-card">
+                <div className="about-stat-card stagger-1">
                   <div className="about-stat-value">8+</div>
                   <div className="about-stat-text">Years Experience</div>
                 </div>
-                <div className="about-stat-card">
+                <div className="about-stat-card stagger-2">
                   <div className="about-stat-value">1,500+</div>
                   <div className="about-stat-text">Happy Clients</div>
                 </div>
-                <div className="about-stat-card">
+                <div className="about-stat-card stagger-3">
                   <div className="about-stat-value">5.0 ★</div>
                   <div className="about-stat-text">Client Reviews</div>
                 </div>
@@ -288,7 +288,7 @@ export default function HomePage({ onNavigate }) {
       <section className="inc-section-wrap inc-service-section" id="wedding-couple-shoot">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
-            <div className="inc-service-text-col">
+            <div className="inc-service-text-col reveal-on-scroll">
               <h2 className="inc-heading-2">Namma Veetu Kalyanam</h2>
 
               <p className="inc-paragraph">
@@ -312,7 +312,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </div>
 
-            <div className="inc-service-image-col">
+            <div className="inc-service-image-col reveal-scale">
               <div className="inc-showcase-image-card">
                 <img
                   src="/banners/banner_wedding.jpg"
@@ -331,7 +331,7 @@ export default function HomePage({ onNavigate }) {
       <section className="inc-section-wrap inc-service-section inc-alt-bg" id="outdoor-couple-shoot">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center reverse-mobile">
-            <div className="inc-service-image-col">
+            <div className="inc-service-image-col reveal-scale">
               <div className="inc-showcase-image-card">
                 <img
                   src="/banners/banner_couple.jpg"
@@ -341,7 +341,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </div>
 
-            <div className="inc-service-text-col">
+            <div className="inc-service-text-col reveal-on-scroll">
               <h2 className="inc-heading-2">Outdoor &amp; Pre-Wedding Shoots</h2>
 
               <p className="inc-paragraph">
@@ -374,7 +374,7 @@ export default function HomePage({ onNavigate }) {
       <section className="inc-section-wrap inc-service-section" id="toddlers-shoot">
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
-            <div className="inc-service-text-col">
+            <div className="inc-service-text-col reveal-on-scroll">
               <h2 className="inc-heading-2">Toddlers by Raavan</h2>
 
               <p className="inc-paragraph">
@@ -398,7 +398,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </div>
 
-            <div className="inc-service-image-col">
+            <div className="inc-service-image-col reveal-scale">
               <div className="inc-showcase-image-card">
                 <img
                   src="/banners/banner_toddler.jpg"
@@ -417,7 +417,7 @@ export default function HomePage({ onNavigate }) {
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-gallery-section" id="work-gallery">
         <div className="inc-container">
-          <div className="inc-centered-header">
+          <div className="inc-centered-header reveal-on-scroll">
             <h2 className="inc-heading-1 text-center">Featured Photos</h2>
 
             {/* Filter Tabs */}
@@ -439,10 +439,10 @@ export default function HomePage({ onNavigate }) {
 
           {/* Photo Grid with Camera Reticle Cursor on Hover */}
           <div className="inc-gallery-grid">
-            {filteredGallery.map((photo) => (
+            {filteredGallery.map((photo, index) => (
               <div
                 key={photo.id}
-                className="incredible-gallery-item"
+                className={`incredible-gallery-item reveal-on-scroll stagger-${(index % 4) + 1}`}
                 data-photo="true"
                 onClick={() => setLightboxPhoto(photo)}
                 role="button"
@@ -481,7 +481,7 @@ export default function HomePage({ onNavigate }) {
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-pricing-section" id="pricing">
         <div className="inc-container">
-          <div className="inc-centered-header">
+          <div className="inc-centered-header reveal-on-scroll">
             <h2 className="inc-heading-1 text-center">Kutty Chutties Pricing Packages</h2>
             <p className="inc-subtitle text-center">
               Simple, transparent packages starting from ₹2,500 at The Creative Space, Krishnagiri. Free travel within 20km.
@@ -498,7 +498,7 @@ export default function HomePage({ onNavigate }) {
           {/* 4 Kutty Chutties Tier Cards */}
           <div className="inc-pricing-grid luxury-tiers-grid">
             {/* 1. Mini Memories */}
-            <div className="luxury-pricing-card tier-intro">
+            <div className="luxury-pricing-card tier-intro reveal-on-scroll stagger-1">
               <div className="tier-header-badge">
                 <span className="tier-pill pill-intro">Mini Session</span>
               </div>
@@ -544,7 +544,7 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             {/* 2. Sweet Beginnings */}
-            <div className="luxury-pricing-card tier-classic">
+            <div className="luxury-pricing-card tier-classic reveal-on-scroll stagger-2">
               <div className="tier-header-badge">
                 <span className="tier-pill pill-classic">Standard Session</span>
               </div>
@@ -590,7 +590,7 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             {/* 3. Little Stars (Featured Popular) */}
-            <div className="luxury-pricing-card tier-popular is-featured-tier">
+            <div className="luxury-pricing-card tier-popular is-featured-tier reveal-on-scroll stagger-3">
               <div className="tier-header-badge">
                 <span className="tier-pill pill-popular">MOST POPULAR CHOICE</span>
               </div>
@@ -636,7 +636,7 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             {/* 4. Tiny Royalty (VIP Luxury) */}
-            <div className="luxury-pricing-card tier-luxury is-luxury-tier">
+            <div className="luxury-pricing-card tier-luxury is-luxury-tier reveal-on-scroll stagger-4">
               <div className="tier-header-badge">
                 <span className="tier-pill pill-luxury">PREMIUM SESSION</span>
               </div>
@@ -725,11 +725,11 @@ export default function HomePage({ onNavigate }) {
       {/* ============================================================== */}
       <section className="inc-section-wrap inc-testimonials-section inc-alt-bg" id="testimonials">
         <div className="inc-container">
-          <h2 className="inc-heading-1">What Our Clients Say</h2>
+          <h2 className="inc-heading-1 reveal-on-scroll">What Our Clients Say</h2>
 
           <div className="inc-testimonials-grid">
-            {testimonials.map((t) => (
-              <div className="inc-testimonial-card" key={t.couple}>
+            {testimonials.map((t, idx) => (
+              <div className={`inc-testimonial-card reveal-on-scroll stagger-${(idx % 3) + 1}`} key={t.couple}>
                 <div className="inc-star-rating">★★★★★</div>
                 <p className="inc-testimonial-quote">“{t.quote}”</p>
                 <div className="inc-testimonial-author">
@@ -756,7 +756,7 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             {/* Left: Studio Locations Hub */}
-            <div className="inc-book-info-col">
+            <div className="inc-book-info-col reveal-on-scroll">
               <h2 className="inc-heading-1">Visit Our Studios in Krishnagiri</h2>
 
               <p className="inc-paragraph" style={{ marginBottom: "26px" }}>
@@ -766,7 +766,7 @@ export default function HomePage({ onNavigate }) {
               {/* 2 Clean Studio Location Cards */}
               <div className="pro-studios-stack">
                 {/* Studio 1 */}
-                <div className="pro-studio-card">
+                <div className="pro-studio-card stagger-1">
                   <div className="pro-card-header">
                     <span className="pro-branch-tag">STUDIO 01 · NEWBORN &amp; TODDLERS</span>
                     <a
@@ -785,7 +785,7 @@ export default function HomePage({ onNavigate }) {
                 </div>
 
                 {/* Studio 2 */}
-                <div className="pro-studio-card">
+                <div className="pro-studio-card stagger-2">
                   <div className="pro-card-header">
                     <span className="pro-branch-tag">STUDIO 02 · WEDDINGS &amp; CINEMA</span>
                     <a
@@ -829,7 +829,7 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             {/* Right: Clean Professional Booking Form */}
-            <div className="inc-book-form-col">
+            <div className="inc-book-form-col reveal-scale">
               <div className="pro-booking-card">
                 <div className="pro-form-head">
                   <h3 className="pro-form-title">Check Date Availability</h3>

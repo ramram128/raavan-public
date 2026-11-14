@@ -347,6 +347,54 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }
 
+  // Universal Scroll-Reveal IntersectionObserver for animatic experience
+  useEffect(() => {
+    // If user prefers reduced motion, reveal everything immediately
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll(".reveal-on-scroll, .reveal-scale, .reveal-stagger").forEach((el) => {
+        el.classList.add("revealed");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -40px 0px",
+      }
+    );
+
+    const timer = setTimeout(() => {
+      const targets = document.querySelectorAll(
+        ".reveal-on-scroll, .reveal-scale, .reveal-stagger, .inc-two-col-grid, .inc-showcase-image-card, .inc-arched-images-stack, .about-stats-container, .incredible-gallery-item, .luxury-pricing-card, .inc-testimonial-card, .pro-studio-card, .pro-booking-card"
+      );
+      targets.forEach((el) => {
+        if (!el.classList.contains("revealed")) {
+          const rect = el.getBoundingClientRect();
+          // If already in viewport on mount, mark revealed directly
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add("revealed");
+          } else {
+            observer.observe(el);
+          }
+        }
+      });
+    }, 60);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [currentPage]);
+
   // Dynamic SEO page titles
   useEffect(() => {
     switch (currentPage) {
