@@ -67,12 +67,7 @@ export default function PricingPage({ onNavigate }) {
           <div className="kutty-hero-layout">
             {/* Left Content Column */}
             <div className="kutty-hero-content">
-              <div className="kutty-hero-eyebrow-row">
-                <span className="clean-eyebrow-tag kutty-glowing-tag">
-                  <span className="kutty-pulse-dot"></span>
-                  ✨ TRANSPARENT STUDIO INVESTMENTS · @RAAVANSTUDIOZ
-                </span>
-              </div>
+
 
               <h1 className="kutty-hero-heading">
                 Pricing and <span className="kutty-title-gradient">Signature Packages</span>
@@ -82,40 +77,7 @@ export default function PricingPage({ onNavigate }) {
                 Honest, all-inclusive investments for newborn &amp; toddler milestones, creative studio portraits, and grand wedding celebrations. Every project is gently directed by <strong>Mr. Gowtham Raj (8+ Years Experience)</strong> in our sanitized Krishnagiri flagship studio.
               </p>
 
-              {/* 4 Feature Micro-Cards */}
-              <div className="kutty-hero-features-grid">
-                <div className="kutty-hero-feat-card">
-                  <span className="kutty-feat-icon">📍</span>
-                  <div className="kutty-feat-body">
-                    <strong>Flagship Studio</strong>
-                    <span>The Creative Space, Krishnagiri</span>
-                  </div>
-                </div>
 
-                <div className="kutty-hero-feat-card">
-                  <span className="kutty-feat-icon">🚗</span>
-                  <div className="kutty-feat-body">
-                    <strong>Free Travel</strong>
-                    <span>Within 20km for Home Visits &amp; Venues</span>
-                  </div>
-                </div>
-
-                <div className="kutty-hero-feat-card">
-                  <span className="kutty-feat-icon">🧸</span>
-                  <div className="kutty-feat-body">
-                    <strong>15+ Themed Sets</strong>
-                    <span>All props, outfits &amp; wraps included</span>
-                  </div>
-                </div>
-
-                <div className="kutty-hero-feat-card">
-                  <span className="kutty-feat-icon">🖼️</span>
-                  <div className="kutty-feat-body">
-                    <strong>Fine-Art Keepsakes</strong>
-                    <span>Archival layflat albums &amp; frames</span>
-                  </div>
-                </div>
-              </div>
 
               {/* Action Buttons */}
               <div className="kutty-hero-actions">
@@ -128,7 +90,7 @@ export default function PricingPage({ onNavigate }) {
                   className="kutty-hero-btn-secondary"
                   title="View Dedicated Raavan Kutty Chutties Page"
                 >
-                  👶 Baby Page (70+ Photos) ↗
+                  Baby Page (70+ Photos) ↗
                 </button>
 
               </div>
