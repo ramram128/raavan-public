@@ -106,47 +106,125 @@ export default function KuttyChuttiesPage({ onNavigate }) {
   return (
     <div className="clean-subpage-root kutty-chutties-page-root">
       {/* ============================================================== */}
-      {/* 1. HERO HEADER SECTION                                         */}
+      {/* 1. HERO HEADER SECTION - LUXURY SHOWCASE                       */}
       {/* ============================================================== */}
       <section className="clean-page-hero kutty-hero-wrap">
         <div className="inc-container">
-          <div className="clean-hero-badge-wrap">
-            <span className="clean-eyebrow-tag">
-              👶 RAAVAN KUTTY CHUTTIES · @TODDLERS_BY_RAAVAN
-            </span>
-          </div>
+          <div className="kutty-hero-layout">
+            {/* Left Content Column */}
+            <div className="kutty-hero-content">
+              <div className="kutty-hero-eyebrow-row">
+                <span className="clean-eyebrow-tag kutty-glowing-tag">
+                  <span className="kutty-pulse-dot"></span>
+                  👶 RAAVAN KUTTY CHUTTIES · @TODDLERS_BY_RAAVAN
+                </span>
+              </div>
 
-          <h1 className="clean-page-title" style={{ maxWidth: "850px" }}>
-            Price and Package Details
-          </h1>
+              <h1 className="kutty-hero-heading">
+                Price and <span className="kutty-title-gradient">Package Details</span>
+              </h1>
 
-          <p className="clean-page-subtitle" style={{ maxWidth: "720px" }}>
-            Preserving the sweetest baby smiles, tiny yawns, and playful milestones. Every session is hosted in our sanitized, climate-controlled flagship studio in Krishnagiri by <strong>Mr. Gowtham Raj</strong> (8+ Years Experience).
-          </p>
+              <p className="kutty-hero-lead">
+                Preserving the sweetest baby smiles, tiny yawns, and playful milestones. Every session is hosted in our sanitized, climate-controlled flagship studio in Krishnagiri by <strong>Mr. Gowtham Raj</strong> (8+ Years Experience).
+              </p>
 
-          {/* Quick Perks Strip */}
-          <div className="clean-pricing-perks-row" style={{ marginTop: "1.5rem" }}>
-            <span className="clean-perk-badge">📍 Flagship Studio: The Creative Space, Krishnagiri</span>
-            <span className="clean-perk-badge">🚗 Free Travel within 20km for Home Visits</span>
-            <span className="clean-perk-badge">🧸 All Designer Props &amp; Outfits Included</span>
-            <span className="clean-perk-badge">🖼️ Fine-Art Layflat Keepsake Frames</span>
-          </div>
+              {/* 4 Feature Value Cards */}
+              <div className="kutty-hero-features-grid">
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">📍</span>
+                  <div className="kutty-feat-body">
+                    <strong>Flagship Studio</strong>
+                    <span>The Creative Space, Krishnagiri</span>
+                  </div>
+                </div>
 
-          <div style={{ marginTop: "2rem", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a
-              href="#packages-grid"
-              className="inc-btn-pill-primary"
-              style={{ padding: "12px 28px", textDecoration: "none" }}
-            >
-              Explore 4 Packages ↓
-            </a>
-            <a
-              href="#baby-gallery"
-              className="inc-btn-pill-ghost"
-              style={{ padding: "12px 28px", textDecoration: "none" }}
-            >
-              View Real Baby Photos 📸
-            </a>
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🚗</span>
+                  <div className="kutty-feat-body">
+                    <strong>Free Travel</strong>
+                    <span>Within 20km for Home Visits</span>
+                  </div>
+                </div>
+
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🧸</span>
+                  <div className="kutty-feat-body">
+                    <strong>Designer Setups</strong>
+                    <span>All props, wraps &amp; outfits provided</span>
+                  </div>
+                </div>
+
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🖼️</span>
+                  <div className="kutty-feat-body">
+                    <strong>Keepsake Frames</strong>
+                    <span>Fine-Art layflat keepsake frames</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="kutty-hero-actions">
+                <a
+                  href="#packages-grid"
+                  className="kutty-hero-btn-primary"
+                >
+                  Explore 4 Packages ↓
+                </a>
+                <a
+                  href="#baby-gallery"
+                  className="kutty-hero-btn-secondary"
+                >
+                  View Baby Gallery 📸
+                </a>
+                <a
+                  href="https://wa.me/919500306696?text=Hi%20Mr.%20Gowtham%20Raj!%20I%20would%20like%20to%20enquire%20about%20Raavan%20Kutty%20Chutties%20photoshoots."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="kutty-hero-btn-wa"
+                  title="Direct WhatsApp with Mr. Gowtham Raj"
+                >
+                  💬 WhatsApp Us
+                </a>
+              </div>
+            </div>
+
+            {/* Right Visual Collage Column */}
+            <div className="kutty-hero-visual-col">
+              <div className="kutty-hero-visual-card-main">
+                <img
+                  src="/drive_gallery/optimized/kutty/kutty_01.jpg"
+                  alt="Tender Newborn Serenity Portrait"
+                  className="kutty-hero-img-main"
+                  loading="eager"
+                />
+                <div className="kutty-hero-img-badge">
+                  <span className="kutty-badge-dot"></span>
+                  <span>Tender Newborn Serenity</span>
+                </div>
+              </div>
+
+              <div className="kutty-hero-visual-card-sub">
+                <img
+                  src="/drive_gallery/optimized/kutty/kutty_03.jpg"
+                  alt="Baby Knitted Wrap Portrait"
+                  className="kutty-hero-img-sub"
+                  loading="lazy"
+                />
+                <div className="kutty-hero-sub-label">
+                  <span>🧸 Cozy Wraps Setup</span>
+                </div>
+              </div>
+
+              {/* Floating Verified Trust Badge */}
+              <div className="kutty-hero-floating-badge">
+                <div className="kutty-badge-icon">⭐</div>
+                <div className="kutty-badge-text">
+                  <strong>8+ Years Experience</strong>
+                  <span>500+ Happy Families Documented</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -213,15 +291,9 @@ export default function KuttyChuttiesPage({ onNavigate }) {
                       onClick={() => handleBookWhatsApp(pkg.name, pkg.price)}
                       className={isPopular ? "kutty-cta-btn-primary" : "kutty-cta-btn-secondary"}
                     >
-                      Book on WhatsApp 💬
+                      Book on WhatsApp
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => onNavigate("contact")}
-                      className="kutty-inquire-link"
-                    >
-                      Or Send Studio Enquiry →
-                    </button>
+
                   </div>
                 </div>
               );
