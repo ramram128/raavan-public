@@ -37,7 +37,9 @@ export default function AdminPage({ onNavigate }) {
   const [newService, setNewService] = useState({ title: "", category: "Weddings", starting_price: "₹", description: "", deliverables: "", image_url: "" });
 
   const [showAddPackage, setShowAddPackage] = useState(false);
-  const [newPackage, setNewPackage] = useState({ name: "", category: "newborn_toddler", price_display: "₹", duration: "", badge: "", description: "", features: "" });
+  const [newPackage, setNewPackage] = useState({ name: "", category: "newborn_toddler", price_display: "Rs. ", duration: "", badge: "", description: "", features: "" });
+  const [editingPkgId, setEditingPkgId] = useState(null);
+  const [editPkgData, setEditPkgData] = useState({});
 
   const [showAddGallery, setShowAddGallery] = useState(false);
   const [newGallery, setNewGallery] = useState({ title: "", category: "Weddings", location: "Krishnagiri", description: "", image_url: "", aspect: "portrait" });
@@ -274,6 +276,26 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
+  async function handleUpdatePackage(id, updatedFields) {
+    try {
+      const res = await fetch(`/api/admin/packages/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedFields),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPackages((prev) => prev.map((p) => (p.id === id ? data.package : p)));
+        setEditingPkgId(null);
+        flashMessage("Package updated successfully in MySQL!");
+      } else {
+        alert(data.message || "Failed to update package");
+      }
+    } catch (err) {
+      alert("Error updating package");
+    }
+  }
+
   // Gallery Actions
   async function handleAddGallery(e) {
     e.preventDefault();
@@ -478,6 +500,20 @@ export default function AdminPage({ onNavigate }) {
 
             <button
               type="button"
+              className={`sidebar-nav-item${activeTab === "kutty_chutties" ? " active" : ""}`}
+              onClick={() => setActiveTab("kutty_chutties")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">👶</span>
+                <span>Kutty Chutties</span>
+              </div>
+              <span className="sidebar-badge-count">
+                {packages.filter((p) => p.category === "newborn_toddler" || p.category === "add_on").length || 4}
+              </span>
+            </button>
+
+            <button
+              type="button"
               className={`sidebar-nav-item${activeTab === "services" ? " active" : ""}`}
               onClick={() => setActiveTab("services")}
             >
@@ -598,8 +634,9 @@ export default function AdminPage({ onNavigate }) {
           {[
             { id: "overview", label: "Overview" },
             { id: "enquiries", label: `Bookings (${enquiries.length})` },
+            { id: "kutty_chutties", label: `👶 Kutty Chutties (${packages.filter((p) => p.category === "newborn_toddler" || p.category === "add_on").length || 4})` },
             { id: "services", label: `Services (${services.length})` },
-            { id: "packages", label: `Pricing Packages (${packages.length})` },
+            { id: "packages", label: `All Packages (${packages.length})` },
             { id: "gallery", label: `Curated Works (${gallery.length})` },
             { id: "studio", label: "Studio Info" },
           ].map((pill) => (
@@ -1057,6 +1094,364 @@ export default function AdminPage({ onNavigate }) {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB: RAAVAN KUTTY CHUTTIES MANAGEMENT                           */}
+        {/* ============================================================== */}
+        {activeTab === "kutty_chutties" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ fontSize: "1.4rem" }}>👶</span>
+                    <h2 className="admin-card-section-title">RAAVAN KUTTY CHUTTIES — Price &amp; Package Cockpit</h2>
+                  </div>
+                  <p className="card-subtitle-sub">
+                    Direct pricing and package controls for <strong>@toddlers_by_raavan</strong> (Newborns 5–30 days &amp; Toddlers 1–3 years).
+                  </p>
+                </div>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    className="admin-sync-btn"
+                    onClick={() => onNavigate("kutty-chutties")}
+                    style={{ background: "#f0f9ff", border: "1px solid #bae6fd", color: "#0284c7" }}
+                  >
+                    🌐 View Live Page ↗
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-quick-add-btn"
+                    onClick={() => {
+                      setNewPackage({
+                        name: "",
+                        category: "newborn_toddler",
+                        price_display: "Rs. ",
+                        duration: "",
+                        badge: "",
+                        description: "",
+                        features: "",
+                      });
+                      setShowAddPackage(!showAddPackage);
+                    }}
+                  >
+                    {showAddPackage ? "✕ Close Form" : "+ Add Kutty Theme / Package"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Add New Kutty Package Form */}
+              {showAddPackage && (
+                <div className="admin-form-card" style={{ background: "#f0fdf4", border: "1.5px solid #bbf7d0", marginBottom: "24px" }}>
+                  <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#16a34a", margin: "0 0 16px" }}>
+                    + Add New Kutty Chutties Package / Tier
+                  </h3>
+                  <form onSubmit={handleAddPackage} style={{ display: "grid", gap: "16px" }}>
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Package Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Tiny Royalty Plus"
+                          value={newPackage.name}
+                          onChange={(e) => setNewPackage({ ...newPackage, name: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Price Display *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Rs. 15,000"
+                          value={newPackage.price_display}
+                          onChange={(e) => setNewPackage({ ...newPackage, price_display: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Category</label>
+                        <select
+                          value={newPackage.category}
+                          onChange={(e) => setNewPackage({ ...newPackage, category: e.target.value })}
+                          className="admin-form-select"
+                        >
+                          <option value="newborn_toddler">Kutty Chutties (Newborn &amp; Toddler)</option>
+                          <option value="add_on">Optional Add-On</option>
+                        </select>
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Duration</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 60-minute session"
+                          value={newPackage.duration}
+                          onChange={(e) => setNewPackage({ ...newPackage, duration: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Badge (e.g. Most Popular, Luxury)</label>
+                      <input
+                        type="text"
+                        placeholder="Most Popular"
+                        value={newPackage.badge}
+                        onChange={(e) => setNewPackage({ ...newPackage, badge: e.target.value })}
+                        className="admin-form-input"
+                      />
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Features / Deliverables (1 per line)</label>
+                      <textarea
+                        rows="4"
+                        placeholder="3 themed setups&#10;3 outfits / props provided&#10;15 edited digital photos&#10;Family portrait included&#10;1 complimentary frame"
+                        value={newPackage.features}
+                        onChange={(e) => setNewPackage({ ...newPackage, features: e.target.value })}
+                        className="admin-form-textarea"
+                      />
+                    </div>
+
+                    <button type="submit" className="admin-submit-btn-primary" style={{ alignSelf: "flex-start" }}>
+                      Save to Kutty Chutties →
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {/* Kutty Chutties 4 Primary Packages Grid */}
+              <div style={{ marginBottom: "2rem" }}>
+                <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>
+                  📦 Active Investment Tiers
+                </h3>
+                <div className="admin-items-grid">
+                  {packages
+                    .filter((p) => p.category === "newborn_toddler" || p.id === "mini-memories" || p.id === "sweet-beginnings" || p.id === "little-stars" || p.id === "tiny-royalty")
+                    .map((pkg) => {
+                      const isEditing = editingPkgId === pkg.id;
+
+                      if (isEditing) {
+                        return (
+                          <div
+                            key={pkg.id}
+                            className="admin-item-card"
+                            style={{ border: "2px solid #0284c7", background: "#f8fafc" }}
+                          >
+                            <div className="admin-item-body">
+                              <h4 style={{ margin: "0 0 12px", fontSize: "1rem", color: "#0284c7" }}>
+                                ✏️ Editing: {pkg.name}
+                              </h4>
+                              <div style={{ display: "grid", gap: "8px" }}>
+                                <label style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>
+                                  Price Display
+                                </label>
+                                <input
+                                  type="text"
+                                  value={editPkgData.price_display ?? pkg.price_display}
+                                  onChange={(e) => setEditPkgData({ ...editPkgData, price_display: e.target.value })}
+                                  className="admin-form-input"
+                                />
+
+                                <label style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>
+                                  Duration
+                                </label>
+                                <input
+                                  type="text"
+                                  value={editPkgData.duration ?? pkg.duration ?? ""}
+                                  onChange={(e) => setEditPkgData({ ...editPkgData, duration: e.target.value })}
+                                  className="admin-form-input"
+                                />
+
+                                <label style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>
+                                  Badge (optional)
+                                </label>
+                                <input
+                                  type="text"
+                                  value={editPkgData.badge ?? pkg.badge ?? ""}
+                                  onChange={(e) => setEditPkgData({ ...editPkgData, badge: e.target.value })}
+                                  className="admin-form-input"
+                                />
+
+                                <label style={{ fontSize: "0.75rem", fontWeight: 700, color: "#475569" }}>
+                                  Features (1 per line)
+                                </label>
+                                <textarea
+                                  rows="4"
+                                  value={
+                                    editPkgData.features !== undefined
+                                      ? editPkgData.features
+                                      : (Array.isArray(pkg.features) ? pkg.features.join("\n") : pkg.features || "")
+                                  }
+                                  onChange={(e) => setEditPkgData({ ...editPkgData, features: e.target.value })}
+                                  className="admin-form-textarea"
+                                />
+                              </div>
+                            </div>
+                            <div className="admin-item-footer" style={{ gap: "8px" }}>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const payload = {
+                                    ...editPkgData,
+                                    features:
+                                      typeof editPkgData.features === "string"
+                                        ? editPkgData.features.split("\n").filter(Boolean)
+                                        : pkg.features,
+                                  };
+                                  handleUpdatePackage(pkg.id, payload);
+                                }}
+                                className="admin-action-btn-view"
+                                style={{ background: "#0284c7", color: "#fff", border: "none" }}
+                              >
+                                Save Changes
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingPkgId(null);
+                                  setEditPkgData({});
+                                }}
+                                className="admin-action-btn-del"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="admin-item-card" key={pkg.id}>
+                          <div className="admin-item-body">
+                            {pkg.badge && (
+                              <span
+                                style={{
+                                  fontSize: "0.72rem",
+                                  fontWeight: 800,
+                                  background: "#e0f2fe",
+                                  color: "#0284c7",
+                                  padding: "3px 8px",
+                                  borderRadius: "999px",
+                                  alignSelf: "flex-start",
+                                }}
+                              >
+                                {pkg.badge}
+                              </span>
+                            )}
+                            <h4 style={{ margin: "4px 0 0", fontSize: "1.15rem", fontWeight: 800, color: "#0f172a" }}>
+                              {pkg.name}
+                            </h4>
+                            <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0284c7", margin: "6px 0" }}>
+                              {pkg.price_display || pkg.price}
+                            </div>
+                            {pkg.duration && (
+                              <div style={{ fontSize: "0.8rem", color: "#64748b", fontWeight: 600 }}>
+                                ⏱ {pkg.duration}
+                              </div>
+                            )}
+                            <ul style={{ paddingLeft: "18px", margin: "14px 0 0", fontSize: "0.84rem", color: "#334155", lineHeight: 1.6 }}>
+                              {(Array.isArray(pkg.features) ? pkg.features : []).map((feat, idx) => (
+                                <li key={idx}>{feat}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="admin-item-footer">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingPkgId(pkg.id);
+                                setEditPkgData({
+                                  price_display: pkg.price_display || pkg.price,
+                                  duration: pkg.duration || "",
+                                  badge: pkg.badge || "",
+                                  features: Array.isArray(pkg.features) ? pkg.features.join("\n") : pkg.features || "",
+                                });
+                              }}
+                              className="admin-action-btn-view"
+                            >
+                              ✏️ Edit Details
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeletePackage(pkg.id)}
+                              className="admin-action-btn-del"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+
+              {/* Optional Add-Ons Section */}
+              <div style={{ borderTop: "1.5px solid #f1f5f9", paddingTop: "2rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                  <div>
+                    <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+                      🎂 Optional Add-Ons
+                    </h3>
+                    <p style={{ margin: "2px 0 0", fontSize: "0.82rem", color: "#64748b" }}>
+                      Cake smash setup, extra digital images, and framed canvas extensions.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="admin-items-grid">
+                  {packages
+                    .filter((p) => p.category === "add_on")
+                    .map((addon) => (
+                      <div className="admin-item-card" key={addon.id}>
+                        <div className="admin-item-body">
+                          <span style={{ fontSize: "1.6rem" }}>
+                            {addon.name.toLowerCase().includes("cake") ? "🎂" : "📸"}
+                          </span>
+                          <h4 style={{ margin: "6px 0 0", fontSize: "1.05rem", fontWeight: 800, color: "#0f172a" }}>
+                            {addon.name}
+                          </h4>
+                          <div style={{ fontSize: "1.3rem", fontWeight: 900, color: "#0284c7", margin: "4px 0" }}>
+                            {addon.price_display}
+                          </div>
+                          <p style={{ fontSize: "0.82rem", color: "#64748b", margin: 0 }}>
+                            {addon.description || "High-end archival addon"}
+                          </p>
+                        </div>
+                        <div className="admin-item-footer">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newPrice = prompt(`Enter new price display for ${addon.name}:`, addon.price_display);
+                              if (newPrice && newPrice !== addon.price_display) {
+                                handleUpdatePackage(addon.id, { price_display: newPrice });
+                              }
+                            }}
+                            className="admin-action-btn-view"
+                          >
+                            ✏️ Edit Price
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeletePackage(addon.id)}
+                            className="admin-action-btn-del"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           </section>

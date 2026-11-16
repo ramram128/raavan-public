@@ -177,6 +177,103 @@ export const testimonials = [
   },
 ];
 
+export const kuttyChuttiesDetails = {
+  brand: "RAAVAN KUTTY CHUTTIES",
+  title: "PRICE AND PACKAGE DETAILS",
+  instagram: "@toddlers_by_raavan",
+  studioNote: "Hosted in our sanitized, climate-controlled Creative Space Studio in Krishnagiri. Complimentary travel within 20km for home newborn shoots.",
+  packages: [
+    {
+      num: "01",
+      id: "mini-memories",
+      name: "MINI MEMORIES",
+      price: "Rs. 2,500",
+      priceNum: 2500,
+      duration: "15–20-minute studio session",
+      badge: "Intro Session",
+      features: [
+        "15–20-minute studio session",
+        "1 backdrop / setup",
+        "1 outfit",
+        "5 professionally edited digital photos",
+      ],
+      description: "Ideal for milestone portraits and classic newborn/toddler captures.",
+      image: "/drive_gallery/optimized/kutty/kutty_01.jpg",
+    },
+    {
+      num: "02",
+      id: "sweet-beginnings",
+      name: "SWEET BEGINNINGS",
+      price: "Rs. 5,000",
+      priceNum: 5000,
+      duration: "30- minute session",
+      badge: "Classic",
+      features: [
+        "30- minute session",
+        "2 setups (wraps / simple props)",
+        "2 outfits / wraps",
+        "10 edited digital photos",
+        "Parent + baby shot included",
+      ],
+      description: "A wonderful balance of soft swaddles, cute props, and a cherished parent-baby moment.",
+      image: "/drive_gallery/optimized/kutty/kutty_03.jpg",
+    },
+    {
+      num: "03",
+      id: "little-stars",
+      name: "LITTLE STARS",
+      price: "Rs. 8,000",
+      priceNum: 8000,
+      duration: "60-minute session",
+      badge: "Most Popular",
+      isFeatured: true,
+      features: [
+        "60-minute session",
+        "3 themed setups",
+        "3 outfits / props provided",
+        "15 edited digital photos",
+        "Family portrait included",
+        "1 complimentary frame",
+      ],
+      description: "Our signature multi-theme family experience creating treasured wall heirlooms.",
+      image: "/drive_gallery/optimized/kutty/kutty_15.jpg",
+    },
+    {
+      num: "04",
+      id: "tiny-royalty",
+      name: "TINY ROYALTY",
+      price: "Rs. 12,000",
+      priceNum: 12000,
+      duration: "90-minute relaxed session",
+      badge: "Luxury Newborn / Toddler Experience",
+      features: [
+        "Luxury newborn / toddler experience",
+        "90-minute relaxed session",
+        "5 premium setups",
+        "All props & outfits provided",
+        "25 edited digital photos",
+        "Parents + sibling portraits",
+        "5 high-end retouched images",
+        "3 frames",
+      ],
+      description: "The ultimate VIP documentation with elaborate theme designs and 3 complimentary frames.",
+      image: "/drive_gallery/optimized/kutty/kutty_38.jpg",
+    },
+  ],
+  addOns: [
+    {
+      name: "Extra edited photo",
+      price: "Rs. 100 each",
+      detail: "Skin retouching, color balance, and high-resolution export.",
+    },
+    {
+      name: "Cake smash setup",
+      price: "Rs. 1,500",
+      detail: "Festive backdrop, party props, balloons, and post-smash bubble bath.",
+    },
+  ],
+};
+
 export const servicePackages = [
   {
     id: "mini-memories",
