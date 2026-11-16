@@ -772,6 +772,657 @@ export const faqs = [
   },
 ];
 
+export const allKuttyChuttiesPhotos = [
+  {
+    "id": "kutty-8",
+    "title": "Serene Newborn Snooze",
+    "category": "Newborns",
+    "theme": "Woolen Basket",
+    "src": "/drive_gallery/optimized/kutty/kutty_01.jpg",
+    "aspect": "portrait",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-9",
+    "title": "Gentle Swaddled Wrap",
+    "category": "Newborns",
+    "theme": "Pastel Knits",
+    "src": "/drive_gallery/optimized/kutty/kutty_03.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-10",
+    "title": "Warm Knitted Blanket Dream",
+    "category": "Newborns",
+    "theme": "Cozy Snuggle",
+    "src": "/drive_gallery/optimized/kutty/kutty_04.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-11",
+    "title": "Infectious Giggles",
+    "category": "Toddlers",
+    "theme": "Playful Milestone",
+    "src": "/drive_gallery/optimized/kutty/kutty_05.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-12",
+    "title": "Curious Little Explorer",
+    "category": "Toddlers",
+    "theme": "Studio Props",
+    "src": "/drive_gallery/optimized/kutty/kutty_06.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-13",
+    "title": "Playful Discovery",
+    "category": "Toddlers",
+    "theme": "Creative Toys",
+    "src": "/drive_gallery/optimized/kutty/kutty_07.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-14",
+    "title": "Happy Baby Giggles",
+    "category": "Toddlers",
+    "theme": "Bright Setup",
+    "src": "/drive_gallery/optimized/kutty/kutty_08.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-15",
+    "title": "Floral Nest Theme",
+    "category": "Newborns",
+    "theme": "Botanical Bloom",
+    "src": "/drive_gallery/optimized/kutty/kutty_09.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-16",
+    "title": "Dreamy Pastel Blossoms",
+    "category": "Newborns",
+    "theme": "Flower Wreath",
+    "src": "/drive_gallery/optimized/kutty/kutty_10.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-17",
+    "title": "Tiny Angel Slumber",
+    "category": "Newborns",
+    "theme": "Feather Soft",
+    "src": "/drive_gallery/optimized/kutty/kutty_11.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-18",
+    "title": "Tiny Toes & Details",
+    "category": "Newborns",
+    "theme": "Macro Love",
+    "src": "/drive_gallery/optimized/kutty/kutty_12.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-19",
+    "title": "Little Fingers & First Touch",
+    "category": "Newborns",
+    "theme": "Tender Bond",
+    "src": "/drive_gallery/optimized/kutty/kutty_13.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-20",
+    "title": "Innocent Curiosity",
+    "category": "Toddlers",
+    "theme": "Milestone Joy",
+    "src": "/drive_gallery/optimized/kutty/kutty_14.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-21",
+    "title": "First Birthday Joy",
+    "category": "Toddlers",
+    "theme": "Celebration Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_15.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-22",
+    "title": "Festive Birthday Balloon Party",
+    "category": "Toddlers",
+    "theme": "Party Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_16.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-23",
+    "title": "Cute Crown Prince",
+    "category": "Toddlers",
+    "theme": "Royal Milestone",
+    "src": "/drive_gallery/optimized/kutty/kutty_17.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-24",
+    "title": "Rustic Basket Dreams",
+    "category": "Newborns",
+    "theme": "Warm Natural",
+    "src": "/drive_gallery/optimized/kutty/kutty_18.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-25",
+    "title": "Soft Linen Nest",
+    "category": "Newborns",
+    "theme": "Earthy Tones",
+    "src": "/drive_gallery/optimized/kutty/kutty_19.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-26",
+    "title": "Peaceful Woodland Nap",
+    "category": "Newborns",
+    "theme": "Nature Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_20.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-27",
+    "title": "Sparkling Eyes",
+    "category": "Toddlers",
+    "theme": "Milestone Smiles",
+    "src": "/drive_gallery/optimized/kutty/kutty_21.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-28",
+    "title": "Playful Morning Sunshine",
+    "category": "Toddlers",
+    "theme": "Daylight Joy",
+    "src": "/drive_gallery/optimized/kutty/kutty_22.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-29",
+    "title": "Gentle Baby Smiles",
+    "category": "Toddlers",
+    "theme": "Sweet Expressions",
+    "src": "/drive_gallery/optimized/kutty/kutty_23.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-30",
+    "title": "Tiny Royalty Prince",
+    "category": "Newborns",
+    "theme": "Heirloom Setup",
+    "src": "/drive_gallery/optimized/kutty/kutty_24.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-31",
+    "title": "Adorable Designer Outfit",
+    "category": "Toddlers",
+    "theme": "Little Gentleman",
+    "src": "/drive_gallery/optimized/kutty/kutty_25.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-32",
+    "title": "Princess in Pastel",
+    "category": "Toddlers",
+    "theme": "Floral Fairy",
+    "src": "/drive_gallery/optimized/kutty/kutty_26.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-33",
+    "title": "Happy Family Embrace",
+    "category": "Toddlers",
+    "theme": "Family Bonding",
+    "src": "/drive_gallery/optimized/kutty/kutty_27.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-34",
+    "title": "Mother & Baby Warmth",
+    "category": "Newborns",
+    "theme": "Motherhood Grace",
+    "src": "/drive_gallery/optimized/kutty/kutty_28.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-35",
+    "title": "Father & Baby Love",
+    "category": "Newborns",
+    "theme": "Paternal Bond",
+    "src": "/drive_gallery/optimized/kutty/kutty_29.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-36",
+    "title": "Sibling Joy & Kisses",
+    "category": "Toddlers",
+    "theme": "Sibling Love",
+    "src": "/drive_gallery/optimized/kutty/kutty_30.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-37",
+    "title": "Candid Milestone Laugh",
+    "category": "Toddlers",
+    "theme": "First Steps",
+    "src": "/drive_gallery/optimized/kutty/kutty_31.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-38",
+    "title": "Sweet Dreams in Starlight",
+    "category": "Newborns",
+    "theme": "Celestial Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_32.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-39",
+    "title": "Velvet Soft Slumber",
+    "category": "Newborns",
+    "theme": "Luxury Wrap",
+    "src": "/drive_gallery/optimized/kutty/kutty_33.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-40",
+    "title": "Playful Toy Time",
+    "category": "Toddlers",
+    "theme": "Interactive Props",
+    "src": "/drive_gallery/optimized/kutty/kutty_34.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-41",
+    "title": "Gentle Baby Yawns",
+    "category": "Newborns",
+    "theme": "Pure Innocence",
+    "src": "/drive_gallery/optimized/kutty/kutty_35.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-42",
+    "title": "Little Explorer Safari",
+    "category": "Toddlers",
+    "theme": "Adventure Setup",
+    "src": "/drive_gallery/optimized/kutty/kutty_36.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-43",
+    "title": "Cute Bear Hug Theme",
+    "category": "Toddlers",
+    "theme": "Teddy Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_37.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-44",
+    "title": "Floral Garland Magic",
+    "category": "Newborns",
+    "theme": "Garden Fantasy",
+    "src": "/drive_gallery/optimized/kutty/kutty_38.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-45",
+    "title": "Tiny Royalty Heirloom",
+    "category": "Newborns",
+    "theme": "Regal Velvet",
+    "src": "/drive_gallery/optimized/kutty/kutty_39.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-46",
+    "title": "Golden Sunlight Portraits",
+    "category": "Toddlers",
+    "theme": "Golden Hour Studio",
+    "src": "/drive_gallery/optimized/kutty/kutty_40.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-47",
+    "title": "Little Dreamer Cloud Setup",
+    "category": "Newborns",
+    "theme": "Sky Fantasy",
+    "src": "/drive_gallery/optimized/kutty/kutty_41.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-48",
+    "title": "Cozy Knit Bonnet Portrait",
+    "category": "Newborns",
+    "theme": "Handmade Warmth",
+    "src": "/drive_gallery/optimized/kutty/kutty_42.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-49",
+    "title": "Happy Cheeks & Baby Chuckles",
+    "category": "Toddlers",
+    "theme": "Cute Milestone",
+    "src": "/drive_gallery/optimized/kutty/kutty_43.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-50",
+    "title": "Precious First Months",
+    "category": "Newborns",
+    "theme": "Milestone Marker",
+    "src": "/drive_gallery/optimized/kutty/kutty_44.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-51",
+    "title": "Charming Baby Smile",
+    "category": "Toddlers",
+    "theme": "Candid Portrait",
+    "src": "/drive_gallery/optimized/kutty/kutty_45.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-52",
+    "title": "Heirloom Family Treasure",
+    "category": "Toddlers",
+    "theme": "Generations Joy",
+    "src": "/drive_gallery/optimized/kutty/kutty_46.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-53",
+    "title": "Sweet Butterfly Nest",
+    "category": "Newborns",
+    "theme": "Fairy Garden",
+    "src": "/drive_gallery/optimized/kutty/kutty_47.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-54",
+    "title": "Little Boss Milestone",
+    "category": "Toddlers",
+    "theme": "Mini Suit Setup",
+    "src": "/drive_gallery/optimized/kutty/kutty_48.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-55",
+    "title": "Tender Bedtime Hug",
+    "category": "Newborns",
+    "theme": "Soft Cotton",
+    "src": "/drive_gallery/optimized/kutty/kutty_49.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-56",
+    "title": "Playtime in Color",
+    "category": "Toddlers",
+    "theme": "Festive Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_51.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-57",
+    "title": "Pure Baby Laughter",
+    "category": "Toddlers",
+    "theme": "Unscripted Expressions",
+    "src": "/drive_gallery/optimized/kutty/kutty_52.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-58",
+    "title": "First Steps & Giggles",
+    "category": "Toddlers",
+    "theme": "Growing Up",
+    "src": "/drive_gallery/optimized/kutty/kutty_53.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-59",
+    "title": "Soft Woolen Pod Snooze",
+    "category": "Newborns",
+    "theme": "Cocoon Wrap",
+    "src": "/drive_gallery/optimized/kutty/kutty_54.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-60",
+    "title": "Whimsical Fairy Tale",
+    "category": "Toddlers",
+    "theme": "Fantasy Castle",
+    "src": "/drive_gallery/optimized/kutty/kutty_55.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-61",
+    "title": "Gentle Sibling Cuddle",
+    "category": "Toddlers",
+    "theme": "Family Connection",
+    "src": "/drive_gallery/optimized/kutty/kutty_56.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-62",
+    "title": "Happy Cake Smiles",
+    "category": "Toddlers",
+    "theme": "Pre-Smash Excitement",
+    "src": "/drive_gallery/optimized/kutty/kutty_57.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-63",
+    "title": "Vintage Wooden Cradle",
+    "category": "Newborns",
+    "theme": "Classic Vintage",
+    "src": "/drive_gallery/optimized/kutty/kutty_58.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-64",
+    "title": "Little Prince Velvet Robe",
+    "category": "Toddlers",
+    "theme": "Royal Heritage",
+    "src": "/drive_gallery/optimized/kutty/kutty_59.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-65",
+    "title": "Tender Mother Kiss",
+    "category": "Newborns",
+    "theme": "Parent Love",
+    "src": "/drive_gallery/optimized/kutty/kutty_60.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-66",
+    "title": "Innocent Eyes of Wonder",
+    "category": "Toddlers",
+    "theme": "Soulful Candid",
+    "src": "/drive_gallery/optimized/kutty/kutty_61.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-67",
+    "title": "Cozy Autumn Hues",
+    "category": "Newborns",
+    "theme": "Warm Palette",
+    "src": "/drive_gallery/optimized/kutty/kutty_62.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-68",
+    "title": "Little Chef Play Setup",
+    "category": "Toddlers",
+    "theme": "Mini Chef Theme",
+    "src": "/drive_gallery/optimized/kutty/kutty_63.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-69",
+    "title": "Pure Morning Serenity",
+    "category": "Newborns",
+    "theme": "Peaceful Sleep",
+    "src": "/drive_gallery/optimized/kutty/kutty_64.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-70",
+    "title": "Little Star Garland",
+    "category": "Toddlers",
+    "theme": "Twinkle Star",
+    "src": "/drive_gallery/optimized/kutty/kutty_65.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-71",
+    "title": "Baby Sleeping in Roses",
+    "category": "Newborns",
+    "theme": "Rose Petal Nest",
+    "src": "/drive_gallery/optimized/kutty/kutty_66.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-72",
+    "title": "Joyful Baby Milestone",
+    "category": "Toddlers",
+    "theme": "Celebration Day",
+    "src": "/drive_gallery/optimized/kutty/kutty_67.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-73",
+    "title": "Tender Newborn Milestone",
+    "category": "Newborns",
+    "theme": "Artistic Lighting",
+    "src": "/drive_gallery/optimized/kutty/kutty_68.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-74",
+    "title": "Charming Little Gentleman",
+    "category": "Toddlers",
+    "theme": "Smart Formal",
+    "src": "/drive_gallery/optimized/kutty/kutty_69.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-75",
+    "title": "Sweet Slumber in Silk",
+    "category": "Newborns",
+    "theme": "Luxe Silk",
+    "src": "/drive_gallery/optimized/kutty/kutty_70.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-76",
+    "title": "Family Portrait of Love",
+    "category": "Toddlers",
+    "theme": "Complete Family",
+    "src": "/drive_gallery/optimized/kutty/kutty_71.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-77",
+    "title": "Candid Baby Delight",
+    "category": "Toddlers",
+    "theme": "Pure Happiness",
+    "src": "/drive_gallery/optimized/kutty/kutty_72.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-78",
+    "title": "Little Angel Serenade",
+    "category": "Newborns",
+    "theme": "Angelic Wings",
+    "src": "/drive_gallery/optimized/kutty/kutty_73.jpg",
+    "aspect": "wide",
+    "location": "The Creative Space, Krishnagiri"
+  },
+  {
+    "id": "kutty-79",
+    "title": "Timeless Baby Heirloom",
+    "category": "Toddlers",
+    "theme": "Keepsake Portrait",
+    "src": "/drive_gallery/optimized/kutty/kutty_74.jpg",
+    "aspect": "portrait",
+    "location": "The Creative Space, Krishnagiri"
+  }
+];
+
 export const expandedGallery = [
   // 1. Weddings (Namma Veetu Kalyanam - Real Drive Photos)
   {

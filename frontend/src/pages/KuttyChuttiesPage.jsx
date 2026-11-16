@@ -1,33 +1,19 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { kuttyChuttiesDetails, studio } from "../content.js";
+import { kuttyChuttiesDetails, allKuttyChuttiesPhotos, studio } from "../content.js";
 import { fetchFromApi } from "../api.js";
-
-const showcasePhotos = [
-  { src: "/drive_gallery/optimized/kutty/kutty_01.jpg", title: "Serene Newborn Snooze", theme: "Woolen Basket" },
-  { src: "/drive_gallery/optimized/kutty/kutty_03.jpg", title: "Gentle Swaddled Wrap", theme: "Pastel Knits" },
-  { src: "/drive_gallery/optimized/kutty/kutty_05.jpg", title: "Infectious Giggles", theme: "Playful Milestone" },
-  { src: "/drive_gallery/optimized/kutty/kutty_07.jpg", title: "Curious Little Explorer", theme: "Studio Props" },
-  { src: "/drive_gallery/optimized/kutty/kutty_09.jpg", title: "Floral Nest Theme", theme: "Botanical Bloom" },
-  { src: "/drive_gallery/optimized/kutty/kutty_12.jpg", title: "Tiny Toes & Details", theme: "Macro Love" },
-  { src: "/drive_gallery/optimized/kutty/kutty_15.jpg", title: "First Birthday Joy", theme: "Celebration Theme" },
-  { src: "/drive_gallery/optimized/kutty/kutty_18.jpg", title: "Rustic Basket Dreams", theme: "Warm Natural" },
-  { src: "/drive_gallery/optimized/kutty/kutty_21.jpg", title: "Sparkling Eyes", theme: "Milestone Smiles" },
-  { src: "/drive_gallery/optimized/kutty/kutty_38.jpg", title: "Tiny Royalty Prince/Princess", theme: "Luxury Heirloom" },
-  { src: "/drive_gallery/optimized/kutty/kutty_55.jpg", title: "Pure Baby Laughter", theme: "Candid Expressions" },
-  { src: "/drive_gallery/optimized/kutty/kutty_74.jpg", title: "Tender Newborn Milestone", theme: "Artistic Lighting" },
-];
 
 export default function KuttyChuttiesPage({ onNavigate }) {
   const [activePhoto, setActivePhoto] = useState(null);
   const [packages, setPackages] = useState(kuttyChuttiesDetails.packages);
   const [addOns, setAddOns] = useState(kuttyChuttiesDetails.addOns);
+  const [babyPhotos, setBabyPhotos] = useState(allKuttyChuttiesPhotos || []);
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  // Sync with API if available
+  // Sync with API for packages and gallery
   useEffect(() => {
     fetchFromApi("/packages", null).then((data) => {
       if (data && data.kutty_chutties && data.kutty_chutties.length > 0) {
-        // Map database records
         const apiPkgs = data.kutty_chutties.map((p, idx) => ({
           num: `0${idx + 1}`,
           id: `pkg-${p.id}`,
@@ -38,7 +24,6 @@ export default function KuttyChuttiesPage({ onNavigate }) {
           isFeatured: p.is_featured,
           description: p.description,
           features: Array.isArray(p.features) ? p.features : (p.features ? [p.features] : []),
-          image: showcasePhotos[idx % showcasePhotos.length].src,
         }));
         setPackages(apiPkgs);
       }
@@ -51,9 +36,34 @@ export default function KuttyChuttiesPage({ onNavigate }) {
         setAddOns(apiAddons);
       }
     });
+
+    // Also fetch gallery from MySQL database
+    fetchFromApi("/gallery", null).then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        const kuttyItems = data.filter(
+          (item) => item.category === "Newborns" || item.category === "Toddlers"
+        );
+        if (kuttyItems.length > 0) {
+          const formatted = kuttyItems.map((item) => ({
+            id: `gal-${item.id}`,
+            title: item.title,
+            category: item.category,
+            theme: item.location || item.category,
+            src: item.image_url,
+            aspect: item.aspect || "portrait",
+          }));
+          setBabyPhotos(formatted);
+        }
+      }
+    });
   }, []);
 
-  // Lock scroll completely when lightbox is open (NO SCROLLING)
+  const filteredPhotos = babyPhotos.filter((p) => {
+    if (activeCategory === "all") return true;
+    return p.category === activeCategory;
+  });
+
+  // Lock scroll completely when lightbox is open (STRICTLY NO SCROLLING)
   useEffect(() => {
     if (activePhoto) {
       document.body.classList.add("modal-open");
@@ -66,13 +76,13 @@ export default function KuttyChuttiesPage({ onNavigate }) {
         if (e.key === "Escape") {
           setActivePhoto(null);
         } else if (e.key === "ArrowRight") {
-          const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
-          const nextIdx = (curIdx + 1) % showcasePhotos.length;
-          setActivePhoto(showcasePhotos[nextIdx]);
+          const curIdx = filteredPhotos.findIndex((p) => p.src === activePhoto.src);
+          const nextIdx = (curIdx + 1) % filteredPhotos.length;
+          setActivePhoto(filteredPhotos[nextIdx]);
         } else if (e.key === "ArrowLeft") {
-          const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
-          const prevIdx = (curIdx - 1 + showcasePhotos.length) % showcasePhotos.length;
-          setActivePhoto(showcasePhotos[prevIdx]);
+          const curIdx = filteredPhotos.findIndex((p) => p.src === activePhoto.src);
+          const prevIdx = (curIdx - 1 + filteredPhotos.length) % filteredPhotos.length;
+          setActivePhoto(filteredPhotos[prevIdx]);
         }
       }
 
@@ -84,7 +94,7 @@ export default function KuttyChuttiesPage({ onNavigate }) {
         window.removeEventListener("keydown", handleKeyDown);
       };
     }
-  }, [activePhoto]);
+  }, [activePhoto, filteredPhotos]);
 
   function handleBookWhatsApp(packageName, price) {
     const text = encodeURIComponent(
@@ -250,22 +260,47 @@ export default function KuttyChuttiesPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 4. REAL BABY GALLERY SHOWCASE FROM DRIVE                       */}
+      {/* 4. REAL BABY GALLERY SHOWCASE FROM DRIVE (ALL 70+ PHOTOS)       */}
       {/* ============================================================== */}
       <section id="baby-gallery" className="kutty-gallery-section">
         <div className="inc-container">
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <span className="clean-section-tag">AUTHENTIC CLIENT WORK</span>
-            <h2 className="clean-section-title">Glimpses of Kutty Chutties Magic</h2>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <span className="clean-section-tag">AUTHENTIC CLIENT WORK · @TODDLERS_BY_RAAVAN</span>
+            <h2 className="clean-section-title">Kutty Chutties Gallery ({babyPhotos.length} Photos)</h2>
             <p className="clean-section-subtitle">
-              Every portrait captures real laughter and innocence — crafted with gentle care and hygiene.
+              Every single portrait is an authentic milestone moment documented by Mr. Gowtham Raj at The Creative Space Studio.
             </p>
+
+            {/* Category Filter Pills */}
+            <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap", marginTop: "1.5rem" }}>
+              <button
+                type="button"
+                className={`clean-filter-pill${activeCategory === "all" ? " active" : ""}`}
+                onClick={() => setActiveCategory("all")}
+              >
+                <span>🌟 All Photos ({babyPhotos.length})</span>
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${activeCategory === "Newborns" ? " active" : ""}`}
+                onClick={() => setActiveCategory("Newborns")}
+              >
+                <span>🍼 Newborns ({babyPhotos.filter((p) => p.category === "Newborns").length})</span>
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${activeCategory === "Toddlers" ? " active" : ""}`}
+                onClick={() => setActiveCategory("Toddlers")}
+              >
+                <span>🧸 Toddlers ({babyPhotos.filter((p) => p.category === "Toddlers").length})</span>
+              </button>
+            </div>
           </div>
 
           <div className="kutty-photo-masonry">
-            {showcasePhotos.map((item, pIdx) => (
+            {filteredPhotos.map((item, pIdx) => (
               <div
-                key={pIdx}
+                key={item.id || pIdx}
                 className="kutty-photo-card"
                 onClick={() => setActivePhoto(item)}
               >
@@ -313,9 +348,9 @@ export default function KuttyChuttiesPage({ onNavigate }) {
                 type="button"
                 className="kutty-lightbox-nav-arrow kutty-nav-prev"
                 onClick={() => {
-                  const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
-                  const prevIdx = (curIdx - 1 + showcasePhotos.length) % showcasePhotos.length;
-                  setActivePhoto(showcasePhotos[prevIdx]);
+                  const curIdx = filteredPhotos.findIndex((p) => p.src === activePhoto.src);
+                  const prevIdx = (curIdx - 1 + filteredPhotos.length) % filteredPhotos.length;
+                  setActivePhoto(filteredPhotos[prevIdx]);
                 }}
                 aria-label="Previous photo"
               >
@@ -327,9 +362,9 @@ export default function KuttyChuttiesPage({ onNavigate }) {
                 type="button"
                 className="kutty-lightbox-nav-arrow kutty-nav-next"
                 onClick={() => {
-                  const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
-                  const nextIdx = (curIdx + 1) % showcasePhotos.length;
-                  setActivePhoto(showcasePhotos[nextIdx]);
+                  const curIdx = filteredPhotos.findIndex((p) => p.src === activePhoto.src);
+                  const nextIdx = (curIdx + 1) % filteredPhotos.length;
+                  setActivePhoto(filteredPhotos[nextIdx]);
                 }}
                 aria-label="Next photo"
               >

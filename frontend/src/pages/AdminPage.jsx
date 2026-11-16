@@ -1453,6 +1453,67 @@ export default function AdminPage({ onNavigate }) {
                     ))}
                 </div>
               </div>
+
+              {/* Kutty Chutties Photo Collection in Admin */}
+              <div style={{ borderTop: "1.5px solid #f1f5f9", paddingTop: "2rem", marginTop: "2rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", flexWrap: "wrap", gap: "10px" }}>
+                  <div>
+                    <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+                      📸 Photo Collection ({gallery.filter((g) => g.category === "Newborns" || g.category === "Toddlers").length} Photos)
+                    </h3>
+                    <p style={{ margin: "2px 0 0", fontSize: "0.82rem", color: "#64748b" }}>
+                      All extracted client portfolio photographs active across the studio catalog.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("gallery")}
+                    className="admin-sync-btn"
+                    style={{ background: "#f0f9ff", border: "1px solid #bae6fd", color: "#0284c7" }}
+                  >
+                    View in Full Gallery Manager →
+                  </button>
+                </div>
+
+                <div className="admin-items-grid">
+                  {gallery
+                    .filter((g) => g.category === "Newborns" || g.category === "Toddlers")
+                    .map((photo) => (
+                      <div className="admin-item-card" key={photo.id}>
+                        <img
+                          src={photo.image_url}
+                          alt={photo.title}
+                          className="admin-item-img"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/banners/banner_toddler.jpg";
+                          }}
+                        />
+                        <div className="admin-item-body">
+                          <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0284c7", textTransform: "uppercase" }}>
+                            {photo.category}
+                          </span>
+                          <h4 style={{ margin: "2px 0 0", fontSize: "0.95rem", fontWeight: 800, color: "#0f172a" }}>
+                            {photo.title}
+                          </h4>
+                          <span style={{ fontSize: "0.76rem", color: "#64748b" }}>
+                            📍 {photo.location || "Flagship Studio"}
+                          </span>
+                        </div>
+                        <div className="admin-item-footer">
+                          <span style={{ fontSize: "0.75rem", color: "#64748b" }}>#{photo.order || photo.id}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteGallery(photo.id)}
+                            className="admin-action-btn-del"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </section>
         )}
