@@ -10,12 +10,14 @@ import PricingPage from "./pages/PricingPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import TermsPage from "./pages/TermsPage.jsx";
+import KuttyChuttiesPage from "./pages/KuttyChuttiesPage.jsx";
 
 const navLinks = [
   { label: "Home", path: "/", page: "home" },
   { label: "About", path: "/about", page: "about" },
   { label: "Services", path: "/services", page: "services" },
   { label: "Gallery", path: "/gallery", page: "gallery" },
+  { label: "Kutty Chutties", path: "/kutty-chutties", page: "kutty-chutties" },
   { label: "Pricing", path: "/pricing", page: "pricing" },
   { label: "Terms", path: "/terms", page: "terms" },
   { label: "Admin", path: "/admin", page: "admin" },
@@ -237,6 +239,7 @@ function Footer({ onNavigate }) {
           <a href="/about" onClick={(e) => handleLink(e, "/about")}>About Studio &amp; Founder</a>
           <a href="/services" onClick={(e) => handleLink(e, "/services")}>Services &amp; Expertise</a>
           <a href="/gallery" onClick={(e) => handleLink(e, "/gallery")}>Curated Works</a>
+          <a href="/kutty-chutties" onClick={(e) => handleLink(e, "/kutty-chutties")} style={{ color: "#38b6d8", fontWeight: 700 }}>👶 Raavan Kutty Chutties</a>
           <a href="/pricing" onClick={(e) => handleLink(e, "/pricing")}>Packages &amp; Pricing</a>
           <a href="/terms" onClick={(e) => handleLink(e, "/terms")}>Terms &amp; Conditions</a>
           <a href="/admin" onClick={(e) => handleLink(e, "/admin")} style={{ color: "#00d4ff", fontWeight: 600 }}>Admin Dashboard ↗</a>
@@ -292,6 +295,11 @@ function parsePage(pathOrHash = "") {
       return "services";
     case "gallery":
       return "gallery";
+    case "kutty-chutties":
+    case "kutty":
+    case "toddlers":
+    case "kuttychutties":
+      return "kutty-chutties";
     case "pricing":
       return "pricing";
     case "terms":
@@ -448,6 +456,8 @@ export default function App() {
         break;
       case "terms":
         document.title = "Terms & Conditions — Toddlers by Raavan & Raavan Studio’z";
+      case "kutty-chutties":
+        document.title = "Raavan Kutty Chutties — Price & Package Details";
         break;
       case "admin":
         document.title = "Admin Dashboard & Leads — Raavan Studio’z";
@@ -477,6 +487,7 @@ export default function App() {
           {currentPage === "about" && <AboutPage onNavigate={handleNavigate} />}
           {currentPage === "services" && <ServicesPage onNavigate={handleNavigate} />}
           {currentPage === "gallery" && <GalleryPage onNavigate={handleNavigate} />}
+          {currentPage === "kutty-chutties" && <KuttyChuttiesPage onNavigate={handleNavigate} />}
           {currentPage === "pricing" && <PricingPage onNavigate={handleNavigate} />}
           {currentPage === "terms" && <TermsPage onNavigate={handleNavigate} />}
           {currentPage === "admin" && <AdminPage onNavigate={handleNavigate} />}

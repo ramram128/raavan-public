@@ -96,6 +96,26 @@ export default function PricingPage({ onNavigate }) {
               <span>Weddings &amp; Celebrations</span>
             </button>
           </div>
+
+          <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
+            <button
+              type="button"
+              onClick={() => onNavigate("kutty-chutties")}
+              style={{
+                background: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
+                border: "1.5px solid #38b6d8",
+                borderRadius: "999px",
+                padding: "10px 24px",
+                color: "#0284c7",
+                fontWeight: 800,
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(56, 182, 216, 0.2)",
+              }}
+            >
+              👶 View Dedicated Raavan Kutty Chutties Page with Real Baby Photos →
+            </button>
+          </div>
         </div>
       </section>
 

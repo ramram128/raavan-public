@@ -391,9 +391,9 @@ export default function HomePage({ onNavigate }) {
                 <button
                   type="button"
                   className="inc-primary-button"
-                  onClick={() => onNavigate("/pricing")}
+                  onClick={() => onNavigate("/kutty-chutties")}
                 >
-                  <span>View Kutty Chutties Packages →</span>
+                  <span>👶 Explore Raavan Kutty Chutties Page →</span>
                 </button>
               </div>
             </div>
