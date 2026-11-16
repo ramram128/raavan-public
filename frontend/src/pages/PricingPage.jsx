@@ -195,29 +195,31 @@ export default function PricingPage({ onNavigate }) {
               Clear, transparent pricing with no hidden charges. Select a collection below to view available packages.
             </p>
 
-            {/* Category Filter Tabs */}
-            <div className="clean-pricing-filter-tabs" style={{ marginTop: "1.5rem" }}>
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("toddlers")}
-              >
-                <span>👶 Kutty Chutties (4 Packages)</span>
-              </button>
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("weddings")}
-              >
-                <span>💍 Weddings &amp; Celebrations</span>
-              </button>
-              <button
-                type="button"
-                className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
-                onClick={() => setSelectedCategory("all")}
-              >
-                <span>✨ All Collections</span>
-              </button>
+            {/* Category Filter Tabs - Centered Snug Capsule */}
+            <div className="clean-filter-tabs-center-wrap">
+              <div className="clean-pricing-filter-tabs">
+                <button
+                  type="button"
+                  className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
+                  onClick={() => setSelectedCategory("toddlers")}
+                >
+                  <span>👶 Kutty Chutties (4 Packages)</span>
+                </button>
+                <button
+                  type="button"
+                  className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
+                  onClick={() => setSelectedCategory("weddings")}
+                >
+                  <span>💍 Weddings &amp; Celebrations</span>
+                </button>
+                <button
+                  type="button"
+                  className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
+                  onClick={() => setSelectedCategory("all")}
+                >
+                  <span>✨ All Collections</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -284,12 +286,12 @@ export default function PricingPage({ onNavigate }) {
                 (idx === 0
                   ? "INTRO SESSION"
                   : idx === 1
-                  ? "CLASSIC"
-                  : idx === 2
-                  ? "MOST POPULAR"
-                  : idx === 3
-                  ? "LUXURY EXPERIENCE"
-                  : "SIGNATURE");
+                    ? "CLASSIC"
+                    : idx === 2
+                      ? "MOST POPULAR"
+                      : idx === 3
+                        ? "LUXURY EXPERIENCE"
+                        : "SIGNATURE");
 
               return (
                 <div
