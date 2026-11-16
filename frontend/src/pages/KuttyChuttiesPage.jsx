@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { kuttyChuttiesDetails, studio } from "../content.js";
 import { fetchFromApi } from "../api.js";
 
@@ -51,6 +52,39 @@ export default function KuttyChuttiesPage({ onNavigate }) {
       }
     });
   }, []);
+
+  // Lock scroll completely when lightbox is open (NO SCROLLING)
+  useEffect(() => {
+    if (activePhoto) {
+      document.body.classList.add("modal-open");
+      const prevBodyOverflow = document.body.style.overflow;
+      const prevHtmlOverflow = document.documentElement.style.overflow;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+
+      function handleKeyDown(e) {
+        if (e.key === "Escape") {
+          setActivePhoto(null);
+        } else if (e.key === "ArrowRight") {
+          const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
+          const nextIdx = (curIdx + 1) % showcasePhotos.length;
+          setActivePhoto(showcasePhotos[nextIdx]);
+        } else if (e.key === "ArrowLeft") {
+          const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
+          const prevIdx = (curIdx - 1 + showcasePhotos.length) % showcasePhotos.length;
+          setActivePhoto(showcasePhotos[prevIdx]);
+        }
+      }
+
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = prevBodyOverflow;
+        document.documentElement.style.overflow = prevHtmlOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [activePhoto]);
 
   function handleBookWhatsApp(packageName, price) {
     const text = encodeURIComponent(
@@ -251,28 +285,88 @@ export default function KuttyChuttiesPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Lightbox Modal */}
-      {activePhoto && (
-        <div className="kutty-lightbox-backdrop" onClick={() => setActivePhoto(null)}>
-          <div className="kutty-lightbox-card" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="kutty-lightbox-close"
-              onClick={() => setActivePhoto(null)}
+      {/* Lightbox Modal (Direct Body Portal to prevent ANY scrolling or navbar leaks) */}
+      {activePhoto &&
+        createPortal(
+          <div
+            className="kutty-lightbox-backdrop"
+            onClick={() => setActivePhoto(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div
+              className="kutty-lightbox-card"
+              onClick={(e) => e.stopPropagation()}
             >
-              ✕
-            </button>
-            <img
-              src={activePhoto.src}
-              alt={activePhoto.title}
-              className="kutty-lightbox-img"
-            />
-            <div className="kutty-lightbox-caption">
-              <strong>{activePhoto.title}</strong> · <span>{activePhoto.theme}</span>
+              {/* Close Button */}
+              <button
+                type="button"
+                className="kutty-lightbox-close"
+                onClick={() => setActivePhoto(null)}
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+
+              {/* Prev Navigation Arrow */}
+              <button
+                type="button"
+                className="kutty-lightbox-nav-arrow kutty-nav-prev"
+                onClick={() => {
+                  const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
+                  const prevIdx = (curIdx - 1 + showcasePhotos.length) % showcasePhotos.length;
+                  setActivePhoto(showcasePhotos[prevIdx]);
+                }}
+                aria-label="Previous photo"
+              >
+                ‹
+              </button>
+
+              {/* Next Navigation Arrow */}
+              <button
+                type="button"
+                className="kutty-lightbox-nav-arrow kutty-nav-next"
+                onClick={() => {
+                  const curIdx = showcasePhotos.findIndex((p) => p.src === activePhoto.src);
+                  const nextIdx = (curIdx + 1) % showcasePhotos.length;
+                  setActivePhoto(showcasePhotos[nextIdx]);
+                }}
+                aria-label="Next photo"
+              >
+                ›
+              </button>
+
+              {/* Centered Image Container */}
+              <div className="kutty-lightbox-img-wrap">
+                <img
+                  src={activePhoto.src}
+                  alt={activePhoto.title}
+                  className="kutty-lightbox-img"
+                />
+              </div>
+
+              {/* Bottom Caption & Instant WhatsApp Action */}
+              <div className="kutty-lightbox-caption">
+                <div className="kutty-caption-left">
+                  <span className="kutty-photo-theme" style={{ display: "block" }}>{activePhoto.theme}</span>
+                  <strong style={{ fontSize: "1.05rem", color: "#0f172a" }}>{activePhoto.title}</strong>
+                </div>
+                <a
+                  href={`https://wa.me/919500306696?text=${encodeURIComponent(
+                    `Hi Mr. Gowtham Raj! I love this Kutty Chutties theme ("${activePhoto.title}" - ${activePhoto.theme}) on your website. Could you please share booking slots for this?`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="kutty-lightbox-wa-btn"
+                >
+                  <span>Book This Theme on WhatsApp</span>
+                  <span>💬</span>
+                </a>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
 
       {/* ============================================================== */}
       {/* 5. STUDIO & HYGIENE COMMITMENT CALLOUT                         */}
