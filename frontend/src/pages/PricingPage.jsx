@@ -266,6 +266,49 @@ export default function PricingPage({ onNavigate }) {
               </div>
             ))}
           </div>
+
+          <div
+            style={{
+              marginTop: "32px",
+              textAlign: "center",
+              padding: "20px 24px",
+              background: "#ffffff",
+              border: "1px solid #e2e8f0",
+              borderRadius: "14px",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "16px",
+            }}
+            className="reveal-on-scroll"
+          >
+            <div style={{ textAlign: "left" }}>
+              <strong style={{ display: "block", color: "#0a192f", fontSize: "1.05rem" }}>
+                📜 Official Photography Terms &amp; Conditions
+              </strong>
+              <span style={{ color: "#64748b", fontSize: "0.9rem" }}>
+                Complete guidelines for “Toddlers by Raavan”, theme rules, props safety, and extra album sheet charges.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => onNavigate("/terms")}
+              style={{
+                background: "#0284c7",
+                color: "#ffffff",
+                border: "none",
+                padding: "10px 22px",
+                borderRadius: "999px",
+                fontWeight: "700",
+                fontSize: "0.9rem",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              View Full Terms &amp; Conditions →
+            </button>
+          </div>
         </div>
       </section>
 
