@@ -11,6 +11,7 @@ import ContactPage from "./pages/ContactPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import TermsPage from "./pages/TermsPage.jsx";
 import KuttyChuttiesPage from "./pages/KuttyChuttiesPage.jsx";
+import { ScrollProgress, ShutterRipple } from "./components/animations/index.js";
 
 const navLinks = [
   { label: "Home", path: "/", page: "home" },
@@ -61,6 +62,7 @@ function FloatingWhatsApp() {
         aria-label="Chat directly on WhatsApp with Mr. Gowtham Raj"
       >
         <span className="whatsapp-pulse-wave" />
+        <span className="whatsapp-pulse-ring-outer" />
         <svg
           className="whatsapp-svg-icon"
           viewBox="0 0 448 512"
@@ -180,13 +182,15 @@ function Header({ theme, currentPage, onNavigate }) {
             })}
           </nav>
 
-          <button
-            className="navbar-cta-pill-button"
-            type="button"
-            onClick={() => onNavigate("/contact")}
-          >
-            <span>Book a Session ↗</span>
-          </button>
+          <ShutterRipple style={{ borderRadius: "999px" }}>
+            <button
+              className="navbar-cta-pill-button"
+              type="button"
+              onClick={() => onNavigate("/contact")}
+            >
+              <span>Book a Session ↗</span>
+            </button>
+          </ShutterRipple>
 
           <button
             className="navbar-hamburger-btn"
@@ -474,6 +478,7 @@ export default function App() {
 
   return (
     <>
+      <ScrollProgress />
       <CustomCursor />
       {!isAdmin && (
         <Header
