@@ -6,4 +6,7 @@ dist/
 !.env.example
 
 gdrive_logo/
+drive_assets/
+frontend/public/drive_gallery/kalyanam/
+frontend/public/drive_gallery/kutty/
 backend/database/database.sqlite
