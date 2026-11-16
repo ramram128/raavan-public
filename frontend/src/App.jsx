@@ -450,15 +450,19 @@ export default function App() {
     }
   }, [currentPage]);
 
+  const isAdmin = currentPage === "admin";
+
   return (
     <>
       <CustomCursor />
-      <Header
-        currentPage={currentPage}
-        onNavigate={handleNavigate}
-      />
-      <div className="app-page-wrapper">
-        <div key={currentPage} className="page-transition-wrap">
+      {!isAdmin && (
+        <Header
+          currentPage={currentPage}
+          onNavigate={handleNavigate}
+        />
+      )}
+      <div className={isAdmin ? "app-admin-wrapper" : "app-page-wrapper"}>
+        <div key={currentPage} className={isAdmin ? "admin-full-screen-wrap" : "page-transition-wrap"}>
           {currentPage === "home" && <HomePage onNavigate={handleNavigate} />}
           {currentPage === "about" && <AboutPage onNavigate={handleNavigate} />}
           {currentPage === "services" && <ServicesPage onNavigate={handleNavigate} />}
@@ -468,8 +472,8 @@ export default function App() {
           {currentPage === "contact" && <ContactPage onNavigate={handleNavigate} />}
         </div>
       </div>
-      <Footer onNavigate={handleNavigate} />
-      <FloatingWhatsApp />
+      {!isAdmin && <Footer onNavigate={handleNavigate} />}
+      {!isAdmin && <FloatingWhatsApp />}
     </>
   );
 }

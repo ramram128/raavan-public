@@ -15,8 +15,8 @@ export default function AdminPage({ onNavigate }) {
   const [loginError, setLoginError] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
 
-  // Active Tab
-  const [activeTab, setActiveTab] = useState("enquiries"); // 'enquiries', 'studio', 'services', 'packages', 'gallery', 'terms'
+  // Active Tab: 'overview', 'enquiries', 'services', 'packages', 'gallery', 'studio'
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Data states
   const [enquiries, setEnquiries] = useState([]);
@@ -29,13 +29,17 @@ export default function AdminPage({ onNavigate }) {
   const [loadingData, setLoadingData] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
-
-  // Filter for enquiries
+  const [searchQuery, setSearchQuery] = useState("");
   const [enquiryFilter, setEnquiryFilter] = useState("all");
 
-  // New Item Modals/Forms
+  // Add Item States
+  const [showAddService, setShowAddService] = useState(false);
   const [newService, setNewService] = useState({ title: "", category: "Weddings", starting_price: "₹", description: "", deliverables: "", image_url: "" });
+
+  const [showAddPackage, setShowAddPackage] = useState(false);
   const [newPackage, setNewPackage] = useState({ name: "", category: "newborn_toddler", price_display: "₹", duration: "", badge: "", description: "", features: "" });
+
+  const [showAddGallery, setShowAddGallery] = useState(false);
   const [newGallery, setNewGallery] = useState({ title: "", category: "Weddings", location: "Krishnagiri", description: "", image_url: "", aspect: "portrait" });
 
   // Handle Login
@@ -58,10 +62,10 @@ export default function AdminPage({ onNavigate }) {
         localStorage.setItem("raavan_admin_token", data.token);
         localStorage.setItem("raavan_admin_user", JSON.stringify(data.user));
       } else {
-        setLoginError(data.message || "Invalid login credentials");
+        setLoginError(data.message || "Invalid credentials. Please use admin@raavanstudioz.com / admin123");
       }
     } catch (err) {
-      setLoginError("Failed to connect to backend server. Make sure Laravel is running.");
+      setLoginError("Failed to connect to backend server. Make sure Laravel is running on port 8000.");
     } finally {
       setLoggingIn(false);
     }
@@ -81,7 +85,7 @@ export default function AdminPage({ onNavigate }) {
     setLoadingData(true);
 
     try {
-      const [resEnq, resStu, resServ, resPkg, resGal, resTrm] = await Promise.all([
+      const [resEnq, resStu, resServ, resPkg, resGal] = await Promise.all([
         fetch("/api/enquiries").then((r) => (r.ok ? r.json() : [])),
         fetch("/api/studio").then((r) => (r.ok ? r.json() : null)),
         fetch("/api/services").then((r) => (r.ok ? r.json() : [])),
@@ -94,6 +98,7 @@ export default function AdminPage({ onNavigate }) {
       setServices(Array.isArray(resServ) ? resServ : []);
       setPackages(resPkg.all || (Array.isArray(resPkg) ? resPkg : []));
       setGallery(Array.isArray(resGal) ? resGal : []);
+      flashMessage("Data synchronized with MySQL!");
     } catch (err) {
       console.error("Error loading admin data:", err);
     } finally {
@@ -106,6 +111,19 @@ export default function AdminPage({ onNavigate }) {
       loadAllData();
     }
   }, [authToken]);
+
+  function flashMessage(msg) {
+    setSaveStatus(msg);
+    setTimeout(() => setSaveStatus(""), 4000);
+  }
+
+  // Helper for initials
+  function getInitials(name) {
+    if (!name) return "RS";
+    const parts = name.replace(/&/g, "").trim().split(/\s+/);
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+  }
 
   // Image Uploader Helper
   async function handleFileUpload(file, onUploaded) {
@@ -133,12 +151,7 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
-  function flashMessage(msg) {
-    setSaveStatus(msg);
-    setTimeout(() => setSaveStatus(""), 3500);
-  }
-
-  // 1. Enquiries Actions
+  // Enquiries Actions
   async function handleStatusChange(id, newStatus) {
     try {
       const res = await fetch(`/api/enquiries/${id}`, {
@@ -148,7 +161,7 @@ export default function AdminPage({ onNavigate }) {
       });
       if (res.ok) {
         setEnquiries((prev) => prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item)));
-        flashMessage("Status updated!");
+        flashMessage("Lead status updated!");
       }
     } catch (err) {
       alert("Error updating status");
@@ -156,7 +169,7 @@ export default function AdminPage({ onNavigate }) {
   }
 
   async function handleDeleteEnquiry(id) {
-    if (!window.confirm("Delete this enquiry?")) return;
+    if (!window.confirm("Delete this client enquiry?")) return;
     try {
       const res = await fetch(`/api/enquiries/${id}`, { method: "DELETE" });
       if (res.ok) {
@@ -168,7 +181,7 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
-  // 2. Studio Profile Save
+  // Studio Profile Save
   async function handleSaveStudio(e) {
     e.preventDefault();
     try {
@@ -178,14 +191,14 @@ export default function AdminPage({ onNavigate }) {
         body: JSON.stringify(studioProfile),
       });
       if (res.ok) {
-        flashMessage("Studio brand profile saved successfully!");
+        flashMessage("Studio brand profile saved to MySQL!");
       }
     } catch (err) {
       alert("Error saving studio profile");
     }
   }
 
-  // 3. Service Actions
+  // Service Actions
   async function handleAddService(e) {
     e.preventDefault();
     const payload = {
@@ -202,7 +215,8 @@ export default function AdminPage({ onNavigate }) {
       if (res.ok && data.success) {
         setServices([...services, data.service]);
         setNewService({ title: "", category: "Weddings", starting_price: "₹", description: "", deliverables: "", image_url: "" });
-        flashMessage("Service added!");
+        setShowAddService(false);
+        flashMessage("Service added successfully!");
       }
     } catch (err) {
       alert("Error adding service");
@@ -222,7 +236,7 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
-  // 4. Package Actions
+  // Package Actions
   async function handleAddPackage(e) {
     e.preventDefault();
     const payload = {
@@ -239,7 +253,8 @@ export default function AdminPage({ onNavigate }) {
       if (res.ok && data.success) {
         setPackages([...packages, data.package]);
         setNewPackage({ name: "", category: "newborn_toddler", price_display: "₹", duration: "", badge: "", description: "", features: "" });
-        flashMessage("Package added!");
+        setShowAddPackage(false);
+        flashMessage("Package created successfully!");
       }
     } catch (err) {
       alert("Error adding package");
@@ -259,7 +274,7 @@ export default function AdminPage({ onNavigate }) {
     }
   }
 
-  // 5. Gallery Actions
+  // Gallery Actions
   async function handleAddGallery(e) {
     e.preventDefault();
     try {
@@ -272,6 +287,7 @@ export default function AdminPage({ onNavigate }) {
       if (res.ok && data.success) {
         setGallery([data.gallery, ...gallery]);
         setNewGallery({ title: "", category: "Weddings", location: "Krishnagiri", description: "", image_url: "", aspect: "portrait" });
+        setShowAddGallery(false);
         flashMessage("Photo added to Curated Works gallery!");
       }
     } catch (err) {
@@ -297,16 +313,16 @@ export default function AdminPage({ onNavigate }) {
   // ==========================================
   if (!authToken) {
     return (
-      <main className="page-container admin-login-wrapper">
+      <main className="admin-login-wrapper">
         <div className="admin-login-card">
           <img
-            src="/raavan-emblem-clean.png"
+            src="/raavan-logo-only.png"
             alt="Raavan Studio'z"
             className="admin-login-logo"
           />
           <h1 className="admin-login-title">Raavan Studio’z</h1>
           <p className="admin-login-subtitle">
-            Admin Control Center
+            Admin CMS Cockpit
           </p>
 
           {loginError && (
@@ -317,9 +333,7 @@ export default function AdminPage({ onNavigate }) {
 
           <form onSubmit={handleLogin} className="admin-login-form">
             <div className="admin-field-group">
-              <label className="admin-field-label">
-                Admin Email
-              </label>
+              <label className="admin-field-label">Admin Email</label>
               <input
                 type="email"
                 required
@@ -332,9 +346,7 @@ export default function AdminPage({ onNavigate }) {
             </div>
 
             <div className="admin-field-group">
-              <label className="admin-field-label">
-                Password
-              </label>
+              <label className="admin-field-label">Password</label>
               <input
                 type="password"
                 required
@@ -351,16 +363,26 @@ export default function AdminPage({ onNavigate }) {
               disabled={loggingIn}
               className="admin-login-submit-btn"
             >
-              {loggingIn ? "Verifying..." : "Login to Admin Dashboard →"}
+              {loggingIn ? "Verifying with MySQL..." : "Login to Admin Dashboard →"}
             </button>
           </form>
 
           <div className="admin-login-credentials">
-            <p className="cred-title">Default Credentials:</p>
+            <p className="cred-title">Default Admin Credentials:</p>
             <div className="cred-badges">
               <code>admin@raavanstudioz.com</code>
               <code>admin123</code>
             </div>
+          </div>
+
+          <div style={{ marginTop: "1.5rem" }}>
+            <button
+              type="button"
+              onClick={() => onNavigate("/")}
+              style={{ background: "transparent", border: "none", color: "#0284c7", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer" }}
+            >
+              ← Return to Public Website
+            </button>
           </div>
         </div>
       </main>
@@ -368,462 +390,1062 @@ export default function AdminPage({ onNavigate }) {
   }
 
   // ==========================================
-  // RENDER AUTHENTICATED ADMIN DASHBOARD
+  // METRICS & FILTER CALCULATIONS
   // ==========================================
+  const confirmedCount = enquiries.filter((e) => e.status === "confirmed" || e.status === "booked").length;
+  const newCount = enquiries.filter((e) => e.status === "new").length;
+  const contactedCount = enquiries.filter((e) => e.status === "contacted").length;
+
   const filteredEnquiries = enquiries.filter((item) => {
-    if (enquiryFilter === "all") return true;
-    if (enquiryFilter === "new") return item.status === "new";
-    return item.type === enquiryFilter;
+    const matchesFilter =
+      enquiryFilter === "all" ? true : enquiryFilter === "new" ? item.status === "new" : enquiryFilter === "confirmed" ? (item.status === "confirmed" || item.status === "booked") : item.status === enquiryFilter;
+
+    if (!matchesFilter) return false;
+    if (!searchQuery.trim()) return true;
+
+    const q = searchQuery.toLowerCase();
+    return (
+      (item.name && item.name.toLowerCase().includes(q)) ||
+      (item.phone && item.phone.toLowerCase().includes(q)) ||
+      (item.event_type && item.event_type.toLowerCase().includes(q)) ||
+      (item.location && item.location.toLowerCase().includes(q))
+    );
   });
 
+  // Seasonal Bar Chart Heights (representing Jan - Dec inquiry distribution)
+  const monthlyChartData = [
+    { month: "Jan", height: 72, inquiries: 14 },
+    { month: "Feb", height: 80, inquiries: 16 },
+    { month: "Mar", height: 55, inquiries: 10 },
+    { month: "Apr", height: 65, inquiries: 12 },
+    { month: "May", height: 90, inquiries: 18 },
+    { month: "Jun", height: 50, inquiries: 9 },
+    { month: "Jul", height: 60, inquiries: 11 },
+    { month: "Aug", height: 75, inquiries: 15 },
+    { month: "Sep", height: 70, inquiries: 13 },
+    { month: "Oct", height: 92, inquiries: 19 },
+    { month: "Nov", height: 98, inquiries: 21 },
+    { month: "Dec", height: 100, inquiries: 24 },
+  ];
+
   return (
-    <main className="page-container admin-dashboard" style={{ paddingTop: "95px", minHeight: "90vh", paddingBottom: "5rem" }}>
-      {/* Admin Top Bar */}
-      <div
-        style={{
-          background: "rgba(0, 20, 30, 0.7)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(0, 212, 255, 0.2)",
-          padding: "1rem 2rem",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-          borderRadius: "12px",
-          marginBottom: "2rem",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <img src="/raavan-emblem-clean.png" alt="Logo" style={{ width: "36px", height: "36px", objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(56, 189, 248, 0.4))" }} />
-          <div>
-            <h2 style={{ fontSize: "1.2rem", margin: 0, color: "#fff" }}>Raavan Studio’z CMS</h2>
-            <span style={{ fontSize: "0.8rem", color: "#00d4ff" }}>Logged in as {currentUser?.name || "Mr. Gowtham Raj"}</span>
-          </div>
+    <div className="admin-white-layout">
+      {/* Toast Feedback */}
+      {saveStatus && (
+        <div className="admin-toast-banner">
+          ✓ {saveStatus}
         </div>
+      )}
 
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          {saveStatus && (
-            <span style={{ background: "rgba(34, 197, 94, 0.15)", color: "#34d399", padding: "0.35rem 0.75rem", borderRadius: "6px", fontSize: "0.85rem", border: "1px solid rgba(34, 197, 94, 0.3)" }}>
-              ✓ {saveStatus}
-            </span>
-          )}
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={loadAllData}
-            style={{ fontSize: "0.85rem", padding: "0.5rem 0.85rem" }}
-          >
-            🔄 Sync Data
-          </button>
-          <button
-            type="button"
-            onClick={handleLogout}
-            style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.5)", color: "#fca5a5", padding: "0.5rem 1rem", borderRadius: "8px", cursor: "pointer", fontSize: "0.85rem" }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-
-      {/* Neat Navigation Tabs */}
-      <div
-        className="admin-nav-tabs"
-        style={{
-          display: "flex",
-          gap: "0.5rem",
-          flexWrap: "wrap",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
-          paddingBottom: "0.75rem",
-          marginBottom: "2rem",
-        }}
-      >
-        {[
-          { id: "enquiries", label: "📋 Enquiries & Bookings", count: enquiries.filter((e) => e.status === "new").length },
-          { id: "studio", label: "🏢 Studio Profile & Branches" },
-          { id: "services", label: `📸 Services (${services.length})` },
-          { id: "packages", label: `💰 Pricing Packages (${packages.length})` },
-          { id: "gallery", label: `🖼️ Curated Works Gallery (${gallery.length})` },
-        ].map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              padding: "0.75rem 1.25rem",
-              borderRadius: "8px",
-              border: activeTab === tab.id ? "1px solid #00d4ff" : "1px solid transparent",
-              background: activeTab === tab.id ? "rgba(0, 212, 255, 0.12)" : "rgba(255,255,255,0.03)",
-              color: activeTab === tab.id ? "#00d4ff" : "rgba(255,255,255,0.8)",
-              fontWeight: 600,
-              fontSize: "0.92rem",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-            }}
-          >
-            {tab.label}
-            {tab.count !== undefined && tab.count > 0 && (
-              <span style={{ marginLeft: "0.5rem", background: "#00d4ff", color: "#000", padding: "0.1rem 0.45rem", borderRadius: "10px", fontSize: "0.75rem", fontWeight: 800 }}>
-                {tab.count} New
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* =========================================================
-          TAB 1: ENQUIRIES & LEADS MANAGEMENT
-          ========================================================= */}
-      {activeTab === "enquiries" && (
-        <section>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
-            <h2 style={{ fontSize: "1.4rem", color: "#fff", margin: 0 }}>Client Bookings &amp; Inquiries</h2>
-            <div className="segmented-control">
-              <button className={`segmented-btn ${enquiryFilter === "all" ? "active" : ""}`} onClick={() => setEnquiryFilter("all")}>All ({enquiries.length})</button>
-              <button className={`segmented-btn ${enquiryFilter === "new" ? "active" : ""}`} onClick={() => setEnquiryFilter("new")}>New ({enquiries.filter(e => e.status === "new").length})</button>
-              <button className={`segmented-btn ${enquiryFilter === "wedding_event" ? "active" : ""}`} onClick={() => setEnquiryFilter("wedding_event")}>Weddings</button>
-              <button className={`segmented-btn ${enquiryFilter === "newborn_toddler" ? "active" : ""}`} onClick={() => setEnquiryFilter("newborn_toddler")}>@toddlers</button>
+      {/* ============================================================== */}
+      {/* 1. LEFT SIDEBAR (MATCHING REFERENCE LAYOUT)                     */}
+      {/* ============================================================== */}
+      <aside className="admin-sidebar">
+        <div>
+          {/* Brand Box */}
+          <div className="sidebar-brand-box">
+            <img src="/raavan-logo-only.png" alt="Raavan Studio'z" className="sidebar-emblem" />
+            <div className="sidebar-brand-text">
+              <span className="sidebar-title">Raavan Studio’z</span>
+              <span className="sidebar-subtitle">CMS Control</span>
             </div>
           </div>
 
-          <div style={{ display: "grid", gap: "1.25rem" }}>
-            {filteredEnquiries.map((item) => {
-              const isBaby = item.type === "newborn_toddler";
-              const cleanPhone = String(item.phone || "").replace(/\D/g, "");
-              const waLink = `https://wa.me/${cleanPhone.startsWith("91") ? cleanPhone : "91" + cleanPhone}?text=Hi%20${encodeURIComponent(item.name)},%20thank%20you%20for%20contacting%20Raavan%20Studio%E2%80%99z!`;
+          {/* Navigation Links */}
+          <nav className="sidebar-nav-list" aria-label="Admin Navigation">
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "overview" ? " active" : ""}`}
+              onClick={() => setActiveTab("overview")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">📊</span>
+                <span>Overview</span>
+              </div>
+            </button>
 
-              return (
-                <div key={item.id} style={{ background: "rgba(255,255,255,0.03)", border: item.status === "new" ? "1.5px solid #00d4ff" : "1px solid rgba(255,255,255,0.1)", borderRadius: "12px", padding: "1.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "enquiries" ? " active" : ""}`}
+              onClick={() => setActiveTab("enquiries")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">📋</span>
+                <span>Bookings &amp; Leads</span>
+              </div>
+              <span className="sidebar-badge-count">{enquiries.length}</span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "services" ? " active" : ""}`}
+              onClick={() => setActiveTab("services")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">📸</span>
+                <span>Services</span>
+              </div>
+              <span className="sidebar-badge-count">{services.length}</span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "packages" ? " active" : ""}`}
+              onClick={() => setActiveTab("packages")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">💰</span>
+                <span>Pricing Packages</span>
+              </div>
+              <span className="sidebar-badge-count">{packages.length}</span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "gallery" ? " active" : ""}`}
+              onClick={() => setActiveTab("gallery")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">🖼️</span>
+                <span>Curated Works</span>
+              </div>
+              <span className="sidebar-badge-count">{gallery.length}</span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "studio" ? " active" : ""}`}
+              onClick={() => setActiveTab("studio")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">🏢</span>
+                <span>Studio Profile</span>
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        {/* Sidebar Footer */}
+        <div className="sidebar-footer-box">
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("/");
+            }}
+            className="sidebar-website-link"
+          >
+            <span>🌐 View Live Website ↗</span>
+          </a>
+
+          <div className="sidebar-profile-card">
+            <div className="profile-avatar-box">
+              <div className="profile-avatar-circle">GR</div>
+              <div>
+                <div className="profile-name-text">{currentUser?.name || "Mr. Gowtham Raj"}</div>
+                <div className="profile-role-sub">Admin Owner</div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="profile-logout-btn"
+              title="Logout"
+            >
+              🚪
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {/* ============================================================== */}
+      {/* 2. MAIN VIEWPORT                                               */}
+      {/* ============================================================== */}
+      <main className="admin-main-viewport">
+        {/* Top Header */}
+        <header className="admin-top-bar">
+          <div className="admin-greeting-block">
+            <h1>Hi, Welcome back 👋</h1>
+            <p>Here is what’s happening with Raavan Studio’z bookings today.</p>
+          </div>
+
+          <div className="admin-top-actions">
+            <div className="admin-date-pill">
+              <span>📅 Nov 16, 2026</span>
+            </div>
+
+            <button
+              type="button"
+              className="admin-sync-btn"
+              onClick={loadAllData}
+              title="Refresh and sync data from MySQL database"
+            >
+              <span>{loadingData ? "Syncing..." : "🔄 Sync MySQL"}</span>
+            </button>
+
+            <button
+              type="button"
+              className="admin-quick-add-btn"
+              onClick={() => setActiveTab("enquiries")}
+            >
+              <span>+ View Inquiries</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Quick Filter Pills Row (matching reference) */}
+        <div className="admin-tab-pills-row">
+          {[
+            { id: "overview", label: "Overview" },
+            { id: "enquiries", label: `Bookings (${enquiries.length})` },
+            { id: "services", label: `Services (${services.length})` },
+            { id: "packages", label: `Pricing Packages (${packages.length})` },
+            { id: "gallery", label: `Curated Works (${gallery.length})` },
+            { id: "studio", label: "Studio Info" },
+          ].map((pill) => (
+            <button
+              key={pill.id}
+              type="button"
+              className={`admin-tab-pill${activeTab === pill.id ? " active" : ""}`}
+              onClick={() => setActiveTab(pill.id)}
+            >
+              {pill.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ============================================================== */}
+        {/* TAB 1: OVERVIEW DASHBOARD (MATCHING REFERENCE UI)             */}
+        {/* ============================================================== */}
+        {activeTab === "overview" && (
+          <section className="admin-overview-view">
+            {/* KPI Cards Row (4 Cards) */}
+            <div className="kpi-cards-grid">
+              {/* Card 1: Total Leads */}
+              <div className="kpi-stat-card">
+                <div className="kpi-card-top">
+                  <span className="kpi-card-label">Total Inquiries</span>
+                  <span className="kpi-card-icon">📋</span>
+                </div>
+                <div className="kpi-card-value">{enquiries.length} Leads</div>
+                <div className="kpi-card-trend">
+                  <span>+20.1%</span>
+                  <span className="kpi-card-sub">from last month</span>
+                </div>
+              </div>
+
+              {/* Card 2: Confirmed Shoots */}
+              <div className="kpi-stat-card">
+                <div className="kpi-card-top">
+                  <span className="kpi-card-label">Confirmed Shoots</span>
+                  <span className="kpi-card-icon">🤝</span>
+                </div>
+                <div className="kpi-card-value">{confirmedCount} Active</div>
+                <div className="kpi-card-trend">
+                  <span>+180%</span>
+                  <span className="kpi-card-sub">wedding peak season</span>
+                </div>
+              </div>
+
+              {/* Card 3: Active Studio Services */}
+              <div className="kpi-stat-card">
+                <div className="kpi-card-top">
+                  <span className="kpi-card-label">Active Services</span>
+                  <span className="kpi-card-icon">📸</span>
+                </div>
+                <div className="kpi-card-value">{services.length} Categories</div>
+                <div className="kpi-card-trend">
+                  <span>+19%</span>
+                  <span className="kpi-card-sub">Weddings &amp; Toddlers</span>
+                </div>
+              </div>
+
+              {/* Card 4: Curated Works */}
+              <div className="kpi-stat-card">
+                <div className="kpi-card-top">
+                  <span className="kpi-card-label">Curated Works</span>
+                  <span className="kpi-card-icon">🖼️</span>
+                </div>
+                <div className="kpi-card-value">{gallery.length}+ Photos</div>
+                <div className="kpi-card-trend">
+                  <span style={{ color: "#0284c7" }}>100% Active</span>
+                  <span className="kpi-card-sub">in live portfolio</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Two-Column Row (Bar Chart + Recent Sales/Leads) */}
+            <div className="admin-dashboard-two-col">
+              {/* Left Column: Interactive Bar Chart */}
+              <div className="admin-white-card">
+                <div className="card-head-row">
                   <div>
-                    <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.5rem" }}>
-                      <span style={{ fontSize: "0.75rem", fontWeight: 700, padding: "0.2rem 0.5rem", borderRadius: "4px", background: isBaby ? "rgba(226,184,118,0.15)" : "rgba(0,212,255,0.15)", color: isBaby ? "#e2b876" : "#00d4ff" }}>
-                        {isBaby ? "@toddlers_by_raavan" : "Wedding / Event"}
-                      </span>
-                      <span style={{ fontSize: "0.8rem", opacity: 0.5 }}>#{item.id} · {item.created_at ? new Date(item.created_at).toLocaleDateString() : ""}</span>
-                    </div>
-
-                    <h3 style={{ fontSize: "1.3rem", color: "#fff", marginBottom: "0.3rem" }}>{item.name}</h3>
-                    <p style={{ color: "#00d4ff", fontSize: "0.95rem", fontWeight: 600 }}>📞 {item.phone} {item.email && <span style={{ opacity: 0.8, color: "#fff", marginLeft: "0.5rem" }}>✉️ {item.email}</span>}</p>
-
-                    {isBaby ? (
-                      <div style={{ fontSize: "0.88rem", background: "rgba(0,0,0,0.25)", padding: "0.75rem", borderRadius: "8px", marginTop: "0.5rem", lineHeight: 1.5 }}>
-                        <div><strong>Parent:</strong> {item.parent_name || item.name}</div>
-                        <div><strong>Baby Name:</strong> {item.baby_name || "N/A"} ({item.baby_gender || "N/A"})</div>
-                        <div><strong>Age:</strong> {item.baby_age || "N/A"} {item.baby_weight && `· Weight: ${item.baby_weight}`}</div>
-                        <div><strong>Package:</strong> {item.selected_package}</div>
-                        <div><strong>Preferred Slot:</strong> {item.preferred_slot || "N/A"}</div>
-                      </div>
-                    ) : (
-                      <div style={{ fontSize: "0.88rem", background: "rgba(0,0,0,0.25)", padding: "0.75rem", borderRadius: "8px", marginTop: "0.5rem", lineHeight: 1.5 }}>
-                        <div><strong>Event:</strong> {item.event_type}</div>
-                        <div><strong>Date:</strong> {item.event_date || "N/A"}</div>
-                        <div><strong>Venue:</strong> {item.location || "N/A"}</div>
-                      </div>
-                    )}
-                    {item.message && <p style={{ marginTop: "0.5rem", fontStyle: "italic", opacity: 0.85, fontSize: "0.88rem" }}>“{item.message}”</p>}
+                    <h3 className="card-title-main">Seasonal Inquiries Bar Chart</h3>
+                    <p className="card-subtitle-sub">Showing client inquiry volume across peak wedding &amp; baby shoot months</p>
                   </div>
+                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#0284c7", background: "#e0f2fe", padding: "4px 10px", borderRadius: "6px" }}>
+                    2026 Season
+                  </span>
+                </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: "1rem" }}>
-                    <div>
-                      <label style={{ fontSize: "0.8rem", opacity: 0.7, display: "block", marginBottom: "0.35rem" }}>Update Status:</label>
-                      <select
-                        value={item.status || "new"}
-                        onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                        style={{ width: "100%", padding: "0.6rem", borderRadius: "8px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", fontWeight: 600 }}
-                      >
-                        <option value="new">● New Lead</option>
-                        <option value="contacted">● Contacted / In Talk</option>
-                        <option value="booked">✓ Confirmed / Booked</option>
-                        <option value="completed">★ Completed</option>
-                        <option value="cancelled">✕ Cancelled</option>
-                      </select>
+                {/* Discipline Indicators */}
+                <div className="chart-discipline-chips">
+                  <div className="chart-chip">
+                    <span className="chip-dot blue" />
+                    <span>Weddings (52%)</span>
+                  </div>
+                  <div className="chart-chip">
+                    <span className="chip-dot cyan" />
+                    <span>Toddlers by Raavan (34%)</span>
+                  </div>
+                  <div className="chart-chip">
+                    <span className="chip-dot emerald" />
+                    <span>Maternity &amp; Couples (14%)</span>
+                  </div>
+                </div>
+
+                {/* Animated Gradient Bar Chart */}
+                <div className="interactive-bar-chart-wrap">
+                  {monthlyChartData.map((bar) => (
+                    <div className="bar-col" key={bar.month}>
+                      <span className="bar-tooltip">{bar.inquiries} Shoots</span>
+                      <div
+                        className="bar-pillar"
+                        style={{ height: `${bar.height}%` }}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* X-Axis Labels */}
+                <div className="chart-bottom-axis-row">
+                  {monthlyChartData.map((bar) => (
+                    <span className="bar-x-label" key={bar.month}>
+                      {bar.month}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Recent Inquiries List */}
+              <div className="admin-white-card">
+                <div className="card-head-row">
+                  <div>
+                    <h3 className="card-title-main">Recent Client Inquiries</h3>
+                    <p className="card-subtitle-sub">Latest leads submitted via website</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("enquiries")}
+                    style={{ background: "transparent", border: "none", color: "#0284c7", fontWeight: 700, fontSize: "0.82rem", cursor: "pointer" }}
+                  >
+                    View All →
+                  </button>
+                </div>
+
+                <div className="recent-leads-list">
+                  {enquiries.slice(0, 5).map((enq) => (
+                    <div className="recent-lead-item" key={enq.id}>
+                      <div className="lead-left-group">
+                        <div className="lead-avatar-circle">
+                          {getInitials(enq.name)}
+                        </div>
+                        <div>
+                          <h4 className="lead-name-text">{enq.name}</h4>
+                          <p className="lead-event-sub">{enq.event_type || enq.type} · {enq.event_date || "Date flexible"}</p>
+                        </div>
+                      </div>
+
+                      <div className="lead-right-group">
+                        <span className={`lead-status-pill ${enq.status}`}>
+                          ● {enq.status}
+                        </span>
+                        {enq.phone && (
+                          <a
+                            href={`https://wa.me/${enq.phone.replace(/[^0-9]/g, "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="lead-whatsapp-btn"
+                          >
+                            <span>WhatsApp ↗</span>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  {enquiries.length === 0 && (
+                    <p style={{ textAlign: "center", color: "#64748b", padding: "2rem 0" }}>
+                      No client enquiries yet. Submissions from the contact form will appear here in real time.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 2: BOOKINGS & LEADS MANAGEMENT                             */}
+        {/* ============================================================== */}
+        {activeTab === "enquiries" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
+                <div>
+                  <h2 className="admin-card-section-title">Client Bookings &amp; Inquiries</h2>
+                  <p className="card-subtitle-sub">Manage customer enquiries, update booking statuses, and chat directly via WhatsApp.</p>
+                </div>
+              </div>
+
+              {/* Filter & Search Bar */}
+              <div className="admin-filter-bar">
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {[
+                    { id: "all", label: `All (${enquiries.length})` },
+                    { id: "new", label: `New (${newCount})` },
+                    { id: "confirmed", label: `Confirmed (${confirmedCount})` },
+                    { id: "contacted", label: `Contacted (${contactedCount})` },
+                  ].map((filter) => (
+                    <button
+                      key={filter.id}
+                      type="button"
+                      className={`admin-tab-pill${enquiryFilter === filter.id ? " active" : ""}`}
+                      onClick={() => setEnquiryFilter(filter.id)}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="🔍 Search client or phone..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="admin-search-input"
+                />
+              </div>
+
+              {/* Table of Leads */}
+              <div className="clean-admin-table-wrap">
+                <table className="clean-admin-table">
+                  <thead>
+                    <tr>
+                      <th>Client Name</th>
+                      <th>Contact Info</th>
+                      <th>Shoot / Event Details</th>
+                      <th>Location &amp; Notes</th>
+                      <th>Status Action</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredEnquiries.map((enq) => (
+                      <tr key={enq.id}>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <div className="lead-avatar-circle" style={{ width: "32px", height: "32px", fontSize: "0.75rem" }}>
+                              {getInitials(enq.name)}
+                            </div>
+                            <div>
+                              <strong>{enq.name}</strong>
+                              {enq.parent_name && <div style={{ fontSize: "0.75rem", color: "#64748b" }}>Parent: {enq.parent_name}</div>}
+                              {enq.baby_name && <div style={{ fontSize: "0.75rem", color: "#0284c7" }}>Baby: {enq.baby_name} ({enq.baby_age})</div>}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div><strong>{enq.phone}</strong></div>
+                          {enq.email && <div style={{ fontSize: "0.78rem", color: "#64748b" }}>{enq.email}</div>}
+                          <a
+                            href={`https://wa.me/${enq.phone.replace(/[^0-9]/g, "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: "0.78rem", color: "#10b981", fontWeight: 700 }}
+                          >
+                            💬 Chat on WhatsApp ↗
+                          </a>
+                        </td>
+                        <td>
+                          <div><strong>{enq.event_type || enq.type}</strong></div>
+                          <div style={{ fontSize: "0.78rem", color: "#0284c7" }}>📅 {enq.event_date || "Date flexible"}</div>
+                          {enq.selected_package && <div style={{ fontSize: "0.75rem", color: "#64748b" }}>Pkg: {enq.selected_package}</div>}
+                        </td>
+                        <td>
+                          <div>{enq.location || "Krishnagiri"}</div>
+                          {enq.message && <div style={{ fontSize: "0.75rem", color: "#64748b", maxWidth: "200px" }}>"{enq.message}"</div>}
+                        </td>
+                        <td>
+                          <select
+                            value={enq.status}
+                            onChange={(e) => handleStatusChange(enq.id, e.target.value)}
+                            className="admin-status-select"
+                          >
+                            <option value="new">● New</option>
+                            <option value="contacted">● Contacted</option>
+                            <option value="confirmed">● Confirmed</option>
+                            <option value="booked">● Booked</option>
+                            <option value="cancelled">● Cancelled</option>
+                          </select>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteEnquiry(enq.id)}
+                            className="admin-action-btn-del"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+
+                    {filteredEnquiries.length === 0 && (
+                      <tr>
+                        <td colSpan="6" style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}>
+                          No enquiries found matching your filter criteria.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 3: SERVICES MANAGEMENT                                     */}
+        {/* ============================================================== */}
+        {activeTab === "services" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
+                <div>
+                  <h2 className="admin-card-section-title">Studio Services &amp; Specialties ({services.length})</h2>
+                  <p className="card-subtitle-sub">Manage your photography services, starting prices, and promotional cards.</p>
+                </div>
+                <button
+                  type="button"
+                  className="admin-quick-add-btn"
+                  onClick={() => setShowAddService(!showAddService)}
+                >
+                  {showAddService ? "✕ Cancel" : "+ Add New Service"}
+                </button>
+              </div>
+
+              {/* Add Service Form */}
+              {showAddService && (
+                <div className="admin-form-card" style={{ background: "#f8fafc", border: "1.5px solid #bae6fd" }}>
+                  <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0284c7", margin: "0 0 16px" }}>+ New Service Details</h3>
+                  <form onSubmit={handleAddService} style={{ display: "grid", gap: "16px" }}>
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Service Title *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Traditional Wedding Cinema"
+                          value={newService.title}
+                          onChange={(e) => setNewService({ ...newService, title: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Category</label>
+                        <select
+                          value={newService.category}
+                          onChange={(e) => setNewService({ ...newService, category: e.target.value })}
+                          className="admin-form-select"
+                        >
+                          <option value="Weddings">Weddings</option>
+                          <option value="Babies">Toddlers &amp; Newborns</option>
+                          <option value="Motherhood">Maternity</option>
+                          <option value="Couples">Couple Portraits</option>
+                          <option value="Heirlooms">Photobooks</option>
+                        </select>
+                      </div>
                     </div>
 
-                    <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                      <a href={waLink} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ flex: 1, textAlign: "center", padding: "0.6rem" }}>
-                        💬 WhatsApp
-                      </a>
-                      <a href={`tel:${item.phone}`} className="btn btn-secondary" style={{ padding: "0.6rem 1rem" }}>
-                        📞 Call
-                      </a>
-                      <button type="button" onClick={() => handleDeleteEnquiry(item.id)} style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.4)", color: "#ef4444", borderRadius: "8px", padding: "0.6rem" }}>
-                        🗑
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Starting Price Display</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Custom Quote or ₹8,000"
+                          value={newService.starting_price}
+                          onChange={(e) => setNewService({ ...newService, starting_price: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Deliverables (comma separated)</label>
+                        <input
+                          type="text"
+                          placeholder="4K Cinema Film, Raw Stills, Handcrafted Album"
+                          value={newService.deliverables}
+                          onChange={(e) => setNewService({ ...newService, deliverables: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Image Cover URL / Path</label>
+                      <input
+                        type="text"
+                        placeholder="/banners/banner_wedding.jpg or https://..."
+                        value={newService.image_url}
+                        onChange={(e) => setNewService({ ...newService, image_url: e.target.value })}
+                        className="admin-form-input"
+                      />
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Short Description</label>
+                      <textarea
+                        rows="3"
+                        placeholder="Explain the coverage and artistic approach..."
+                        value={newService.description}
+                        onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+                        className="admin-form-textarea"
+                      />
+                    </div>
+
+                    <button type="submit" className="admin-submit-btn-primary" style={{ alignSelf: "flex-start" }}>
+                      Save Service to MySQL →
+                    </button>
+                  </form>
+                </div>
+              )}
+
+              {/* Service Cards Grid */}
+              <div className="admin-items-grid">
+                {services.map((srv) => (
+                  <div className="admin-item-card" key={srv.id}>
+                    {srv.image_url && (
+                      <img
+                        src={srv.image_url}
+                        alt={srv.title}
+                        className="admin-item-img"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = "/kalyanam/page_4_img_1.png";
+                        }}
+                      />
+                    )}
+                    <div className="admin-item-body">
+                      <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "#0284c7", textTransform: "uppercase" }}>{srv.category}</span>
+                      <h4 style={{ margin: 0, fontSize: "1.05rem", fontWeight: 800, color: "#0a192f" }}>{srv.title}</h4>
+                      <p style={{ margin: 0, fontSize: "0.84rem", color: "#64748b", lineHeight: 1.5 }}>
+                        {srv.description?.slice(0, 90)}...
+                      </p>
+                      <div style={{ marginTop: "auto", paddingTop: "8px", fontWeight: 800, color: "#0a192f", fontSize: "0.95rem" }}>
+                        {srv.starting_price}
+                      </div>
+                    </div>
+                    <div className="admin-item-footer">
+                      <span style={{ fontSize: "0.78rem", color: "#64748b" }}>Order #{srv.order || srv.id}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteService(srv.id)}
+                        className="admin-action-btn-del"
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {/* =========================================================
-          TAB 2: STUDIO PROFILE & BRANCHES
-          ========================================================= */}
-      {activeTab === "studio" && (
-        <section style={{ maxWidth: "800px" }}>
-          <h2 style={{ fontSize: "1.4rem", color: "#fff", marginBottom: "1.25rem" }}>Edit Studio Information</h2>
-          <form onSubmit={handleSaveStudio} style={{ display: "grid", gap: "1.25rem", background: "rgba(255,255,255,0.03)", padding: "2rem", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-            <div className="form-row two-col">
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Studio Brand Name</label>
-                <input type="text" value={studioProfile.name || ""} onChange={(e) => setStudioProfile({ ...studioProfile, name: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Tagline</label>
-                <input type="text" value={studioProfile.tagline || ""} onChange={(e) => setStudioProfile({ ...studioProfile, tagline: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-            </div>
-
-            <div className="form-row two-col">
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Founder Name</label>
-                <input type="text" value={studioProfile.founder_name || studioProfile.founder?.name || ""} onChange={(e) => setStudioProfile({ ...studioProfile, founder_name: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Founder Experience</label>
-                <input type="text" value={studioProfile.founder_experience || studioProfile.founder?.experience || ""} onChange={(e) => setStudioProfile({ ...studioProfile, founder_experience: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-            </div>
-
-            <div className="form-row two-col">
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Phone Number</label>
-                <input type="text" value={studioProfile.phone || ""} onChange={(e) => setStudioProfile({ ...studioProfile, phone: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Email Address</label>
-                <input type="email" value={studioProfile.email || ""} onChange={(e) => setStudioProfile({ ...studioProfile, email: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-            </div>
-
-            <div className="form-row two-col">
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Main Instagram</label>
-                <input type="text" value={studioProfile.instagram_main || studioProfile.instagram || ""} onChange={(e) => setStudioProfile({ ...studioProfile, instagram_main: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Toddlers Instagram</label>
-                <input type="text" value={studioProfile.instagram_toddlers || studioProfile.instagramToddlers || ""} onChange={(e) => setStudioProfile({ ...studioProfile, instagram_toddlers: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-              </div>
-            </div>
-
-            <div>
-              <label style={{ display: "block", fontSize: "0.85rem", opacity: 0.8, marginBottom: "0.3rem" }}>Service Radius &amp; Travel Policy Note</label>
-              <textarea rows="3" value={studioProfile.service_radius_note || studioProfile.serviceRadius || ""} onChange={(e) => setStudioProfile({ ...studioProfile, service_radius_note: e.target.value })} style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-            </div>
-
-            <button type="submit" className="btn btn-primary" style={{ padding: "0.85rem", fontWeight: 700 }}>
-              Save Studio Information →
-            </button>
-          </form>
-        </section>
-      )}
-
-      {/* =========================================================
-          TAB 3: SERVICES MANAGEMENT
-          ========================================================= */}
-      {activeTab === "services" && (
-        <section>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
-            {/* Form to Add New Service */}
-            <div style={{ background: "rgba(255,255,255,0.03)", padding: "1.75rem", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <h3 style={{ fontSize: "1.2rem", color: "#00d4ff", marginBottom: "1rem" }}>+ Add New Service</h3>
-              <form onSubmit={handleAddService} style={{ display: "grid", gap: "1rem" }}>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Service Title *</label>
-                  <input type="text" required placeholder="e.g. Candid Videography" value={newService.title} onChange={(e) => setNewService({ ...newService, title: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Starting Price / Badge</label>
-                  <input type="text" placeholder="e.g. ₹5,000 or Custom Quote" value={newService.starting_price} onChange={(e) => setNewService({ ...newService, starting_price: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Image (Upload from Computer or enter URL)</label>
-                  <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e.target.files[0], (url) => setNewService({ ...newService, image_url: url }))} style={{ marginBottom: "0.3rem", fontSize: "0.85rem" }} />
-                  <input type="text" placeholder="Or enter image URL" value={newService.image_url} onChange={(e) => setNewService({ ...newService, image_url: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Description *</label>
-                  <textarea rows="3" required placeholder="Describe what the studio crafts..." value={newService.description} onChange={(e) => setNewService({ ...newService, description: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Deliverables (comma-separated)</label>
-                  <input type="text" placeholder="4K Video, High-Res Photos, Drone Stills" value={newService.deliverables} onChange={(e) => setNewService({ ...newService, deliverables: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: "0.75rem", fontWeight: 700 }}>Save Service</button>
-              </form>
-            </div>
-
-            {/* List Existing Services */}
-            <div>
-              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "1rem" }}>Current Services ({services.length})</h3>
-              <div style={{ display: "grid", gap: "1rem" }}>
-                {services.map((s) => (
-                  <div key={s.id} style={{ display: "flex", gap: "1rem", alignItems: "center", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "1rem" }}>
-                    {s.image_url && <img src={s.image_url} alt={s.title} style={{ width: "70px", height: "70px", objectFit: "cover", borderRadius: "8px" }} />}
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{ margin: "0 0 0.2rem", color: "#fff" }}>{s.title}</h4>
-                      <span style={{ fontSize: "0.8rem", color: "#00d4ff", fontWeight: 600 }}>{s.starting_price}</span>
-                      <p style={{ margin: "0.2rem 0 0", fontSize: "0.82rem", opacity: 0.75 }}>{s.description?.slice(0, 80)}...</p>
-                    </div>
-                    <button type="button" onClick={() => handleDeleteService(s.id)} style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.4)", color: "#ef4444", borderRadius: "6px", padding: "0.4rem 0.75rem" }}>
-                      🗑
-                    </button>
-                  </div>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* =========================================================
-          TAB 4: PRICING PACKAGES
-          ========================================================= */}
-      {activeTab === "packages" && (
-        <section>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
-            {/* Form to Add Package */}
-            <div style={{ background: "rgba(255,255,255,0.03)", padding: "1.75rem", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <h3 style={{ fontSize: "1.2rem", color: "#00d4ff", marginBottom: "1rem" }}>+ Add New Package</h3>
-              <form onSubmit={handleAddPackage} style={{ display: "grid", gap: "1rem" }}>
+        {/* ============================================================== */}
+        {/* TAB 4: PRICING PACKAGES                                        */}
+        {/* ============================================================== */}
+        {activeTab === "packages" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
                 <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Package Name *</label>
-                  <input type="text" required placeholder="e.g. Royal Stars" value={newPackage.name} onChange={(e) => setNewPackage({ ...newPackage, name: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
+                  <h2 className="admin-card-section-title">Pricing Packages &amp; Investments ({packages.length})</h2>
+                  <p className="card-subtitle-sub">Manage transparent pricing for Kutty Chutties milestones and wedding collections.</p>
                 </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Category</label>
-                  <select value={newPackage.category} onChange={(e) => setNewPackage({ ...newPackage, category: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
-                    <option value="newborn_toddler">Kutty Chutties (Newborn &amp; Toddlers)</option>
-                    <option value="wedding">Weddings &amp; Celebrations</option>
-                    <option value="add_on">Optional Add-On</option>
-                  </select>
-                </div>
-                <div className="form-row two-col">
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Price Display *</label>
-                    <input type="text" required placeholder="e.g. ₹9,500" value={newPackage.price_display} onChange={(e) => setNewPackage({ ...newPackage, price_display: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                  </div>
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Duration / Timing</label>
-                    <input type="text" placeholder="e.g. 60-minute session" value={newPackage.duration} onChange={(e) => setNewPackage({ ...newPackage, duration: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                  </div>
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Badge (Optional)</label>
-                  <input type="text" placeholder="e.g. Most Popular" value={newPackage.badge} onChange={(e) => setNewPackage({ ...newPackage, badge: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Features (One per line)</label>
-                  <textarea rows="4" placeholder="3 themed setups&#10;15 edited digital photos&#10;1 complimentary frame" value={newPackage.features} onChange={(e) => setNewPackage({ ...newPackage, features: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: "0.75rem", fontWeight: 700 }}>Save Package</button>
-              </form>
-            </div>
+                <button
+                  type="button"
+                  className="admin-quick-add-btn"
+                  onClick={() => setShowAddPackage(!showAddPackage)}
+                >
+                  {showAddPackage ? "✕ Cancel" : "+ Add New Package"}
+                </button>
+              </div>
 
-            {/* List Existing Packages */}
-            <div>
-              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "1rem" }}>Active Packages ({packages.length})</h3>
-              <div style={{ display: "grid", gap: "1rem" }}>
-                {packages.map((pkg) => (
-                  <div key={pkg.id} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div>
-                      <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-                        <h4 style={{ margin: 0, color: "#fff" }}>{pkg.name}</h4>
-                        {pkg.badge && <span style={{ fontSize: "0.7rem", background: "#00d4ff", color: "#000", fontWeight: 700, padding: "0.15rem 0.5rem", borderRadius: "10px" }}>{pkg.badge}</span>}
+              {/* Add Package Form */}
+              {showAddPackage && (
+                <div className="admin-form-card" style={{ background: "#f8fafc", border: "1.5px solid #bae6fd" }}>
+                  <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0284c7", margin: "0 0 16px" }}>+ New Pricing Package</h3>
+                  <form onSubmit={handleAddPackage} style={{ display: "grid", gap: "16px" }}>
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Package Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Little Stars (3 Themes)"
+                          value={newPackage.name}
+                          onChange={(e) => setNewPackage({ ...newPackage, name: e.target.value })}
+                          className="admin-form-input"
+                        />
                       </div>
-                      <span style={{ fontSize: "1.1rem", color: "#00d4ff", fontWeight: 700, display: "block", margin: "0.25rem 0" }}>{pkg.price_display || pkg.price}</span>
-                      <p style={{ fontSize: "0.82rem", opacity: 0.7, margin: "0 0 0.5rem" }}>⏱ {pkg.duration || "Session"}</p>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Price Display *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="₹8,000"
+                          value={newPackage.price_display}
+                          onChange={(e) => setNewPackage({ ...newPackage, price_display: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
                     </div>
-                    <button type="button" onClick={() => handleDeletePackage(pkg.id)} style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.4)", color: "#ef4444", borderRadius: "6px", padding: "0.4rem 0.75rem" }}>
-                      🗑
+
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Badge Label (optional)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Most Popular"
+                          value={newPackage.badge}
+                          onChange={(e) => setNewPackage({ ...newPackage, badge: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Shoot Duration</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 2.5 - 3 Hours"
+                          value={newPackage.duration}
+                          onChange={(e) => setNewPackage({ ...newPackage, duration: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Features (1 per line)</label>
+                      <textarea
+                        rows="4"
+                        placeholder="3 Custom Creative Themes&#10;25 Retouched High-Res Photos&#10;Parents & Siblings Included&#10;Props & Costumes Provided"
+                        value={newPackage.features}
+                        onChange={(e) => setNewPackage({ ...newPackage, features: e.target.value })}
+                        className="admin-form-textarea"
+                      />
+                    </div>
+
+                    <button type="submit" className="admin-submit-btn-primary" style={{ alignSelf: "flex-start" }}>
+                      Save Package →
                     </button>
+                  </form>
+                </div>
+              )}
+
+              {/* Packages Cards Grid */}
+              <div className="admin-items-grid">
+                {packages.map((pkg) => (
+                  <div className="admin-item-card" key={pkg.id || pkg.name}>
+                    <div className="admin-item-body">
+                      {pkg.badge && (
+                        <span style={{ fontSize: "0.72rem", fontWeight: 800, background: "#e0f2fe", color: "#0284c7", padding: "3px 8px", borderRadius: "999px", alignSelf: "flex-start" }}>
+                          {pkg.badge}
+                        </span>
+                      )}
+                      <h4 style={{ margin: "4px 0 0", fontSize: "1.1rem", fontWeight: 800, color: "#0a192f" }}>{pkg.name}</h4>
+                      <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#0284c7", margin: "6px 0" }}>
+                        {pkg.price_display || pkg.price}
+                      </div>
+                      {pkg.duration && <div style={{ fontSize: "0.78rem", color: "#64748b" }}>⏱ {pkg.duration}</div>}
+                      <ul style={{ paddingLeft: "18px", margin: "12px 0 0", fontSize: "0.82rem", color: "#475569", lineHeight: 1.6 }}>
+                        {(Array.isArray(pkg.features) ? pkg.features : []).slice(0, 4).map((feat, idx) => (
+                          <li key={idx}>{feat}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="admin-item-footer">
+                      <span style={{ fontSize: "0.75rem", color: "#64748b" }}>{pkg.category}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePackage(pkg.id)}
+                        className="admin-action-btn-del"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
-      {/* =========================================================
-          TAB 5: GALLERY & CURATED WORKS (IMAGE UPLOAD & REMOVE)
-          ========================================================= */}
-      {activeTab === "gallery" && (
-        <section>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
-            {/* Form to Upload / Add Photo */}
-            <div style={{ background: "rgba(255,255,255,0.03)", padding: "1.75rem", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.1)" }}>
-              <h3 style={{ fontSize: "1.2rem", color: "#00d4ff", marginBottom: "1rem" }}>+ Add Photo to Curated Works</h3>
-              <form onSubmit={handleAddGallery} style={{ display: "grid", gap: "1rem" }}>
+        {/* ============================================================== */}
+        {/* TAB 5: CURATED WORKS GALLERY                                   */}
+        {/* ============================================================== */}
+        {activeTab === "gallery" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
                 <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Photo Title *</label>
-                  <input type="text" required placeholder="e.g. Traditional Garland Exchange" value={newGallery.title} onChange={(e) => setNewGallery({ ...newGallery, title: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
+                  <h2 className="admin-card-section-title">Curated Works Gallery ({gallery.length})</h2>
+                  <p className="card-subtitle-sub">Manage high-resolution photo showcases that appear on the public Gallery page.</p>
                 </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Category *</label>
-                  <select value={newGallery.category} onChange={(e) => setNewGallery({ ...newGallery, category: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
-                    <option value="Weddings">Weddings</option>
-                    <option value="Couple portraits">Couple portraits</option>
-                    <option value="Maternity">Maternity</option>
-                    <option value="Newborns">Newborns</option>
-                    <option value="Toddlers">Toddlers</option>
-                    <option value="Model portraits">Model portraits</option>
-                    <option value="Photobooks">Photobooks</option>
-                  </select>
+                <button
+                  type="button"
+                  className="admin-quick-add-btn"
+                  onClick={() => setShowAddGallery(!showAddGallery)}
+                >
+                  {showAddGallery ? "✕ Cancel" : "+ Add Photo to Gallery"}
+                </button>
+              </div>
+
+              {/* Add Gallery Photo Form */}
+              {showAddGallery && (
+                <div className="admin-form-card" style={{ background: "#f8fafc", border: "1.5px solid #bae6fd" }}>
+                  <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0284c7", margin: "0 0 16px" }}>+ Add Photo Showcase</h3>
+                  <form onSubmit={handleAddGallery} style={{ display: "grid", gap: "16px" }}>
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Photo Title *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Sacred Muhurtham Garlands"
+                          value={newGallery.title}
+                          onChange={(e) => setNewGallery({ ...newGallery, title: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Category</label>
+                        <select
+                          value={newGallery.category}
+                          onChange={(e) => setNewGallery({ ...newGallery, category: e.target.value })}
+                          className="admin-form-select"
+                        >
+                          <option value="Weddings">Weddings</option>
+                          <option value="Toddlers">Toddlers</option>
+                          <option value="Newborns">Newborns</option>
+                          <option value="Couple portraits">Couple portraits</option>
+                          <option value="Maternity">Maternity</option>
+                          <option value="Photobooks">Photobooks</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="admin-form-grid">
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Image URL / Path *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="/kalyanam/page_4_img_1.png or https://..."
+                          value={newGallery.image_url}
+                          onChange={(e) => setNewGallery({ ...newGallery, image_url: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                      <div className="admin-form-field">
+                        <label className="admin-form-label">Location / Couple</label>
+                        <input
+                          type="text"
+                          placeholder="Krishnagiri, Tamil Nadu"
+                          value={newGallery.location}
+                          onChange={(e) => setNewGallery({ ...newGallery, location: e.target.value })}
+                          className="admin-form-input"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="admin-form-field">
+                      <label className="admin-form-label">Story / Caption (optional)</label>
+                      <textarea
+                        rows="2"
+                        placeholder="Sacred rituals, joyous tears and raw emotion..."
+                        value={newGallery.description}
+                        onChange={(e) => setNewGallery({ ...newGallery, description: e.target.value })}
+                        className="admin-form-textarea"
+                      />
+                    </div>
+
+                    <button type="submit" className="admin-submit-btn-primary" style={{ alignSelf: "flex-start" }}>
+                      Upload to Gallery →
+                    </button>
+                  </form>
                 </div>
-                <div>
-                  <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Select Image File from Computer *</label>
-                  <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e.target.files[0], (url) => setNewGallery({ ...newGallery, image_url: url }))} style={{ marginBottom: "0.4rem", fontSize: "0.85rem" }} />
-                  <input type="text" required placeholder="Image URL (filled automatically on file select)" value={newGallery.image_url} onChange={(e) => setNewGallery({ ...newGallery, image_url: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
-                  {newGallery.image_url && <img src={newGallery.image_url} alt="Preview" style={{ marginTop: "0.5rem", width: "100%", height: "140px", objectFit: "cover", borderRadius: "6px" }} />}
-                </div>
-                <div className="form-row two-col">
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Location / Client</label>
-                    <input type="text" placeholder="e.g. Krishnagiri" value={newGallery.location} onChange={(e) => setNewGallery({ ...newGallery, location: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }} />
+              )}
+
+              {/* Gallery Grid */}
+              <div className="admin-items-grid">
+                {gallery.map((item) => (
+                  <div className="admin-item-card" key={item.id}>
+                    <img
+                      src={item.image_url}
+                      alt={item.title}
+                      className="admin-item-img"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/kalyanam/page_4_img_1.png";
+                      }}
+                    />
+                    <div className="admin-item-body">
+                      <span style={{ fontSize: "0.72rem", fontWeight: 700, color: "#0284c7", textTransform: "uppercase" }}>{item.category}</span>
+                      <h4 style={{ margin: "2px 0 0", fontSize: "0.98rem", fontWeight: 800, color: "#0a192f" }}>{item.title}</h4>
+                      {item.location && <p style={{ margin: "2px 0 0", fontSize: "0.78rem", color: "#64748b" }}>📍 {item.location}</p>}
+                    </div>
+                    <div className="admin-item-footer">
+                      <span style={{ fontSize: "0.75rem", color: "#64748b" }}>{item.aspect || "portrait"}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteGallery(item.id)}
+                        className="admin-action-btn-del"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", opacity: 0.8 }}>Aspect Ratio</label>
-                    <select value={newGallery.aspect} onChange={(e) => setNewGallery({ ...newGallery, aspect: e.target.value })} style={{ width: "100%", padding: "0.6rem", borderRadius: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff" }}>
-                      <option value="portrait">Portrait (Tall)</option>
-                      <option value="wide">Landscape (Wide)</option>
-                    </select>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 6: STUDIO PROFILE & BRANCHES                               */}
+        {/* ============================================================== */}
+        {activeTab === "studio" && (
+          <section className="admin-tab-content-panel">
+            <div className="admin-white-card">
+              <div className="card-head-row">
+                <div>
+                  <h2 className="admin-card-section-title">Studio Brand Profile &amp; Facilities</h2>
+                  <p className="card-subtitle-sub">Update Mr. Gowtham Raj's founder details, phone, email, and Krishnagiri physical studio branches.</p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSaveStudio} style={{ display: "grid", gap: "20px" }}>
+                <div className="admin-form-grid">
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">Studio Name</label>
+                    <input
+                      type="text"
+                      value={studioProfile.name || ""}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, name: e.target.value })}
+                      className="admin-form-input"
+                    />
+                  </div>
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">Brand Tagline</label>
+                    <input
+                      type="text"
+                      value={studioProfile.tagline || ""}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, tagline: e.target.value })}
+                      className="admin-form-input"
+                    />
                   </div>
                 </div>
-                <button type="submit" disabled={uploadingImage} className="btn btn-primary" style={{ padding: "0.75rem", fontWeight: 700 }}>
-                  {uploadingImage ? "Uploading Image..." : "Add to Live Gallery →"}
+
+                <div className="admin-form-grid">
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">Founder Name</label>
+                    <input
+                      type="text"
+                      value={studioProfile.founder_name || "Mr. Gowtham Raj"}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, founder_name: e.target.value })}
+                      className="admin-form-input"
+                    />
+                  </div>
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">Experience Badge</label>
+                    <input
+                      type="text"
+                      value={studioProfile.founder_experience || "8+ Years"}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, founder_experience: e.target.value })}
+                      className="admin-form-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="admin-form-grid">
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">Contact Phone</label>
+                    <input
+                      type="text"
+                      value={studioProfile.phone || ""}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, phone: e.target.value })}
+                      className="admin-form-input"
+                    />
+                  </div>
+                  <div className="admin-form-field">
+                    <label className="admin-form-label">WhatsApp Number</label>
+                    <input
+                      type="text"
+                      value={studioProfile.whatsapp || ""}
+                      onChange={(e) => setStudioProfile({ ...studioProfile, whatsapp: e.target.value })}
+                      className="admin-form-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="admin-form-field">
+                  <label className="admin-form-label">Official Email</label>
+                  <input
+                    type="email"
+                    value={studioProfile.email || ""}
+                    onChange={(e) => setStudioProfile({ ...studioProfile, email: e.target.value })}
+                    className="admin-form-input"
+                  />
+                </div>
+
+                <div className="admin-form-field">
+                  <label className="admin-form-label">Founder Philosophy &amp; Story</label>
+                  <textarea
+                    rows="3"
+                    value={studioProfile.founder_bio || ""}
+                    onChange={(e) => setStudioProfile({ ...studioProfile, founder_bio: e.target.value })}
+                    className="admin-form-textarea"
+                  />
+                </div>
+
+                {/* Branches Preview */}
+                <div style={{ marginTop: "12px", borderTop: "1px solid #e2e8f0", paddingTop: "16px" }}>
+                  <h4 style={{ margin: "0 0 12px", fontSize: "0.95rem", color: "#0a192f", fontWeight: 800 }}>Physical Branches in Krishnagiri:</h4>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                    <div style={{ background: "#f8fafc", padding: "14px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+                      <strong>1. The Creative Space (Flagship Studio)</strong>
+                      <p style={{ margin: "4px 0 0", fontSize: "0.8rem", color: "#64748b" }}>
+                        3/470B RCC Moulding Building, Gandhi Nagar, Salem-Bangalore Highways, Krishnagiri
+                      </p>
+                    </div>
+                    <div style={{ background: "#f8fafc", padding: "14px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+                      <strong>2. Work Space (Production &amp; Editing Hub)</strong>
+                      <p style={{ margin: "4px 0 0", fontSize: "0.8rem", color: "#64748b" }}>
+                        3/59-9, Gandhi Nagar, Near Pillayar Kovil, Krishnagiri
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" className="admin-submit-btn-primary" style={{ justifySelf: "start", marginTop: "12px" }}>
+                  💾 Save Studio Profile to Database
                 </button>
               </form>
             </div>
-
-            {/* List Existing Gallery Items */}
-            <div>
-              <h3 style={{ fontSize: "1.2rem", color: "#fff", marginBottom: "1rem" }}>Current Gallery Images ({gallery.length})</h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "1rem" }}>
-                {gallery.map((g) => (
-                  <div key={g.id} style={{ position: "relative", borderRadius: "8px", overflow: "hidden", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                    <img src={g.image_url || g.image} alt={g.title} style={{ width: "100%", height: "140px", objectFit: "cover", display: "block" }} />
-                    <div style={{ padding: "0.5rem" }}>
-                      <p style={{ margin: "0 0 0.2rem", fontSize: "0.78rem", fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{g.title}</p>
-                      <span style={{ fontSize: "0.7rem", color: "#00d4ff" }}>{g.category}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteGallery(g.id)}
-                      style={{ position: "absolute", top: "5px", right: "5px", background: "rgba(0,0,0,0.7)", border: "none", color: "#ef4444", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", fontSize: "0.8rem", display: "flex", alignItems: "center", justifyContent: "center" }}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-    </main>
+          </section>
+        )}
+      </main>
+    </div>
   );
 }

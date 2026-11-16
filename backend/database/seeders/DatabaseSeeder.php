@@ -3,12 +3,15 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use App\Models\StudioProfile;
 use App\Models\Service;
 use App\Models\PricingPackage;
 use App\Models\GalleryItem;
 use App\Models\Testimonial;
 use App\Models\TermsCondition;
+use App\Models\Enquiry;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +20,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 0. Default Admin User
+        User::firstOrCreate(
+            ['email' => 'admin@raavanstudioz.com'],
+            [
+                'name' => 'Mr. Gowtham Raj',
+                'password' => Hash::make('admin123'),
+                'email_verified_at' => now(),
+            ]
+        );
+
         // 1. Studio Profile
         StudioProfile::create([
             'name' => 'Raavan Studio’z',
@@ -498,6 +511,92 @@ class DatabaseSeeder extends Seeder
 
         foreach ($terms as $t) {
             TermsCondition::create($t);
+        }
+
+        // 7. Sample Initial Enquiries
+        $enquiries = [
+            [
+                'type' => 'wedding_event',
+                'name' => 'Karthik & Divya',
+                'email' => 'karthik.divya@gmail.com',
+                'phone' => '+91-9876543210',
+                'event_type' => 'Weddings & Reception',
+                'event_date' => '2026-12-14',
+                'location' => 'Krishnagiri Grand Mandapam',
+                'selected_package' => 'Namma Veetu Kalyanam Cinema',
+                'message' => 'Looking for complete traditional muhurtham and evening reception 4K coverage with candid team.',
+                'status' => 'confirmed',
+            ],
+            [
+                'type' => 'newborn_toddler',
+                'name' => 'Priya Venkatesh',
+                'email' => 'priya.venkat@outlook.com',
+                'phone' => '+91-9500112233',
+                'parent_name' => 'Priya & Venkatesh',
+                'baby_name' => 'Kutty Rithvik',
+                'baby_age' => '1 Year',
+                'event_type' => 'First Birthday Cake Smash',
+                'event_date' => '2026-11-28',
+                'location' => 'The Creative Space, Krishnagiri',
+                'selected_package' => 'Little Stars (3 Themes)',
+                'message' => 'Interested in Jungle theme and Chef theme for our baby boy.',
+                'status' => 'new',
+            ],
+            [
+                'type' => 'wedding_event',
+                'name' => 'Harish & Sneha',
+                'email' => 'harish.sneha@gmail.com',
+                'phone' => '+91-9988776655',
+                'event_type' => 'Pre-Wedding Outdoor Shoot',
+                'event_date' => '2026-12-05',
+                'location' => 'Krishnagiri Hills Sunset Point',
+                'selected_package' => 'Golden Hour Couple Reverie',
+                'message' => 'Would love natural landscape shots with drone video.',
+                'status' => 'confirmed',
+            ],
+            [
+                'type' => 'newborn_toddler',
+                'name' => 'Suresh & Malathi',
+                'email' => 'suresh.m@gmail.com',
+                'phone' => '+91-9444332211',
+                'parent_name' => 'Suresh Kumar',
+                'baby_name' => 'Baby Ananya',
+                'baby_age' => '18 Days',
+                'event_type' => 'Newborn Serenity Shoot',
+                'event_date' => '2026-11-22',
+                'location' => 'Home Shoot (Krishnagiri)',
+                'selected_package' => 'Sweet Beginnings (2 Themes)',
+                'message' => 'Soft wool wraps and peaceful sleeping baby poses.',
+                'status' => 'contacted',
+            ],
+            [
+                'type' => 'general',
+                'name' => 'Dr. Rajesh Sundar',
+                'email' => 'rajesh.doc@gmail.com',
+                'phone' => '+91-9123456789',
+                'event_type' => 'Family Heirloom Photobook',
+                'event_date' => '2026-11-30',
+                'location' => 'Raavan Work Space Atelier',
+                'selected_package' => 'Italian Linen Archival Layflat',
+                'message' => 'Want to print our parents 50th anniversary album with debossed gold title.',
+                'status' => 'new',
+            ],
+            [
+                'type' => 'general',
+                'name' => 'Deepika S.',
+                'email' => 'deepika.s@yahoo.com',
+                'phone' => '+91-9840123456',
+                'event_type' => 'Maternity Grace Shoot',
+                'event_date' => '2026-12-02',
+                'location' => 'Outdoor & Studio Concept',
+                'selected_package' => 'Sacred Grace Maternity Collection',
+                'message' => 'Inquiring for gown concepts and gentle indoor lighting portraits.',
+                'status' => 'confirmed',
+            ],
+        ];
+
+        foreach ($enquiries as $enq) {
+            Enquiry::create($enq);
         }
     }
 }
