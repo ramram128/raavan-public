@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchFromApi } from "../api.js";
 import {
-  paymentSchedule,
+  paymentSchedule as fallbackPaymentSchedule,
   serviceAddons as fallbackAddons,
   servicePackages as fallbackPackages,
   studio,
@@ -15,7 +15,8 @@ export default function PricingPage({ onNavigate }) {
   useEffect(() => {
     fetchFromApi("/packages", null).then((data) => {
       if (data && data.all && data.all.length > 0) {
-        const formatted = data.all.map((p) => ({
+        const formatted = data.all.map((p, idx) => ({
+          num: `0${idx + 1}`,
           id: `pkg-${p.id}`,
           name: p.name,
           category: p.category,
@@ -27,6 +28,14 @@ export default function PricingPage({ onNavigate }) {
           features: Array.isArray(p.features) ? p.features : (p.features ? [p.features] : []),
         }));
         setPackages(formatted);
+      }
+      if (data && data.add_ons && data.add_ons.length > 0) {
+        const formattedAddons = data.add_ons.map((a) => ({
+          name: a.name,
+          price: a.price_display,
+          detail: a.description || "Studio premium add-on",
+        }));
+        setAddons(formattedAddons);
       }
     });
   }, []);
@@ -51,144 +60,305 @@ export default function PricingPage({ onNavigate }) {
   return (
     <div className="clean-subpage-root pricing-page-root" id="pricing-page">
       {/* ============================================================== */}
-      {/* 1. HERO HEADER                                                 */}
+      {/* 1. HERO HEADER SECTION - LUXURY DUAL COLUMN SHOWCASE          */}
       {/* ============================================================== */}
-      <section className="clean-page-hero">
+      <section className="clean-page-hero kutty-hero-wrap pricing-hero-wrap">
         <div className="inc-container">
-          <div className="clean-hero-badge-wrap">
-            <span className="clean-eyebrow-tag">THE CREATIVE SPACE · KRISHNAGIRI</span>
-          </div>
-          <h1 className="clean-page-title">
-            Kutty Chutties Pricing Packages
-          </h1>
-          <p className="clean-page-subtitle">
-            Honest, transparent investments for newborn, infant &amp; toddler photography with <strong>@toddlers_by_raavan</strong>. Every session is hosted in our sanitized, climate-controlled studio in Krishnagiri.
-          </p>
+          <div className="kutty-hero-layout">
+            {/* Left Content Column */}
+            <div className="kutty-hero-content">
+              <div className="kutty-hero-eyebrow-row">
+                <span className="clean-eyebrow-tag kutty-glowing-tag">
+                  <span className="kutty-pulse-dot"></span>
+                  ✨ TRANSPARENT STUDIO INVESTMENTS · @RAAVANSTUDIOZ
+                </span>
+              </div>
 
-          <div className="clean-pricing-perks-row">
-            <span className="clean-perk-badge">✓ Free Travel within 20km from Krishnagiri</span>
-            <span className="clean-perk-badge">✓ 15+ Themed Handcrafted Sets</span>
-            <span className="clean-perk-badge">✓ All Props &amp; Outfits Included</span>
-            <span className="clean-perk-badge">✓ Directed by Mr. Gowtham Raj (8+ Yrs Exp)</span>
-          </div>
+              <h1 className="kutty-hero-heading">
+                Pricing and <span className="kutty-title-gradient">Signature Packages</span>
+              </h1>
 
-          {/* Category Filter Tabs */}
-          <div className="clean-pricing-filter-tabs">
-            <button
-              type="button"
-              className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
-              onClick={() => setSelectedCategory("toddlers")}
-            >
-              <span>Kutty Chutties (Newborn &amp; Toddlers)</span>
-            </button>
-            <button
-              type="button"
-              className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
-              onClick={() => setSelectedCategory("all")}
-            >
-              <span>All Collections</span>
-            </button>
-            <button
-              type="button"
-              className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
-              onClick={() => setSelectedCategory("weddings")}
-            >
-              <span>Weddings &amp; Celebrations</span>
-            </button>
-          </div>
+              <p className="kutty-hero-lead">
+                Honest, all-inclusive investments for newborn &amp; toddler milestones, creative studio portraits, and grand wedding celebrations. Every project is gently directed by <strong>Mr. Gowtham Raj (8+ Years Experience)</strong> in our sanitized Krishnagiri flagship studio.
+              </p>
 
-          <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
-            <button
-              type="button"
-              onClick={() => onNavigate("kutty-chutties")}
-              style={{
-                background: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
-                border: "1.5px solid #38b6d8",
-                borderRadius: "999px",
-                padding: "10px 24px",
-                color: "#0284c7",
-                fontWeight: 800,
-                fontSize: "0.9rem",
-                cursor: "pointer",
-                boxShadow: "0 4px 14px rgba(56, 182, 216, 0.2)",
-              }}
-            >
-              👶 View Dedicated Raavan Kutty Chutties Page with Real Baby Photos →
-            </button>
+              {/* 4 Feature Micro-Cards */}
+              <div className="kutty-hero-features-grid">
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">📍</span>
+                  <div className="kutty-feat-body">
+                    <strong>Flagship Studio</strong>
+                    <span>The Creative Space, Krishnagiri</span>
+                  </div>
+                </div>
+
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🚗</span>
+                  <div className="kutty-feat-body">
+                    <strong>Free Travel</strong>
+                    <span>Within 20km for Home Visits &amp; Venues</span>
+                  </div>
+                </div>
+
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🧸</span>
+                  <div className="kutty-feat-body">
+                    <strong>15+ Themed Sets</strong>
+                    <span>All props, outfits &amp; wraps included</span>
+                  </div>
+                </div>
+
+                <div className="kutty-hero-feat-card">
+                  <span className="kutty-feat-icon">🖼️</span>
+                  <div className="kutty-feat-body">
+                    <strong>Fine-Art Keepsakes</strong>
+                    <span>Archival layflat albums &amp; frames</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="kutty-hero-actions">
+                <a href="#packages-section" className="kutty-hero-btn-primary">
+                  Explore Packages ↓
+                </a>
+                <button
+                  type="button"
+                  onClick={() => onNavigate("kutty-chutties")}
+                  className="kutty-hero-btn-secondary"
+                  title="View Dedicated Raavan Kutty Chutties Page"
+                >
+                  👶 Baby Page (70+ Photos) ↗
+                </button>
+                <a
+                  href="https://wa.me/919500306696?text=Hi%20Mr.%20Gowtham%20Raj!%20I%20would%20like%20to%20enquire%20about%20photoshoot%20packages%20with%20Raavan%20Studio’z."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="kutty-hero-btn-wa"
+                  title="Direct WhatsApp with Mr. Gowtham Raj"
+                >
+                  💬 WhatsApp Gowtham Raj
+                </a>
+              </div>
+            </div>
+
+            {/* Right Visual Montage Column */}
+            <div className="kutty-hero-visual-col">
+              <div className="kutty-hero-visual-card-main">
+                <img
+                  src="/drive_gallery/optimized/weddings/kal_page_1.jpg"
+                  alt="Namma Veetu Kalyanam Wedding Photography"
+                  className="kutty-hero-img-main"
+                  loading="eager"
+                />
+                <div className="kutty-hero-img-badge">
+                  <span className="kutty-badge-dot"></span>
+                  <span>Grand Wedding &amp; Studio Portfolios</span>
+                </div>
+              </div>
+
+              <div className="kutty-hero-visual-card-sub">
+                <img
+                  src="/drive_gallery/optimized/kutty/kutty_01.jpg"
+                  alt="Raavan Kutty Chutties Milestone Shoot"
+                  className="kutty-hero-img-sub"
+                  loading="lazy"
+                />
+                <div className="kutty-hero-sub-label">
+                  <span>👶 Kutty Chutties Setup</span>
+                </div>
+              </div>
+
+              {/* Floating Verified Trust Badge */}
+              <div className="kutty-hero-floating-badge">
+                <div className="kutty-badge-icon">⭐</div>
+                <div className="kutty-badge-text">
+                  <strong>8+ Years Experience</strong>
+                  <span>500+ Happy Families Documented</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 2. PACKAGES GRID                                               */}
+      {/* 2. PACKAGES SECTION WITH CATEGORY FILTER TABS                  */}
       {/* ============================================================== */}
-      <section className="inc-section-wrap pricing-cards-section">
+      <section id="packages-section" className="inc-content-section" style={{ padding: "3.5rem 1.5rem 5rem" }}>
         <div className="inc-container">
-          <div className="inc-pricing-grid luxury-tiers-grid">
+          {/* Section Header */}
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <span className="clean-section-tag">INVESTMENT TIERS</span>
+            <h2 className="clean-section-title">Transparent Photography Packages</h2>
+            <p className="clean-section-subtitle">
+              Clear, transparent pricing with no hidden charges. Select a collection below to view available packages.
+            </p>
+
+            {/* Category Filter Tabs */}
+            <div className="clean-pricing-filter-tabs" style={{ marginTop: "1.5rem" }}>
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("toddlers")}
+              >
+                <span>👶 Kutty Chutties (4 Packages)</span>
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "weddings" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("weddings")}
+              >
+                <span>💍 Weddings &amp; Celebrations</span>
+              </button>
+              <button
+                type="button"
+                className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
+                onClick={() => setSelectedCategory("all")}
+              >
+                <span>✨ All Collections</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Dedicated Baby Page Callout Banner */}
+          {(selectedCategory === "toddlers" || selectedCategory === "all") && (
+            <div
+              style={{
+                marginBottom: "2rem",
+                padding: "16px 24px",
+                background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
+                border: "1.5px solid #bae6fd",
+                borderRadius: "18px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "16px",
+                flexWrap: "wrap",
+                boxShadow: "0 4px 16px rgba(2, 132, 199, 0.08)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <span style={{ fontSize: "1.6rem" }}>👶</span>
+                <div>
+                  <strong style={{ display: "block", color: "#0369a1", fontSize: "0.98rem" }}>
+                    Looking for 70+ authentic baby photos &amp; creative theme setups?
+                  </strong>
+                  <span style={{ fontSize: "0.85rem", color: "#0284c7" }}>
+                    Visit our dedicated Raavan Kutty Chutties page with full portfolio, setup details &amp; quick filters.
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => onNavigate("kutty-chutties")}
+                style={{
+                  padding: "10px 22px",
+                  background: "#0284c7",
+                  color: "#ffffff",
+                  border: "none",
+                  borderRadius: "999px",
+                  fontWeight: 700,
+                  fontSize: "0.88rem",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 14px rgba(2, 132, 199, 0.25)",
+                  transition: "all 0.2s",
+                }}
+              >
+                Open Kutty Chutties Page ↗
+              </button>
+            </div>
+          )}
+
+          {/* Uniform Height 440px Cards Grid */}
+          <div className="kutty-packages-grid">
             {filteredPackages.map((pkg, idx) => {
               const isPopular =
                 pkg.badge === "Most Popular" ||
                 pkg.badge === "VIP Masterpiece" ||
-                pkg.id === "little-stars";
+                pkg.id === "little-stars" ||
+                pkg.num === "03";
 
-              const isLuxury =
-                pkg.badge === "Luxury Experience" || pkg.id === "tiny-royalty";
+              const badgeText =
+                pkg.badge ||
+                (idx === 0
+                  ? "INTRO SESSION"
+                  : idx === 1
+                  ? "CLASSIC"
+                  : idx === 2
+                  ? "MOST POPULAR"
+                  : idx === 3
+                  ? "LUXURY EXPERIENCE"
+                  : "SIGNATURE");
 
               return (
                 <div
-                  key={pkg.id || pkg.name}
-                  className={`luxury-pricing-card reveal-on-scroll stagger-${(idx % 4) + 1}${
-                    isPopular ? " is-featured-tier" : isLuxury ? " is-luxury-tier" : ""
-                  }`}
+                  key={pkg.id || idx}
+                  className={`kutty-package-card${isPopular ? " kutty-popular-card" : ""}`}
                 >
-                  {/* Top Badge */}
-                  {pkg.badge && (
-                    <div className="tier-header-badge">
-                      <span className={`tier-pill ${isPopular ? "pill-popular" : isLuxury ? "pill-luxury" : "pill-intro"}`}>
-                        {pkg.badge.toUpperCase()}
-                      </span>
-                    </div>
-                  )}
+                  {/* Top Badge Strip */}
+                  <div className="kutty-badge-strip">
+                    <span>{badgeText}</span>
+                  </div>
 
-                  <h3 className="tier-card-title">{pkg.name}</h3>
-                  {pkg.tagline && <p className="tier-card-tagline">“{pkg.tagline}”</p>}
-
-                  <div className="tier-price-box">
-                    <div className="tier-price-wrap">
-                      <span className="tier-price-amount">{pkg.price}</span>
+                  {/* Header */}
+                  <div className="kutty-card-header">
+                    <span className="kutty-card-num">{pkg.num || `0${idx + 1}`}</span>
+                    <h3 className="kutty-card-name" title={pkg.name}>
+                      {pkg.name}
+                    </h3>
+                    <div className="kutty-price-row">
+                      <span className="kutty-card-price">{pkg.price}</span>
                       {pkg.price !== "Get a Quote" && (
-                        <span className="tier-price-sub">/ session</span>
+                        <span style={{ fontSize: "0.82rem", color: "#64748b", fontWeight: 600 }}>
+                          {" "}
+                          / session
+                        </span>
                       )}
                     </div>
                     {pkg.duration && (
-                      <span className="tier-duration-chip">{pkg.duration}</span>
+                      <span className="kutty-duration-tag">⏱ {pkg.duration}</span>
                     )}
                   </div>
 
-                  <div className="tier-divider" />
+                  <div className="kutty-divider" />
 
-                  {/* Features List */}
-                  <ul className="tier-features-list">
-                    {pkg.features.map((feat) => (
-                      <li key={feat}>
-                        <span className="tier-check-icon">✓</span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Scrollable Features List */}
+                  <div className="kutty-card-scroll-body">
+                    {pkg.tagline && (
+                      <p style={{ fontSize: "0.8rem", color: "#64748b", fontStyle: "italic", marginBottom: "8px" }}>
+                        “{pkg.tagline}”
+                      </p>
+                    )}
+                    <ul className="kutty-features-list">
+                      {pkg.features.map((feat, fIdx) => (
+                        <li key={fIdx}>
+                          <span className="kutty-check-icon">✓</span>
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                  {/* Action CTA */}
-                  <div className="tier-card-footer">
+                  {/* Footer Action */}
+                  <div className="kutty-card-footer">
                     <a
                       href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                        `Hi Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) session with Raavan Studio’z.`
+                        `Hi Mr. Gowtham Raj! I would like to book the "${pkg.name}" (${pkg.price}) package with Raavan Studio’z.`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`tier-cta-button ${isPopular ? "btn-primary-filled" : "btn-outline"}`}
+                      className={`kutty-cta-btn-primary${isPopular ? "" : " kutty-cta-btn-secondary"}`}
+                      style={{ textDecoration: "none", textAlign: "center" }}
                     >
-                      <span>Book on WhatsApp →</span>
+                      Book on WhatsApp 💬
                     </a>
+                    <span
+                      className="kutty-inquire-link"
+                      onClick={() => onNavigate("/contact")}
+                    >
+                      Or Check Date Availability →
+                    </span>
                   </div>
                 </div>
               );
@@ -196,24 +366,67 @@ export default function PricingPage({ onNavigate }) {
           </div>
 
           {/* Wedding Custom Quote Card */}
-          <div className="clean-wedding-quote-box reveal-scale">
-            <div className="wedding-quote-info">
-              <span className="wedding-quote-tag">NAMMA VEETU KALYANAM</span>
-              <h3 className="wedding-quote-title">Planning a Wedding, Reception or Sacred Muhurtham?</h3>
-              <p className="wedding-quote-p">
+          <div
+            style={{
+              marginTop: "4rem",
+              background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+              borderRadius: "24px",
+              padding: "40px",
+              color: "#ffffff",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "32px",
+              flexWrap: "wrap",
+              boxShadow: "0 20px 50px rgba(15, 23, 42, 0.2)",
+            }}
+          >
+            <div style={{ maxWidth: "680px" }}>
+              <span
+                style={{
+                  display: "inline-block",
+                  padding: "4px 12px",
+                  borderRadius: "999px",
+                  background: "rgba(56, 182, 216, 0.2)",
+                  color: "#38bdf8",
+                  fontSize: "0.75rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.08em",
+                  marginBottom: "12px",
+                }}
+              >
+                NAMMA VEETU KALYANAM
+              </span>
+              <h3 style={{ fontSize: "1.75rem", fontWeight: 800, margin: "0 0 10px", color: "#ffffff" }}>
+                Planning a Wedding, Reception or Sacred Muhurtham?
+              </h3>
+              <p style={{ fontSize: "0.95rem", lineHeight: 1.6, color: "#94a3b8", margin: 0 }}>
                 We craft bespoke wedding packages tailored to your ceremony timeline, including multi-camera candid photography, 4K cinema highlight reels, drone aerial cinematography, and luxury handcrafted Italian-bound photobooks.
               </p>
             </div>
-            <div className="wedding-quote-btn-wrap">
+            <div>
               <a
                 href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                  "Hi Gowtham Raj! I would like to request a bespoke quotation for our upcoming wedding celebration."
+                  "Hi Mr. Gowtham Raj! I would like to request a bespoke quotation for our upcoming wedding celebration."
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="clean-quote-btn"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "16px 32px",
+                  background: "linear-gradient(135deg, #0284c7, #38bdf8)",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  borderRadius: "999px",
+                  boxShadow: "0 8px 24px rgba(2, 132, 199, 0.4)",
+                  transition: "transform 0.2s",
+                }}
               >
-                <span>Request Wedding Quote on WhatsApp →</span>
+                <span>Request Wedding Quote on WhatsApp 💬</span>
               </a>
             </div>
           </div>
@@ -221,74 +434,87 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 3. POPULAR ADD-ONS & UPGRADES                                   */}
+      {/* 3. A LA CARTE ADD-ONS & KEEPSAKES                              */}
       {/* ============================================================== */}
-      <section className="inc-section-wrap inc-alt-bg addons-section">
+      <section className="inc-section-wrap inc-alt-bg addons-section" style={{ padding: "4rem 1.5rem" }}>
         <div className="inc-container">
-          <div className="clean-centered-header reveal-on-scroll">
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <span className="clean-section-tag">A LA CARTE EXTRAS</span>
-            <h2 className="clean-section-heading">Session Upgrades &amp; Keepsakes</h2>
-            <p className="clean-section-sub">Add extra touches to make your photoshoot even more memorable.</p>
+            <h2 className="clean-section-title">Session Upgrades &amp; Keepsakes</h2>
+            <p className="clean-section-subtitle">
+              Add extra touches to customize your photoshoot experience.
+            </p>
           </div>
 
-          <div className="addons-cards-grid">
-            {addons.map((addon, idx) => (
-              <div className={`clean-addon-card reveal-on-scroll stagger-${(idx % 3) + 1}`} key={addon.name}>
-                <div className="addon-header-row">
-                  <h4 className="addon-title">{addon.name}</h4>
-                  <span className="addon-price-badge">{addon.price}</span>
+          <div className="kutty-addons-grid">
+            {addons.map((addon, idx) => {
+              const icons = ["📷", "🎂", "🖼️", "🚁", "🎞️", "👶"];
+              const icon = icons[idx % icons.length];
+              return (
+                <div className="kutty-addon-item" key={addon.name || idx}>
+                  <div className="kutty-addon-left">
+                    <span className="kutty-addon-icon">{icon}</span>
+                    <div>
+                      <h4 className="kutty-addon-title">{addon.name}</h4>
+                      <p className="kutty-addon-desc">{addon.detail}</p>
+                    </div>
+                  </div>
+                  <div className="kutty-addon-price" style={{ fontWeight: 800, color: "#0284c7", fontSize: "1.1rem" }}>
+                    {addon.price}
+                  </div>
                 </div>
-                <p className="addon-desc">{addon.detail}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ============================================================== */}
-      {/* 4. PAYMENT TRANSPARENCY                                         */}
+      {/* 4. PAYMENT SCHEDULE                                            */}
       {/* ============================================================== */}
-      <section className="inc-section-wrap payment-schedule-section">
+      <section className="inc-section-wrap payment-schedule-section" style={{ padding: "4rem 1.5rem" }}>
         <div className="inc-container">
-          <div className="clean-centered-header reveal-on-scroll">
-            <span className="clean-section-tag">PAYMENT SCHEDULE</span>
-            <h2 className="clean-section-heading">Simple, Honest Payment Schedule</h2>
-            <p className="clean-section-sub">No hidden surcharges. Clear milestones from booking to delivery.</p>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <span className="clean-section-tag">PAYMENT TRANSPARENCY</span>
+            <h2 className="clean-section-title">Simple, Honest Payment Schedule</h2>
+            <p className="clean-section-subtitle">
+              No hidden surcharges. Clear milestones from booking date to final photo delivery.
+            </p>
           </div>
 
           <div className="payment-schedule-grid">
-            {paymentSchedule.map((item, idx) => (
-              <div className={`clean-payment-card reveal-on-scroll stagger-${idx + 1}`} key={item.stage}>
-                <div className="payment-percent-pill">{item.percent}</div>
-                <h4 className="payment-stage-name">{item.stage}</h4>
-                <p className="payment-timing">{item.timing}</p>
+            {fallbackPaymentSchedule.map((item, idx) => (
+              <div className="clean-payment-card" key={item.step || idx}>
+                <div className="payment-percent-pill">{item.pct || item.percent}</div>
+                <h4 className="payment-stage-name">{item.label || item.stage}</h4>
+                <p className="payment-timing">Step {item.step || idx + 1}</p>
                 <p className="payment-detail">{item.detail}</p>
               </div>
             ))}
           </div>
 
+          {/* Official Terms & Conditions Box */}
           <div
             style={{
-              marginTop: "32px",
-              textAlign: "center",
-              padding: "20px 24px",
+              marginTop: "36px",
+              padding: "24px 28px",
               background: "#ffffff",
-              border: "1px solid #e2e8f0",
-              borderRadius: "14px",
+              border: "1.5px solid #e2e8f0",
+              borderRadius: "18px",
               display: "flex",
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "space-between",
-              gap: "16px",
+              gap: "20px",
+              boxShadow: "0 4px 18px rgba(0, 0, 0, 0.03)",
             }}
-            className="reveal-on-scroll"
           >
             <div style={{ textAlign: "left" }}>
-              <strong style={{ display: "block", color: "#0a192f", fontSize: "1.05rem" }}>
+              <strong style={{ display: "block", color: "#0f172a", fontSize: "1.1rem" }}>
                 📜 Official Photography Terms &amp; Conditions
               </strong>
               <span style={{ color: "#64748b", fontSize: "0.9rem" }}>
-                Complete guidelines for “Toddlers by Raavan”, theme rules, props safety, and extra album sheet charges.
+                Complete studio guidelines for “Toddlers by Raavan”, props safety, theme selections, and archival album extensions.
               </span>
             </div>
             <button
@@ -298,11 +524,12 @@ export default function PricingPage({ onNavigate }) {
                 background: "#0284c7",
                 color: "#ffffff",
                 border: "none",
-                padding: "10px 22px",
+                padding: "12px 24px",
                 borderRadius: "999px",
                 fontWeight: "700",
-                fontSize: "0.9rem",
+                fontSize: "0.92rem",
                 cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(2, 132, 199, 0.25)",
                 transition: "all 0.2s ease",
               }}
             >
@@ -313,30 +540,44 @@ export default function PricingPage({ onNavigate }) {
       </section>
 
       {/* ============================================================== */}
-      {/* 5. DIRECT CTA                                                  */}
+      {/* 5. STUDIO VISIT & BOOKING BANNER                               */}
       {/* ============================================================== */}
-      <section className="inc-section-wrap inc-alt-bg">
+      <section className="kutty-studio-banner" style={{ padding: "3rem 1.5rem 5rem" }}>
         <div className="inc-container">
-          <div className="clean-cta-box reveal-scale">
-            <h2 className="clean-cta-title">Ready to Lock Your Date on the Studio Calendar?</h2>
-            <p className="clean-cta-desc">
-              Connect with Mr. Gowtham Raj on WhatsApp for quick date availability and custom wedding package consultations.
-            </p>
-            <div className="clean-cta-buttons-row">
+          <div className="kutty-banner-inner">
+            <div className="kutty-banner-info">
+              <span className="clean-section-tag" style={{ background: "#bae6fd", color: "#0369a1" }}>
+                RESERVE YOUR DATE
+              </span>
+              <h2 style={{ fontSize: "1.85rem", fontWeight: 800, color: "#0f172a", margin: "8px 0" }}>
+                Ready to Lock Your Date on the Studio Calendar?
+              </h2>
+              <p style={{ color: "#475569", margin: 0, fontSize: "1rem", maxWidth: "620px" }}>
+                Connect directly with Mr. Gowtham Raj on WhatsApp for quick date confirmation, home visit options within 20km, and custom wedding consultations.
+              </p>
+            </div>
+            <div className="kutty-banner-action">
               <a
-                href={`https://wa.me/919500306696?text=${encodeURIComponent(
-                  "Hi Gowtham Raj! I would like to book a photography session with Raavan Studio’z."
-                )}`}
+                href="https://wa.me/919500306696?text=Hi%20Mr.%20Gowtham%20Raj!%20I%20would%20like%20to%20check%20photoshoot%20date%20availability."
                 target="_blank"
-                rel="noopener noreferrer"
-                className="clean-cta-whatsapp-btn"
+                rel="noreferrer"
+                className="kutty-whatsapp-cta"
               >
-                <span>Chat on WhatsApp →</span>
+                <span>💬 WhatsApp Gowtham Raj</span>
               </a>
               <button
                 type="button"
-                className="clean-cta-contact-btn"
                 onClick={() => onNavigate("/contact")}
+                style={{
+                  background: "#ffffff",
+                  color: "#0f172a",
+                  border: "1.5px solid #cbd5e1",
+                  borderRadius: "999px",
+                  padding: "12px 24px",
+                  fontWeight: 700,
+                  fontSize: "0.92rem",
+                  cursor: "pointer",
+                }}
               >
                 <span>Check Date Availability ↗</span>
               </button>
