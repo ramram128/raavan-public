@@ -10,7 +10,7 @@ import {
 export default function PricingPage({ onNavigate }) {
   const [packages, setPackages] = useState(fallbackPackages);
   const [addons, setAddons] = useState(fallbackAddons);
-  const [selectedCategory, setSelectedCategory] = useState("toddlers");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     fetchFromApi("/packages", null).then((data) => {
@@ -130,15 +130,7 @@ export default function PricingPage({ onNavigate }) {
                 >
                   👶 Baby Page (70+ Photos) ↗
                 </button>
-                <a
-                  href="https://wa.me/919500306696?text=Hi%20Mr.%20Gowtham%20Raj!%20I%20would%20like%20to%20enquire%20about%20photoshoot%20packages%20with%20Raavan%20Studio’z."
-                  target="_blank"
-                  rel="noreferrer"
-                  className="kutty-hero-btn-wa"
-                  title="Direct WhatsApp with Mr. Gowtham Raj"
-                >
-                  💬 WhatsApp Gowtham Raj
-                </a>
+
               </div>
             </div>
 
@@ -200,6 +192,13 @@ export default function PricingPage({ onNavigate }) {
               <div className="clean-pricing-filter-tabs">
                 <button
                   type="button"
+                  className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
+                  onClick={() => setSelectedCategory("all")}
+                >
+                  <span>✨ All Collections (7 Packages)</span>
+                </button>
+                <button
+                  type="button"
                   className={`clean-filter-pill${selectedCategory === "toddlers" ? " active" : ""}`}
                   onClick={() => setSelectedCategory("toddlers")}
                 >
@@ -211,13 +210,6 @@ export default function PricingPage({ onNavigate }) {
                   onClick={() => setSelectedCategory("weddings")}
                 >
                   <span>💍 Weddings &amp; Celebrations</span>
-                </button>
-                <button
-                  type="button"
-                  className={`clean-filter-pill${selectedCategory === "all" ? " active" : ""}`}
-                  onClick={() => setSelectedCategory("all")}
-                >
-                  <span>✨ All Collections</span>
                 </button>
               </div>
             </div>
@@ -559,14 +551,7 @@ export default function PricingPage({ onNavigate }) {
               </p>
             </div>
             <div className="kutty-banner-action">
-              <a
-                href="https://wa.me/919500306696?text=Hi%20Mr.%20Gowtham%20Raj!%20I%20would%20like%20to%20check%20photoshoot%20date%20availability."
-                target="_blank"
-                rel="noreferrer"
-                className="kutty-whatsapp-cta"
-              >
-                <span>💬 WhatsApp Gowtham Raj</span>
-              </a>
+
               <button
                 type="button"
                 onClick={() => onNavigate("/contact")}

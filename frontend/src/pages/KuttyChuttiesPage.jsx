@@ -184,7 +184,7 @@ export default function KuttyChuttiesPage({ onNavigate }) {
                   className="kutty-hero-btn-wa"
                   title="Direct WhatsApp with Mr. Gowtham Raj"
                 >
-                  💬 WhatsApp Us
+                  WhatsApp Us
                 </a>
               </div>
             </div>
