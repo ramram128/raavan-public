@@ -97,7 +97,7 @@ export default function TermsPage({ onNavigate }) {
           <p className="clean-page-lead" style={{ maxWidth: "780px", margin: "0 auto 28px" }}>
             {isTamil ? (
               <>
-                நாங்கள் <strong>2 தனித்தனி அதிகாரப்பூர்வ ஆவணங்களை</strong> வைத்துள்ளோம்: 
+                நாங்கள் <strong>2 தனித்தனி அதிகாரப்பூர்வ ஆவணங்களை</strong> வைத்துள்ளோம்:
                 பொதுவான புகைப்பட சேவைகள் (General Photography) மற்றும் குழந்தைகளுக்கான சிறப்பு அமர்வுகள் (Toddlers by Raavan).
                 கீழே உள்ள பட்டன்களைத் தேர்வு செய்து இரண்டையும் தனித்தனியாகப் பார்க்கலாம்.
               </>
@@ -279,14 +279,14 @@ export default function TermsPage({ onNavigate }) {
                 className={`terms-lang-btn ${lang === "en" ? "active" : ""}`}
                 onClick={() => setLang("en")}
               >
-                🇬🇧 English (Default)
+                English
               </button>
               <button
                 type="button"
                 className={`terms-lang-btn ${lang === "ta" ? "active" : ""}`}
                 onClick={() => setLang("ta")}
               >
-                🇮🇳 தமிழ் (Tamil)
+                தமிழ்
               </button>
             </div>
 
