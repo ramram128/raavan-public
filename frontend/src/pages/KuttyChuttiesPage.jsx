@@ -191,18 +191,21 @@ export default function KuttyChuttiesPage({ onNavigate }) {
 
                   <div className="kutty-divider" />
 
-                  {pkg.description && (
-                    <p className="kutty-desc-text">{pkg.description}</p>
-                  )}
+                  {/* Scrollable Features Body (around 400px card height) */}
+                  <div className="kutty-card-scroll-body">
+                    {pkg.description && (
+                      <p className="kutty-desc-text">{pkg.description}</p>
+                    )}
 
-                  <ul className="kutty-features-list">
-                    {pkg.features.map((feature, fIdx) => (
-                      <li key={fIdx}>
-                        <span className="kutty-check-icon">✓</span>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <ul className="kutty-features-list">
+                      {pkg.features.map((feature, fIdx) => (
+                        <li key={fIdx}>
+                          <span className="kutty-check-icon">✓</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
                   <div className="kutty-card-footer">
                     <button
