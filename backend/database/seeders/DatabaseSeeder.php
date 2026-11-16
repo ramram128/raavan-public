@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Only seed initial studio content if database is empty
+        if (StudioProfile::count() > 0) {
+            return;
+        }
+
         // 1. Studio Profile
         StudioProfile::create([
             'name' => 'Raavan Studio’z',

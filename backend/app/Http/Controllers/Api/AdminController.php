@@ -366,12 +366,14 @@ class AdminController extends Controller
         }
         $file->move($destBackend, $filename);
 
-        // Also duplicate to frontend public/uploads so dev server serves it immediately
+        // Also duplicate to frontend public/uploads so dev server serves it immediately (if in dev folder structure)
         $destFrontend = base_path('../frontend/public/uploads');
-        if (!File::isDirectory($destFrontend)) {
-            File::makeDirectory($destFrontend, 0755, true, true);
+        if (File::isDirectory(base_path('../frontend'))) {
+            if (!File::isDirectory($destFrontend)) {
+                File::makeDirectory($destFrontend, 0755, true, true);
+            }
+            @File::copy($destBackend . '/' . $filename, $destFrontend . '/' . $filename);
         }
-        File::copy($destBackend . '/' . $filename, $destFrontend . '/' . $filename);
 
         $url = '/uploads/' . $filename;
 
