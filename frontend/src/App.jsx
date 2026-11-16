@@ -274,7 +274,17 @@ function Footer({ onNavigate }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} {studio.name} · All rights reserved</span>
+        <span>
+          © {new Date().getFullYear()} {studio.name} · All rights reserved · Designed &amp; Developed by{" "}
+          <a
+            href="https://inpand.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#38bdf8", textDecoration: "underline", fontWeight: 600 }}
+          >
+            Inpand Technologies
+          </a>
+        </span>
         <a
           href="#"
           onClick={(e) => {
