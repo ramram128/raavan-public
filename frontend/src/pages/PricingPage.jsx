@@ -215,54 +215,7 @@ export default function PricingPage({ onNavigate }) {
             </div>
           </div>
 
-          {/* Dedicated Baby Page Callout Banner */}
-          {(selectedCategory === "toddlers" || selectedCategory === "all") && (
-            <div
-              style={{
-                marginBottom: "2rem",
-                padding: "16px 24px",
-                background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
-                border: "1.5px solid #bae6fd",
-                borderRadius: "18px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "16px",
-                flexWrap: "wrap",
-                boxShadow: "0 4px 16px rgba(2, 132, 199, 0.08)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <span style={{ fontSize: "1.6rem" }}>👶</span>
-                <div>
-                  <strong style={{ display: "block", color: "#0369a1", fontSize: "0.98rem" }}>
-                    Looking for 70+ authentic baby photos &amp; creative theme setups?
-                  </strong>
-                  <span style={{ fontSize: "0.85rem", color: "#0284c7" }}>
-                    Visit our dedicated Raavan Kutty Chutties page with full portfolio, setup details &amp; quick filters.
-                  </span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => onNavigate("kutty-chutties")}
-                style={{
-                  padding: "10px 22px",
-                  background: "#0284c7",
-                  color: "#ffffff",
-                  border: "none",
-                  borderRadius: "999px",
-                  fontWeight: 700,
-                  fontSize: "0.88rem",
-                  cursor: "pointer",
-                  boxShadow: "0 4px 14px rgba(2, 132, 199, 0.25)",
-                  transition: "all 0.2s",
-                }}
-              >
-                Open Kutty Chutties Page ↗
-              </button>
-            </div>
-          )}
+
 
           {/* Uniform Height 440px Cards Grid */}
           <div className="kutty-packages-grid">
@@ -345,14 +298,9 @@ export default function PricingPage({ onNavigate }) {
                       className={`kutty-cta-btn-primary${isPopular ? "" : " kutty-cta-btn-secondary"}`}
                       style={{ textDecoration: "none", textAlign: "center" }}
                     >
-                      Book on WhatsApp 💬
+                      Book on WhatsApp
                     </a>
-                    <span
-                      className="kutty-inquire-link"
-                      onClick={() => onNavigate("/contact")}
-                    >
-                      Or Check Date Availability →
-                    </span>
+
                   </div>
                 </div>
               );
