@@ -142,9 +142,138 @@ export default function HomeCmsEditor({ content, onSave, onReset, saving }) {
         </CmsSectionCard>
       ))}
 
-      {/* 2. WEDDING SHOWCASE BLOCK */}
+      {/* 2. ABOUT THE ARTIST / INTRO STORY SECTION */}
       <div className="cms-category-header">
-        <h3>2. Featured Service Blocks on Homepage</h3>
+        <h3>2. About Intro & Visual Storyteller Section</h3>
+        <p>The arched photos, studio narrative, and 3 stat badges directly below the hero banner.</p>
+      </div>
+
+      <CmsSectionCard
+        icon="📸"
+        title="About Intro & Founder Narrative"
+        subtitle="Controls the arched images, story paragraphs, 3 stat badges, and action buttons."
+        badge="High Visibility"
+      >
+        <div className="cms-two-col-grid">
+          <CmsImageUploader
+            label="Left Arched Image (Wedding Frame)"
+            value={formData.about_intro?.image1}
+            onChange={(val) => updateField("about_intro", "image1", val)}
+            hint="Portrait arched photo on the left"
+          />
+          <CmsImageUploader
+            label="Right Arched Image (Baby Frame)"
+            value={formData.about_intro?.image2}
+            onChange={(val) => updateField("about_intro", "image2", val)}
+            hint="Portrait arched photo on the right"
+          />
+        </div>
+
+        <CmsTextInput
+          label="Main Section Headline"
+          value={formData.about_intro?.title}
+          onChange={(val) => updateField("about_intro", "title", val)}
+          placeholder="e.g. Passionate Visual Storyteller in Krishnagiri"
+        />
+
+        <CmsTextInput
+          label="Story Paragraph 1 (Founder & Vision)"
+          value={formData.about_intro?.bio}
+          onChange={(val) => updateField("about_intro", "bio", val)}
+          placeholder="First narrative paragraph about Mr. Gowtham Raj..."
+          rows={3}
+        />
+
+        <CmsTextInput
+          label="Story Paragraph 2 (Two Studios in Krishnagiri)"
+          value={formData.about_intro?.bio2}
+          onChange={(val) => updateField("about_intro", "bio2", val)}
+          placeholder="Details about The Creative Space and Work Space..."
+          rows={3}
+        />
+
+        {/* 3 Metric Cards */}
+        <h4 style={{ margin: "10px 0 4px", fontSize: "0.92rem", color: "#334155", fontWeight: 700 }}>
+          📊 3 Stat Metric Badges
+        </h4>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+          <div className="cms-nested-card">
+            <CmsTextInput
+              label="Stat #1 Value"
+              value={formData.about_intro?.stat1_val}
+              onChange={(val) => updateField("about_intro", "stat1_val", val)}
+              placeholder="8+"
+            />
+            <CmsTextInput
+              label="Stat #1 Label"
+              value={formData.about_intro?.stat1_label}
+              onChange={(val) => updateField("about_intro", "stat1_label", val)}
+              placeholder="Years Experience"
+            />
+          </div>
+
+          <div className="cms-nested-card">
+            <CmsTextInput
+              label="Stat #2 Value"
+              value={formData.about_intro?.stat2_val}
+              onChange={(val) => updateField("about_intro", "stat2_val", val)}
+              placeholder="1,500+"
+            />
+            <CmsTextInput
+              label="Stat #2 Label"
+              value={formData.about_intro?.stat2_label}
+              onChange={(val) => updateField("about_intro", "stat2_label", val)}
+              placeholder="Happy Clients"
+            />
+          </div>
+
+          <div className="cms-nested-card">
+            <CmsTextInput
+              label="Stat #3 Value"
+              value={formData.about_intro?.stat3_val}
+              onChange={(val) => updateField("about_intro", "stat3_val", val)}
+              placeholder="5.0 ★"
+            />
+            <CmsTextInput
+              label="Stat #3 Label"
+              value={formData.about_intro?.stat3_label}
+              onChange={(val) => updateField("about_intro", "stat3_label", val)}
+              placeholder="Client Reviews"
+            />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="cms-two-col-grid" style={{ marginTop: "8px" }}>
+          <div className="cms-nested-card">
+            <h4>🔘 Primary Button (Discover Our Story)</h4>
+            <CmsTextInput
+              label="Button Text"
+              value={formData.about_intro?.ctaLabel}
+              onChange={(val) => updateField("about_intro", "ctaLabel", val)}
+              placeholder="e.g. Discover Our Full Story ↗"
+            />
+            <DestinationSelect
+              value={formData.about_intro?.ctaPath}
+              onChange={(val) => updateField("about_intro", "ctaPath", val)}
+            />
+          </div>
+
+          <div className="cms-nested-card">
+            <h4>💬 WhatsApp Action Button</h4>
+            <CmsTextInput
+              label="Button Text"
+              value={formData.about_intro?.whatsappBtnText}
+              onChange={(val) => updateField("about_intro", "whatsappBtnText", val)}
+              placeholder="e.g. Chat on WhatsApp"
+            />
+          </div>
+        </div>
+      </CmsSectionCard>
+
+      {/* 3. WEDDING SHOWCASE BLOCK */}
+      <div className="cms-category-header">
+        <h3>3. Featured Service Blocks on Homepage</h3>
         <p>The 3 editorial story sections showcasing your core services.</p>
       </div>
 
@@ -261,9 +390,9 @@ export default function HomeCmsEditor({ content, onSave, onReset, saving }) {
         </div>
       </CmsSectionCard>
 
-      {/* 5. QUICK BOOKING BAR */}
+      {/* 4. QUICK BOOKING BAR */}
       <div className="cms-category-header">
-        <h3>3. Quick Booking Bar</h3>
+        <h3>4. Quick Booking Bar</h3>
         <p>The call-to-action bar at the bottom of the homepage.</p>
       </div>
 
