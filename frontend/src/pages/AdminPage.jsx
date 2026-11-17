@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 import { studio as defaultStudio } from "../content.js";
+import "../components/admin/adminCms.css";
+import HomeCmsEditor from "../components/admin/HomeCmsEditor.jsx";
+import AboutCmsEditor from "../components/admin/AboutCmsEditor.jsx";
+import KuttyCmsEditor from "../components/admin/KuttyCmsEditor.jsx";
+import PricingCmsEditor from "../components/admin/PricingCmsEditor.jsx";
+import ContactCmsEditor from "../components/admin/ContactCmsEditor.jsx";
 
 export default function AdminPage({ onNavigate }) {
   // Auth state
@@ -15,7 +21,7 @@ export default function AdminPage({ onNavigate }) {
   const [loginError, setLoginError] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
 
-  // Active Tab: 'overview', 'enquiries', 'services', 'packages', 'gallery', 'studio'
+  // Active Tab
   const [activeTab, setActiveTab] = useState("overview");
 
   // Data states
@@ -24,6 +30,8 @@ export default function AdminPage({ onNavigate }) {
   const [services, setServices] = useState([]);
   const [packages, setPackages] = useState([]);
   const [gallery, setGallery] = useState([]);
+  const [cmsPages, setCmsPages] = useState({});
+  const [savingCms, setSavingCms] = useState(false);
 
   // UI state
   const [loadingData, setLoadingData] = useState(false);
@@ -87,12 +95,13 @@ export default function AdminPage({ onNavigate }) {
     setLoadingData(true);
 
     try {
-      const [resEnq, resStu, resServ, resPkg, resGal] = await Promise.all([
+      const [resEnq, resStu, resServ, resPkg, resGal, resContent] = await Promise.all([
         fetch("/api/enquiries").then((r) => (r.ok ? r.json() : [])),
         fetch("/api/studio").then((r) => (r.ok ? r.json() : null)),
         fetch("/api/services").then((r) => (r.ok ? r.json() : [])),
         fetch("/api/packages").then((r) => (r.ok ? r.json() : { all: [] })),
         fetch("/api/gallery").then((r) => (r.ok ? r.json() : [])),
+        fetch("/api/content").then((r) => (r.ok ? r.json() : {})),
       ]);
 
       setEnquiries(Array.isArray(resEnq) ? resEnq : []);
@@ -100,6 +109,7 @@ export default function AdminPage({ onNavigate }) {
       setServices(Array.isArray(resServ) ? resServ : []);
       setPackages(resPkg.all || (Array.isArray(resPkg) ? resPkg : []));
       setGallery(Array.isArray(resGal) ? resGal : []);
+      if (resContent) setCmsPages(resContent);
       flashMessage("Data synchronized with MySQL!");
     } catch (err) {
       console.error("Error loading admin data:", err);
@@ -197,6 +207,56 @@ export default function AdminPage({ onNavigate }) {
       }
     } catch (err) {
       alert("Error saving studio profile");
+    }
+  }
+
+  // Dynamic Page CMS Handlers
+  async function handleSaveCms(page, sections) {
+    setSavingCms(true);
+    try {
+      const res = await fetch(`/api/admin/content/${page}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ sections }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCmsPages((prev) => ({ ...prev, [page]: data.sections }));
+        flashMessage(`✅ ${page.toUpperCase()} content saved successfully to live website!`);
+      } else {
+        alert("Failed to save content. Please try again.");
+      }
+    } catch (err) {
+      alert("Network error while saving.");
+    } finally {
+      setSavingCms(false);
+    }
+  }
+
+  async function handleResetCms(page) {
+    if (!window.confirm(`Reset ${page} content to original default text? Any custom edits on this page will be restored.`)) {
+      return;
+    }
+    setSavingCms(true);
+    try {
+      const res = await fetch(`/api/admin/content/${page}/reset`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCmsPages((prev) => ({ ...prev, [page]: data.sections }));
+        flashMessage(`🔄 ${page.toUpperCase()} restored to default text!`);
+      }
+    } catch (err) {
+      alert("Network error while resetting.");
+    } finally {
+      setSavingCms(false);
     }
   }
 
@@ -475,6 +535,7 @@ export default function AdminPage({ onNavigate }) {
 
           {/* Navigation Links */}
           <nav className="sidebar-nav-list" aria-label="Admin Navigation">
+            <span className="sidebar-category-tag">BUSINESS</span>
             <button
               type="button"
               className={`sidebar-nav-item${activeTab === "overview" ? " active" : ""}`}
@@ -498,18 +559,85 @@ export default function AdminPage({ onNavigate }) {
               <span className="sidebar-badge-count">{enquiries.length}</span>
             </button>
 
+            <span className="sidebar-category-tag">PAGE EDITORS (CMS)</span>
             <button
               type="button"
-              className={`sidebar-nav-item${activeTab === "kutty_chutties" ? " active" : ""}`}
-              onClick={() => setActiveTab("kutty_chutties")}
+              className={`sidebar-nav-item${activeTab === "cms_home" ? " active" : ""}`}
+              onClick={() => setActiveTab("cms_home")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">🏠</span>
+                <span>Home Page</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "cms_about" ? " active" : ""}`}
+              onClick={() => setActiveTab("cms_about")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">ℹ️</span>
+                <span>About Us</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "cms_kutty" ? " active" : ""}`}
+              onClick={() => setActiveTab("cms_kutty")}
             >
               <div className="sidebar-nav-left">
                 <span className="sidebar-nav-icon">👶</span>
                 <span>Kutty Chutties</span>
               </div>
-              <span className="sidebar-badge-count">
-                {packages.filter((p) => p.category === "newborn_toddler" || p.category === "add_on").length || 4}
-              </span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "cms_pricing" ? " active" : ""}`}
+              onClick={() => setActiveTab("cms_pricing")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">💰</span>
+                <span>Pricing &amp; Terms</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "cms_contact" ? " active" : ""}`}
+              onClick={() => setActiveTab("cms_contact")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">📞</span>
+                <span>Contact &amp; Hours</span>
+              </div>
+            </button>
+
+            <span className="sidebar-category-tag">MEDIA &amp; INVENTORY</span>
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "gallery" ? " active" : ""}`}
+              onClick={() => setActiveTab("gallery")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">🖼️</span>
+                <span>Curated Works</span>
+              </div>
+              <span className="sidebar-badge-count">{gallery.length}</span>
+            </button>
+
+            <button
+              type="button"
+              className={`sidebar-nav-item${activeTab === "packages" ? " active" : ""}`}
+              onClick={() => setActiveTab("packages")}
+            >
+              <div className="sidebar-nav-left">
+                <span className="sidebar-nav-icon">🏷️</span>
+                <span>Pricing Packages</span>
+              </div>
+              <span className="sidebar-badge-count">{packages.length}</span>
             </button>
 
             <button
@@ -522,30 +650,6 @@ export default function AdminPage({ onNavigate }) {
                 <span>Services</span>
               </div>
               <span className="sidebar-badge-count">{services.length}</span>
-            </button>
-
-            <button
-              type="button"
-              className={`sidebar-nav-item${activeTab === "packages" ? " active" : ""}`}
-              onClick={() => setActiveTab("packages")}
-            >
-              <div className="sidebar-nav-left">
-                <span className="sidebar-nav-icon">💰</span>
-                <span>Pricing Packages</span>
-              </div>
-              <span className="sidebar-badge-count">{packages.length}</span>
-            </button>
-
-            <button
-              type="button"
-              className={`sidebar-nav-item${activeTab === "gallery" ? " active" : ""}`}
-              onClick={() => setActiveTab("gallery")}
-            >
-              <div className="sidebar-nav-left">
-                <span className="sidebar-nav-icon">🖼️</span>
-                <span>Curated Works</span>
-              </div>
-              <span className="sidebar-badge-count">{gallery.length}</span>
             </button>
 
             <button
@@ -1899,6 +2003,76 @@ export default function AdminPage({ onNavigate }) {
                 </button>
               </form>
             </div>
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 7: HOME PAGE CMS                                           */}
+        {/* ============================================================== */}
+        {activeTab === "cms_home" && (
+          <section className="admin-tab-content-panel">
+            <HomeCmsEditor
+              content={cmsPages.home}
+              onSave={handleSaveCms}
+              onReset={handleResetCms}
+              saving={savingCms}
+            />
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 8: ABOUT US CMS                                            */}
+        {/* ============================================================== */}
+        {activeTab === "cms_about" && (
+          <section className="admin-tab-content-panel">
+            <AboutCmsEditor
+              content={cmsPages.about}
+              onSave={handleSaveCms}
+              onReset={handleResetCms}
+              saving={savingCms}
+            />
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 9: KUTTY CHUTTIES (BABY STUDIO) CMS                         */}
+        {/* ============================================================== */}
+        {activeTab === "cms_kutty" && (
+          <section className="admin-tab-content-panel">
+            <KuttyCmsEditor
+              content={cmsPages.kutty_chutties}
+              onSave={handleSaveCms}
+              onReset={handleResetCms}
+              saving={savingCms}
+            />
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 10: PRICING & POLICIES CMS                                 */}
+        {/* ============================================================== */}
+        {activeTab === "cms_pricing" && (
+          <section className="admin-tab-content-panel">
+            <PricingCmsEditor
+              content={cmsPages.pricing}
+              onSave={handleSaveCms}
+              onReset={handleResetCms}
+              saving={savingCms}
+            />
+          </section>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 11: CONTACT & HOURS CMS                                    */}
+        {/* ============================================================== */}
+        {activeTab === "cms_contact" && (
+          <section className="admin-tab-content-panel">
+            <ContactCmsEditor
+              content={cmsPages.contact}
+              onSave={handleSaveCms}
+              onReset={handleResetCms}
+              saving={savingCms}
+            />
           </section>
         )}
       </main>

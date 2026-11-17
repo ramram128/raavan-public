@@ -180,4 +180,18 @@ class ApiController extends Controller
             'message' => 'Enquiry deleted successfully',
         ]);
     }
+
+    /**
+     * Get dynamic page CMS content (e.g. 'home', 'about', etc.).
+     */
+    public function getPageContent($page = null)
+    {
+        if ($page) {
+            $record = \App\Models\PageContent::where('page', $page)->first();
+            return response()->json($record ? $record->sections : null);
+        }
+
+        $all = \App\Models\PageContent::all()->pluck('sections', 'page');
+        return response()->json($all);
+    }
 }

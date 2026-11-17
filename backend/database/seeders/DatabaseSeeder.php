@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Seed page CMS content (idempotent with updateOrCreate)
+        $this->call(PageContentSeeder::class);
+
         // Only seed initial studio content if database is empty
         if (StudioProfile::count() > 0) {
             return;

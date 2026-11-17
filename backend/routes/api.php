@@ -18,6 +18,7 @@ Route::get('/gallery', [ApiController::class, 'getGallery']);
 Route::get('/testimonials', [ApiController::class, 'getTestimonials']);
 Route::get('/terms', [ApiController::class, 'getTerms']);
 Route::post('/enquiries', [ApiController::class, 'storeEnquiry']);
+Route::get('/content/{page?}', [ApiController::class, 'getPageContent']);
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,10 @@ Route::prefix('admin')->group(function () {
 
     // Media / Image Upload
     Route::post('/upload', [AdminController::class, 'uploadImage']);
+
+    // Dynamic Page Content CMS
+    Route::put('/content/{page}', [AdminController::class, 'updatePageContent']);
+    Route::post('/content/{page}/reset', [AdminController::class, 'resetPageContent']);
 });
 
 // Enquiries Management (Used by Admin Panel)

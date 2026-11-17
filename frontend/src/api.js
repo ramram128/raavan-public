@@ -62,3 +62,38 @@ export async function postEnquiry(payload) {
   }
 }
 
+export async function getPageContent(page, fallbackData = null) {
+  return await fetchFromApi(`/content/${page}`, fallbackData);
+}
+
+export async function savePageContent(page, sections) {
+  const res = await fetch(`${API_BASE}/admin/content/${page}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ sections }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Failed to save content (${res.status})`);
+  }
+  return await res.json();
+}
+
+export async function resetPageContent(page) {
+  const res = await fetch(`${API_BASE}/admin/content/${page}/reset`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Failed to reset content (${res.status})`);
+  }
+  return await res.json();
+}
+
+

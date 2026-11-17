@@ -9,9 +9,16 @@ export default function KuttyChuttiesPage({ onNavigate }) {
   const [addOns, setAddOns] = useState(kuttyChuttiesDetails.addOns);
   const [babyPhotos, setBabyPhotos] = useState(allKuttyChuttiesPhotos || []);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [cmsContent, setCmsContent] = useState(null);
 
-  // Sync with API for packages and gallery
+  // Sync with API for packages, gallery, and CMS content
   useEffect(() => {
+    fetchFromApi("/content/kutty_chutties", null).then((data) => {
+      if (data && Object.keys(data).length > 0) {
+        setCmsContent(data);
+      }
+    });
+
     fetchFromApi("/packages", null).then((data) => {
       if (data && data.kutty_chutties && data.kutty_chutties.length > 0) {
         const apiPkgs = data.kutty_chutties.map((p, idx) => ({
@@ -116,11 +123,13 @@ export default function KuttyChuttiesPage({ onNavigate }) {
 
 
               <h1 className="kutty-hero-heading">
-                Price and <span className="kutty-title-gradient">Package Details</span>
+                {cmsContent?.hero?.headline || (
+                  <>Price and <span className="kutty-title-gradient">Package Details</span></>
+                )}
               </h1>
 
               <p className="kutty-hero-lead">
-                Preserving the sweetest baby smiles, tiny yawns, and playful milestones. Every session is hosted in our sanitized, climate-controlled flagship studio in Krishnagiri by <strong>Mr. Gowtham Raj</strong> (8+ Years Experience).
+                {cmsContent?.hero?.subheadline || "Preserving the sweetest baby smiles, tiny yawns, and playful milestones. Every session is hosted in our sanitized, climate-controlled flagship studio in Krishnagiri by Mr. Gowtham Raj (8+ Years Experience)."}
               </p>
 
 
@@ -128,10 +137,10 @@ export default function KuttyChuttiesPage({ onNavigate }) {
               {/* Action Buttons */}
               <div className="kutty-hero-actions">
                 <a
-                  href="#packages-grid"
+                  href={cmsContent?.hero?.primaryBtnPath || "#packages-grid"}
                   className="kutty-hero-btn-primary"
                 >
-                  Explore 4 Packages ↓
+                  {cmsContent?.hero?.primaryBtnLabel || "Explore 4 Packages ↓"}
                 </a>
                 <a
                   href="#baby-gallery"

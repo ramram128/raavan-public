@@ -211,6 +211,7 @@ function DrawnUnderline({ delay }) {
 
 export default function AboutPage({ onNavigate }) {
   const [studioData, setStudioData] = useState(fallbackStudio);
+  const [cmsContent, setCmsContent] = useState(null);
   const [flashedCards, setFlashedCards] = useState({ 0: false, 1: false, 2: false });
 
   function handleCountComplete(index) {
@@ -221,6 +222,12 @@ export default function AboutPage({ onNavigate }) {
   }
 
   useEffect(() => {
+    fetchFromApi("/content/about", null).then((data) => {
+      if (data && Object.keys(data).length > 0) {
+        setCmsContent(data);
+      }
+    });
+
     fetchFromApi("/studio", null).then((data) => {
       if (data && data.name) {
         setStudioData((prev) => ({
@@ -956,10 +963,9 @@ export default function AboutPage({ onNavigate }) {
               viewport={viewportOnce}
               transition={{ duration: durations.slow, ease: easing.cinematic }}
             >
-              <h2 className="clean-cta-title">Ready to Document Your Special Milestone?</h2>
+              <h2 className="clean-cta-title">{cmsContent?.cta?.title || "Ready to Document Your Special Milestone?"}</h2>
               <p className="clean-cta-desc">
-                Speak directly with Mr. Gowtham Raj or schedule an album consultation at our
-                Krishnagiri studio.
+                {cmsContent?.cta?.subtitle || "Speak directly with Mr. Gowtham Raj or schedule an album consultation at our Krishnagiri studio."}
               </p>
               <div className="clean-cta-buttons-row">
                 <motion.a
@@ -977,11 +983,11 @@ export default function AboutPage({ onNavigate }) {
                 <motion.button
                   type="button"
                   className="clean-cta-contact-btn"
-                  onClick={() => onNavigate("/contact")}
+                  onClick={() => onNavigate(cmsContent?.cta?.buttonPath || "/contact")}
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <span>View Contact Details ↗</span>
+                  <span>{cmsContent?.cta?.buttonLabel || "View Contact Details ↗"}</span>
                 </motion.button>
               </div>
             </motion.div>

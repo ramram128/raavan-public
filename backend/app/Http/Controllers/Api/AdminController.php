@@ -384,5 +384,42 @@ class AdminController extends Controller
             'filename' => $filename,
         ]);
     }
+
+    /* ----------------------------------------------------
+       8. Page CMS Endpoints
+       ---------------------------------------------------- */
+    public function updatePageContent(Request $request, $page)
+    {
+        $request->validate([
+            'sections' => 'required|array',
+        ]);
+
+        $record = \App\Models\PageContent::updateOrCreate(
+            ['page' => $page],
+            ['sections' => $request->input('sections')]
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Page content saved successfully!',
+            'page' => $record->page,
+            'sections' => $record->sections,
+        ]);
+    }
+
+    public function resetPageContent($page)
+    {
+        $seeder = new \Database\Seeders\PageContentSeeder();
+        $seeder->run();
+
+        $record = \App\Models\PageContent::where('page', $page)->first();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Page content restored to factory defaults.',
+            'page' => $page,
+            'sections' => $record ? $record->sections : null,
+        ]);
+    }
 }
 

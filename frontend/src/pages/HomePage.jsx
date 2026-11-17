@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getPageContent } from "../api.js";
 import {
   expandedGallery,
   servicePackages,
@@ -47,6 +48,7 @@ export default function HomePage({ onNavigate }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeFilter, setActiveFilter] = useState("All Works");
   const [lightboxPhoto, setLightboxPhoto] = useState(null);
+  const [cmsContent, setCmsContent] = useState(null);
 
   // Quick booking form state in "Book Us Now" section
   const [formRole, setFormRole] = useState("");
@@ -56,15 +58,29 @@ export default function HomePage({ onNavigate }) {
   const [formDate, setFormDate] = useState("");
   const [formSent, setFormSent] = useState(false);
 
-  const slide = cleanHeroSlides[activeSlide] || cleanHeroSlides[0];
+  // Fetch dynamic page content from CMS API
+  useEffect(() => {
+    getPageContent("home").then((data) => {
+      if (data && Object.keys(data).length > 0) {
+        setCmsContent(data);
+      }
+    });
+  }, []);
+
+  const heroSlidesList =
+    cmsContent?.hero_slides && cmsContent.hero_slides.length > 0
+      ? cmsContent.hero_slides
+      : cleanHeroSlides;
+
+  const slide = heroSlidesList[activeSlide] || heroSlidesList[0];
 
   // Auto-advance hero slides every 5 seconds
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setActiveSlide((curr) => (curr + 1) % cleanHeroSlides.length);
+      setActiveSlide((curr) => (curr + 1) % heroSlidesList.length);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [heroSlidesList.length]);
 
   // Filter gallery items
   const filteredGallery =
@@ -88,11 +104,11 @@ export default function HomePage({ onNavigate }) {
   }, [lightboxPhoto]);
 
   const handlePrevSlide = () => {
-    setActiveSlide((curr) => (curr - 1 + cleanHeroSlides.length) % cleanHeroSlides.length);
+    setActiveSlide((curr) => (curr - 1 + heroSlidesList.length) % heroSlidesList.length);
   };
 
   const handleNextSlide = () => {
-    setActiveSlide((curr) => (curr + 1) % cleanHeroSlides.length);
+    setActiveSlide((curr) => (curr + 1) % heroSlidesList.length);
   };
 
   const handleQuickBookingSubmit = (e) => {
@@ -113,7 +129,7 @@ export default function HomePage({ onNavigate }) {
       {/* ============================================================== */}
       <section className="inc-hero-section" id="home" aria-label="Raavan Studio'z Widescreen Banner">
         <div className="inc-hero-slider-track">
-          {cleanHeroSlides.map((item, index) => (
+          {heroSlidesList.map((item, index) => (
             <div
               key={item.image}
               className={`inc-hero-slide${index === activeSlide ? " active" : ""}`}
@@ -183,7 +199,7 @@ export default function HomePage({ onNavigate }) {
         {/* Bottom Control Bar: Indicator Dots */}
         <div className="inc-hero-bottom-bar">
           <div className="inc-hero-dots-row" role="group" aria-label="Hero slide dots">
-            {cleanHeroSlides.map((item, index) => (
+            {heroSlidesList.map((item, index) => (
               <button
                 type="button"
                 key={item.image}
@@ -226,11 +242,11 @@ export default function HomePage({ onNavigate }) {
             {/* Right: Studio Editorial Narrative */}
             <div className="inc-about-content-col reveal-on-scroll">
               <h2 className="inc-heading-1">
-                Capturing Real Emotions &amp; Family Celebrations
+                {cmsContent?.about_intro?.title || "Capturing Real Emotions & Family Celebrations"}
               </h2>
 
               <p className="inc-paragraph">
-                At Raavan Studio’z, we believe great photography is about capturing genuine emotions without forced poses. Founded on <strong>21st January 2021</strong> by <strong>Mr. Gowtham Raj</strong> with over 8 years of hands-on experience, our team brings passion, natural lighting, and dedicated care to every wedding and family session.
+                {cmsContent?.about_intro?.bio || "At Raavan Studio’z, we believe great photography is about capturing genuine emotions without forced poses. Founded on 21st January 2021 by Mr. Gowtham Raj with over 8 years of hands-on experience, our team brings passion, natural lighting, and dedicated care to every wedding and family session."}
               </p>
 
               <p className="inc-paragraph">
@@ -257,9 +273,9 @@ export default function HomePage({ onNavigate }) {
                 <button
                   type="button"
                   className="about-primary-btn"
-                  onClick={() => onNavigate("/about")}
+                  onClick={() => onNavigate(cmsContent?.about_intro?.ctaPath || "/about")}
                 >
-                  <span>About Our Studio →</span>
+                  <span>{cmsContent?.about_intro?.ctaLabel || "About Our Studio →"}</span>
                 </button>
                 <a
                   href={`https://wa.me/919500306696?text=${encodeURIComponent(
@@ -289,10 +305,10 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col reveal-on-scroll">
-              <h2 className="inc-heading-2">Namma Veetu Kalyanam</h2>
+              <h2 className="inc-heading-2">{cmsContent?.wedding_block?.title || "Namma Veetu Kalyanam"}</h2>
 
               <p className="inc-paragraph">
-                From morning muhurtham rituals to evening reception celebrations, our wedding photography captures real family moments, candid smiles, and traditional ceremonies. We provide complete wedding coverage across Krishnagiri, Hosur, Dharmapuri, and Bangalore.
+                {cmsContent?.wedding_block?.description || "From morning muhurtham rituals to evening reception celebrations, our wedding photography captures real family moments, candid smiles, and traditional ceremonies. We provide complete wedding coverage across Krishnagiri, Hosur, Dharmapuri, and Bangalore."}
               </p>
 
               <div className="inc-service-highlights-list">
@@ -305,9 +321,9 @@ export default function HomePage({ onNavigate }) {
                 <button
                   type="button"
                   className="inc-primary-button"
-                  onClick={() => onNavigate("/services")}
+                  onClick={() => onNavigate(cmsContent?.wedding_block?.buttonPath || "/services")}
                 >
-                  <span>View Wedding Services →</span>
+                  <span>{cmsContent?.wedding_block?.buttonLabel || "View Wedding Services →"}</span>
                 </button>
               </div>
             </div>
@@ -342,10 +358,10 @@ export default function HomePage({ onNavigate }) {
             </div>
 
             <div className="inc-service-text-col reveal-on-scroll">
-              <h2 className="inc-heading-2">Outdoor &amp; Pre-Wedding Shoots</h2>
+              <h2 className="inc-heading-2">{cmsContent?.outdoor_block?.title || "Outdoor & Pre-Wedding Shoots"}</h2>
 
               <p className="inc-paragraph">
-                Pre-wedding and couple shoots at Krishnagiri Hills, scenic lakesides, and heritage spots. We guide you with natural, relaxed poses and golden hour lighting so your photos feel comfortable, candid, and full of life.
+                {cmsContent?.outdoor_block?.description || "Pre-wedding and couple shoots at Krishnagiri Hills, scenic lakesides, and heritage spots. We guide you with natural, relaxed poses and golden hour lighting so your photos feel comfortable, candid, and full of life."}
               </p>
 
               <div className="inc-service-highlights-list">
@@ -358,9 +374,9 @@ export default function HomePage({ onNavigate }) {
                 <button
                   type="button"
                   className="inc-primary-button"
-                  onClick={() => onNavigate("/services")}
+                  onClick={() => onNavigate(cmsContent?.outdoor_block?.buttonPath || "/services")}
                 >
-                  <span>View Outdoor Shoots →</span>
+                  <span>{cmsContent?.outdoor_block?.buttonLabel || "View Outdoor Shoots →"}</span>
                 </button>
               </div>
             </div>
@@ -375,10 +391,10 @@ export default function HomePage({ onNavigate }) {
         <div className="inc-container">
           <div className="inc-two-col-grid align-center">
             <div className="inc-service-text-col reveal-on-scroll">
-              <h2 className="inc-heading-2">Toddlers by Raavan</h2>
+              <h2 className="inc-heading-2">{cmsContent?.toddler_block?.title || "Toddlers by Raavan"}</h2>
 
               <p className="inc-paragraph">
-                Our dedicated baby studio in Krishnagiri — <strong>The Creative Space</strong> — is custom designed for newborns, infants, and toddlers. With 15+ creative themed sets, cute outfits, clean props, and a cozy environment, we ensure your baby stays comfortable and smiling throughout the session.
+                {cmsContent?.toddler_block?.description || "Our dedicated baby studio in Krishnagiri — The Creative Space — is custom designed for newborns, infants, and toddlers. With 15+ creative themed sets, cute outfits, clean props, and a cozy environment, we ensure your baby stays comfortable and smiling throughout the session."}
               </p>
 
               <div className="inc-service-highlights-list">
@@ -391,9 +407,9 @@ export default function HomePage({ onNavigate }) {
                 <button
                   type="button"
                   className="inc-primary-button"
-                  onClick={() => onNavigate("/kutty-chutties")}
+                  onClick={() => onNavigate(cmsContent?.toddler_block?.buttonPath || "/kutty-chutties")}
                 >
-                  <span>👶 Explore Raavan Kutty Chutties Page →</span>
+                  <span>{cmsContent?.toddler_block?.buttonLabel || "👶 Explore Raavan Kutty Chutties Page →"}</span>
                 </button>
               </div>
             </div>
@@ -832,9 +848,9 @@ export default function HomePage({ onNavigate }) {
             <div className="inc-book-form-col reveal-scale">
               <div className="pro-booking-card">
                 <div className="pro-form-head">
-                  <h3 className="pro-form-title">Check Date Availability</h3>
+                  <h3 className="pro-form-title">{cmsContent?.quick_booking?.title || "Check Date Availability"}</h3>
                   <p className="pro-form-subtitle">
-                    Share your shoot details below and Mr. Gowtham Raj will connect with you directly with availability and pricing.
+                    {cmsContent?.quick_booking?.subtitle || "Share your shoot details below and Mr. Gowtham Raj will connect with you directly with availability and pricing."}
                   </p>
                 </div>
 
@@ -929,7 +945,7 @@ export default function HomePage({ onNavigate }) {
                     </div>
 
                     <button type="submit" className="pro-submit-btn">
-                      <span>Check Availability on WhatsApp →</span>
+                      <span>{cmsContent?.quick_booking?.whatsappBtnText || "Check Availability on WhatsApp →"}</span>
                     </button>
 
                     <div className="pro-privacy-text">
