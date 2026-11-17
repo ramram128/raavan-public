@@ -11,12 +11,15 @@ Route::fallback(function (Request $request) {
 
     $indexPath = public_path('index.html');
     if (file_exists($indexPath)) {
-        return response()->file($indexPath);
+        return response(file_get_contents($indexPath), 200, [
+            'Content-Type' => 'text/html; charset=utf-8',
+        ]);
     }
 
     return response()->json([
         'message' => 'Raavan Studio’z API is running.',
         'version' => '1.0.0',
     ]);
-});
+})->withoutMiddleware('web');
+
 

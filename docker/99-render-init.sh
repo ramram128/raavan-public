@@ -1,6 +1,11 @@
 #!/bin/sh
 echo "=> [Raavan Studio'z] Initializing Render environment..."
 
+# Ensure APP_KEY exists
+if [ -z "$APP_KEY" ]; then
+    export APP_KEY="base64:AR7sVRXPTbalA3oFGWDyKlcfMXii1PsCjPtqedsViks="
+fi
+
 # Ensure required runtime directories exist
 mkdir -p /var/www/html/storage/framework/sessions \
          /var/www/html/storage/framework/views \
@@ -27,3 +32,4 @@ php artisan db:seed --force || true
 php artisan storage:link || true
 
 echo "=> [Raavan Studio'z] Initialization complete. Starting web service on port ${NGINX_HTTP_PORT:-10000}..."
+

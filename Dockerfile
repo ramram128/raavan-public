@@ -36,10 +36,11 @@ USER root
 # Install required PHP extensions
 RUN install-php-extensions pdo_sqlite pdo_mysql pdo_pgsql bcmath gd intl zip opcache
 
-# Configure Render default port
+# Configure Render default port and production key
 ENV NGINX_HTTP_PORT=10000
 ENV PORT=10000
 ENV WEBROOT=/var/www/html/public
+ENV APP_KEY=base64:AR7sVRXPTbalA3oFGWDyKlcfMXii1PsCjPtqedsViks=
 
 # Copy custom entrypoint script
 COPY docker/99-render-init.sh /etc/entrypoint.d/99-render-init.sh
@@ -68,3 +69,4 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
 USER www-data
 
 EXPOSE 10000
+

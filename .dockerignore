@@ -12,3 +12,4 @@ backend/storage/framework/views/*
 backend/database/database.sqlite
 .env
 .env.*
+
